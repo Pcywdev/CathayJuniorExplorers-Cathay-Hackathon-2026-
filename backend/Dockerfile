@@ -13,6 +13,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY shared /srv/shared
 COPY backend/app ./app
+# Saved OAG responses: the lookup endpoint serves these, so the app works offline.
+COPY backend/fixtures ./fixtures
 
 # Cloud Run tells the container which port to listen on via $PORT (usually 8080).
 ENV PORT=8080
