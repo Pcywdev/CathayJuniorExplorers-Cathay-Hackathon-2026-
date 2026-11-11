@@ -11,3 +11,6 @@ One line per decision, newest last. Don't re-argue these without a new reason.
 - 2026-11-11 · Tailwind v4: theme tokens live in the `@theme` block of `frontend/src/index.css` (default colours, radii, shadows cleared), not tailwind.config.js.
 - 2026-11-11 · No router dependency: two routes handled by a pathname switch in `App.tsx`; revisit if screens multiply.
 - 2026-11-11 · Local Python env is the `Cathay-Hack` conda env from `backend/environment.yml` (Python 3.11 + requirements.txt + Playwright); Docker uses python:3.11-slim with requirements.txt only. Dependencies pinned in requirements.txt.
+- 2026-11-11 · Rules engine: a trip's cap starts at the member's miles already earned this year (Mei: 1,250); awards are trimmed to fit under the cap, and a mission still counts as done at 0 miles.
+- 2026-11-11 · Events map to missions as checkin→Check-in Champion, boarded→Boarding Badge, landed→Arrival Explorer; Window Watcher is a child action, not a trip event.
+- 2026-11-11 · Chapters: junior_mode_on→1, boarded→2, departed→3, landed→4. A delay switches the branch to delayed for the rest of the trip. Repeat events never award or unlock twice. Event order is not enforced.

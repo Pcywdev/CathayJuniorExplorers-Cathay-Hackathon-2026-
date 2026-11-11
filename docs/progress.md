@@ -3,9 +3,9 @@
 Read this at the start of every session. Tags: **P0** must work by Friday · **P1** only if P0 is solid. B = backend, F = frontend.
 
 ## Now / Next / Blocked
-- **Now:** setup done; skeleton runs locally (backend, frontend, Docker).
-- **Next:** B: deploy hello world to Cloud Run; first OAG query + saved fixture for CX 500. F: static child screens (home, story, mission complete) on mock data.
-- **Blocked:** OAG key, LLM credentials and GCP project not yet confirmed · Red Hat font files not in `shared/fonts/` yet · `shared/program.json` awaiting business-team sign-off · Setup ran Wed 11, a day behind the plan's Tue 10 start.
+- **Now:** B: rules engine done on `feat/rules-engine` (logic only, not yet behind an endpoint). Open questions: miles for the delay bonus mini-mission (not in program.json); what triggers Window Watcher.
+- **Next:** B: trips + events endpoints using the rules engine, then SSE; deploy hello world to Cloud Run and first OAG query + CX 500 fixture, as soon as unblocked. F: pull repo, static child screens (home, story, mission complete) on mock data.
+- **Blocked:** `gcloud` CLI not installed on the backend machine · no `backend/.env` yet (OAG key, LLM credentials) · GCP project not confirmed · Red Hat font files not in `shared/fonts/` yet · `shared/program.json` awaiting business-team sign-off · Setup ran Wed 11, a day behind the plan's Tue 10 start.
 
 ## Day 1 · Tue 10 (setup)
 Done when: both run locally; backend deployed; one real OAG response saved.
@@ -23,7 +23,7 @@ Done when: both run locally; backend deployed; one real OAG response saved.
 ## Day 2 · Wed 11
 Done when: simulating "boarded" updates both phones.
 - [ ] P0 B: flight lookup + cache + fixture fallback (OAG boarding pass)
-- [ ] P0 B: rules engine with tests first (missions, annual cap, chapter unlock, branch)
+- [x] P0 B: rules engine with tests first (missions, annual cap, chapter unlock, branch) · `app/logic/rules.py`, 16 tests
 - [ ] P0 B: `POST /api/trips`, `GET /api/trips/{id}`, `POST /events` for all six events
 - [ ] P0 B: SSE stream (polling fallback documented)
 - [ ] P0 F: child screens on the API (boarding pass from OAG data)
@@ -59,3 +59,4 @@ Done when: demo runs with Wi-Fi off.
 ## Session log
 <!-- One line per session: date · who · what got done · what's next -->
 - 2026-11-11 · Backend owner + Claude · Setup: repo structure, CLAUDE.md files, docs (api, architecture, progress, decisions), program.json, FastAPI skeleton (/api/health, settings, CORS, program loader, 2 tests passing), Vite/React/Tailwind v4 skeleton (/child, /parent showing health), shoot.py + /screen-check, Docker image builds and serves on $PORT · Next: Cloud Run hello world, OAG fixtures.
+- 2026-11-11 · Backend owner · Setup pushed to origin/main (630c4ce); local Python moved to the `Cathay-Hack` conda env; teammate can pull and start · Next: rules engine while deploy/OAG wait on gcloud + keys.
