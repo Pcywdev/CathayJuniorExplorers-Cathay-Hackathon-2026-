@@ -4,9 +4,9 @@ Read this at the start of every session. Tags: **P0** must work by Friday · **P
 
 ## Now / Next / Blocked
 - **Now:** B: rules engine done on `feat/rules-engine` (logic only, not yet behind an endpoint). Open questions: miles for the delay bonus mini-mission (not in program.json); what triggers Window Watcher.
-- **Next:** B: trips + events endpoints using the rules engine, then SSE (all runnable locally, no credentials). Pre-build uses a placeholder flight fixture until OAG access arrives. F: pull repo, static child screens (home, story, mission complete) on mock data.
-- **On-site only (hackathon day):** Cloud Run deploy (runbook in `docs/deploy.md`), OAG key and real CX 500 fixture, LLM credentials.
-- **Blocked:** `gcloud`, GCP project, OAG key and LLM credentials are all provided on the hackathon day, so none exist in the pre-build · Red Hat font files not in `shared/fonts/` yet · `shared/program.json` awaiting business-team sign-off · Setup ran Wed 11, a day behind the plan's Tue 10 start.
+- **Next:** B: flight lookup service + endpoint (cache-first, from the saved fixtures), then trips + events endpoints and SSE. F: pull repo, static child screens (home, story, mission complete) on mock data.
+- **On-site only (hackathon day):** Cloud Run deploy (runbook in `docs/deploy.md`), LLM credentials.
+- **Blocked:** `gcloud`, GCP project and LLM credentials are provided on the hackathon day (OAG key is available now) · Red Hat font files not in `shared/fonts/` yet · `shared/program.json` awaiting business-team sign-off · Setup ran Wed 11, a day behind the plan's Tue 10 start.
 
 ## Day 1 · Tue 10 (setup)
 Done when: both run locally; backend deployed; one real OAG response saved.
@@ -18,7 +18,7 @@ Done when: both run locally; backend deployed; one real OAG response saved.
 - [x] P0 Playwright `tools/shoot.py` + `/screen-check` skill
 - [x] P0 Docker image builds locally
 - [ ] P0 B: deploy hello world to Cloud Run (on-site: gcloud provided on the day; runbook in docs/deploy.md)
-- [ ] P0 B: OAG queries for the demo flight; save fixtures; check which fields are missing (gate, seat) (on-site: key provided on the day)
+- [x] P0 B: OAG queries for the demo flight; save fixtures; check which fields are missing (gate, seat) · `backend/fixtures/oag/`, gate present once operating, seat absent
 - [ ] P0 F: static child screens (home, story, mission complete)
 
 ## Day 2 · Wed 11
@@ -62,3 +62,4 @@ Done when: demo runs with Wi-Fi off.
 - 2026-11-11 · Backend owner + Claude · Setup: repo structure, CLAUDE.md files, docs (api, architecture, progress, decisions), program.json, FastAPI skeleton (/api/health, settings, CORS, program loader, 2 tests passing), Vite/React/Tailwind v4 skeleton (/child, /parent showing health), shoot.py + /screen-check, Docker image builds and serves on $PORT · Next: Cloud Run hello world, OAG fixtures.
 - 2026-11-11 · Backend owner · Setup pushed to origin/main (630c4ce); local Python moved to the `Cathay-Hack` conda env; teammate can pull and start · Next: rules engine while deploy/OAG wait on gcloud + keys.
 - 2026-11-12 · Backend owner · Deploy and OAG moved to on-site (gcloud/keys provided on the day); wrote docs/deploy.md runbook · Next: trips + events endpoints locally.
+- 2026-11-12 · Backend owner · OAG works now: 2 fixtures saved (CX 500 on 14 Nov schedule, 11 Nov operated + delayed); gate available from status, seat not; docs corrected (OAG no longer on-site only) · Next: flight lookup service + endpoint from fixtures.

@@ -1,0 +1,107 @@
+{
+  "data": [
+    {
+      "carrier": {
+        "iata": "CX",
+        "icao": "CPA"
+      },
+      "serviceSuffix": "",
+      "flightNumber": 500,
+      "sequenceNumber": 1,
+      "flightType": "Scheduled",
+      "departure": {
+        "airport": {
+          "iata": "HKG",
+          "icao": "VHHH"
+        },
+        "terminal": "1",
+        "country": {
+          "code": "HK"
+        },
+        "date": {
+          "local": "2026-11-14",
+          "utc": "2026-11-14"
+        },
+        "time": {
+          "local": "15:25",
+          "utc": "07:25"
+        }
+      },
+      "arrival": {
+        "airport": {
+          "iata": "NRT",
+          "icao": "RJAA"
+        },
+        "terminal": "2",
+        "country": {
+          "code": "JP"
+        },
+        "date": {
+          "local": "2026-11-14",
+          "utc": "2026-11-14"
+        },
+        "time": {
+          "local": "20:20",
+          "utc": "11:20"
+        }
+      },
+      "elapsedTime": 235,
+      "cargoTonnage": 11.7,
+      "aircraftType": {
+        "iata": "333",
+        "icao": "A333"
+      },
+      "serviceType": {
+        "iata": "J"
+      },
+      "segmentInfo": {
+        "numberOfStops": 0,
+        "intermediateAirports": {
+          "iata": []
+        }
+      },
+      "distance": {
+        "accumulatedGreatCircleKilometers": 2962.0,
+        "accumulatedGreatCircleMiles": 1841.0,
+        "accumulatedGreatCircleNauticalMiles": 1599.0,
+        "greatCircleKilometers": 2962.0,
+        "greatCircleMiles": 1841.0,
+        "greatCircleNauticalMiles": 1599.0
+      },
+      "codeshare": {
+        "cockpitCrewEmployer": {
+          "code": "CX",
+          "name": "",
+          "number": "4"
+        },
+        "jointOperationAirlineDesignators": [],
+        "marketingFlights": [
+          {
+            "code": "AA",
+            "serviceNumber": "8928",
+            "suffix": ""
+          },
+          {
+            "code": "JL",
+            "serviceNumber": "7048",
+            "suffix": ""
+          },
+          {
+            "code": "QR",
+            "serviceNumber": "5852",
+            "suffix": ""
+          }
+        ]
+      },
+      "scheduleInstanceKey": "f7a65014d3a9a4a55a9da572808e2c6dfb04e8354dc2cbc8a22f6d5be63d75b8",
+      "statusKey": "3294ee415b0012caaa0cce89a1e0e4b84e46ba23020d722851971b64ecb46186",
+      "statusDetails": []
+    }
+  ],
+  "paging": {
+    "limit": 10,
+    "totalCount": 1,
+    "totalPages": 1,
+    "next": ""
+  }
+}
