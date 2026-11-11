@@ -1,0 +1,30 @@
+{
+  "note": "illustrative, confirm with team",
+  "currency": "miles",
+  "annualEarnCap": 2000,
+  "missions": [
+    { "id": "checkin", "title": "Check-in Champion", "miles": 30 },
+    { "id": "boarding", "title": "Boarding Badge", "miles": 50 },
+    { "id": "window", "title": "Window Watcher", "miles": 30 },
+    { "id": "arrival", "title": "Arrival Explorer", "miles": 40 }
+  ],
+  "score": {
+    "membershipYears": { "pointsPer": 5, "per": 1, "max": 75 },
+    "familyFlights": { "pointsPer": 4, "per": 1, "max": 100 },
+    "juniorMiles": { "pointsPer": 2, "per": 5000, "max": 25 }
+  },
+  "bands": [
+    { "index": 1, "min": 0, "max": 60 },
+    { "index": 2, "min": 61, "max": 130 },
+    { "index": 3, "min": 131, "max": 200 }
+  ],
+  "graduation": {
+    "topBandStatusPointsHeadStart": 150,
+    "silverThreshold": 300,
+    "transferAllowanceByYear": [120000, 80000, 40000]
+  },
+  "demoMember": {
+    "name": "Mei",
+    "startingBalance": 1250
+  }
+}

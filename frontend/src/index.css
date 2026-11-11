@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+/* Theme = docs/DESIGN.md tokens. Defaults are cleared so only these exist. */
+@theme {
+  --color-*: initial;
+  --color-sky: #eaf1f3;
+  --color-paper: #fbfcfa;
+  --color-jade: #0e5e4e;
+  --color-jade-pressed: #0a4a3d;
+  --color-ink: #1d2b33;
+  --color-ink-soft: #56666d;
+  --color-miles: #f2a033;
+  --color-stamp: #2e4c9e;
+  --color-line: #d3dee1;
+
+  /* Red Hat files go in shared/fonts/ (not added yet); system fallback until then. */
+  --font-*: initial;
+  --font-display: "Red Hat Display", system-ui, sans-serif;
+  --font-text: "Red Hat Text", system-ui, sans-serif;
+  --font-mono: "Red Hat Mono", ui-monospace, monospace;
+
+  --text-*: initial;
+  --text-display: 34px;
+  --text-display--line-height: 40px;
+  --text-display--font-weight: 800;
+  --text-title: 24px;
+  --text-title--line-height: 30px;
+  --text-title--font-weight: 700;
+  --text-heading: 19px;
+  --text-heading--line-height: 26px;
+  --text-heading--font-weight: 700;
+  --text-body: 16px;
+  --text-body--line-height: 24px;
+  --text-small: 13px;
+  --text-small--line-height: 18px;
+  --text-small--font-weight: 500;
+  --text-flight: 15px;
+  --text-flight--line-height: 20px;
+  --text-flight--font-weight: 500;
+  --text-flight--letter-spacing: 0.04em;
+  --text-airport: 28px;
+  --text-airport--line-height: 32px;
+  --text-airport--font-weight: 600;
+
+  /* Two radii only. */
+  --radius-*: initial;
+  --radius-doc: 16px;
+  --radius-pill: 999px;
+
+  /* One shadow, documents only. */
+  --shadow-*: initial;
+  --shadow-doc: 0 1px 2px rgba(29, 43, 51, 0.08), 0 8px 24px rgba(29, 43, 51, 0.08);
+}
+
+@layer base {
+  html,
+  body {
+    background: var(--color-sky);
+    color: var(--color-ink);
+    font-family: var(--font-text);
+    font-size: 16px;
+    line-height: 24px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}

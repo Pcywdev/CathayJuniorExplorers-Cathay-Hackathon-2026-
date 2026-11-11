@@ -1,0 +1,11 @@
+# Local dev environment. Create with:  conda env create -f backend/environment.yml
+# Docker/Cloud Run does not use this; it installs requirements.txt only.
+name: Cathay-Hack
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - pip:
+      - -r requirements.txt
+      - playwright  # tools/shoot.py screenshots (dev only)

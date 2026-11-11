@@ -1,0 +1,149 @@
+# API contract
+
+The contract between backend and frontend. **Any change is agreed by both of us first and updated here in the same commit.**
+
+- Base URL: `http://localhost:8000` locally, the Cloud Run URL when deployed (frontend reads `VITE_API_BASE_URL`).
+- JSON everywhere, **camelCase** keys. Times are ISO 8601 with offset (`2026-11-14T10:05:00+08:00`).
+- Errors: `{ "detail": "human-readable message" }` with a 4xx/5xx status (FastAPI default).
+- Status legend: **live** = implemented; **draft** = shape proposed from plan.md section 9, confirm before building.
+
+| Method | Path | Purpose | Status |
+|---|---|---|---|
+| GET | `/api/health` | Liveness + program version | live |
+| GET | `/api/flights/lookup` | OAG flight → boarding pass data | draft |
+| POST | `/api/trips` | Junior mode on → create trip, generate chapters | draft |
+| GET | `/api/trips/{id}` | Trip, missions, miles, chapter lock states | draft |
+| GET | `/api/trips/{id}/chapters` | All chapters for offline storage | draft |
+| POST | `/api/trips/{id}/events` | Fire a trip event | draft |
+| GET | `/api/trips/{id}/stream` | SSE stream of events (both screens) | draft |
+| POST | `/api/graduation/score` | History → score, breakdown, package | draft |
+
+---
+
+## GET /api/health
+```json
+{ "status": "ok", "service": "little-explorers-api", "programNote": "illustrative, confirm with team" }
+```
+
+## GET /api/flights/lookup?carrier=CX&number=500&date=2026-11-14
+Backend-only OAG call, cached; falls back to fixtures. `source` says where it came from. Fields OAG doesn't give (gate, seat) are synthetic and flagged.
+```json
+{
+  "carrier": "CX", "number": "500", "date": "2026-11-14",
+  "origin": { "iata": "HKG", "city": "Hong Kong" },
+  "destination": { "iata": "NRT", "city": "Tokyo" },
+  "scheduledDeparture": "2026-11-14T10:15:00+08:00",
+  "scheduledArrival": "2026-11-14T14:55:00+09:00",
+  "durationMinutes": 280,
+  "aircraft": "Airbus A350-900",
+  "gate": "23", "seat": "34K",
+  "synthetic": ["gate", "seat"],
+  "source": "oag"
+}
+```
+`source`: `oag` | `cache` | `fixture`. 404 if no such flight.
+
+## POST /api/trips
+Request (the only child data we take):
+```json
+{ "childName": "Mei", "ageBand": "6-8", "carrier": "CX", "number": "500", "date": "2026-11-14", "language": "en" }
+```
+`ageBand`: `6-8` | `9-12`. `language`: `en` | `zh-Hant` (both are generated; this is the default shown).
+Response `201`: same body as `GET /api/trips/{id}`.
+
+## GET /api/trips/{id}
+```json
+{
+  "id": "trp_8f2c",
+  "childName": "Mei",
+  "ageBand": "6-8",
+  "juniorMode": true,
+  "flight": { "...": "same shape as /api/flights/lookup" },
+  "missions": [
+    { "id": "checkin", "title": "Check-in Champion", "miles": 30, "state": "done" },
+    { "id": "boarding", "title": "Boarding Badge", "miles": 50, "state": "available" },
+    { "id": "window", "title": "Window Watcher", "miles": 30, "state": "locked" },
+    { "id": "arrival", "title": "Arrival Explorer", "miles": 40, "state": "locked" }
+  ],
+  "cap": { "used": 1280, "limit": 2000 },
+  "branch": "on_time",
+  "chapters": [ { "number": 1, "key": "checkin", "locked": false }, { "number": 2, "key": "boarding", "locked": true } ],
+  "events": [ "...event objects, oldest first (see Event shape)" ],
+  "dataUsed": ["ageBand", "destination", "flightLength", "tripEvents"]
+}
+```
+Mission `state`: `locked` | `available` | `done`. `branch`: `on_time` | `delayed`.
+
+## GET /api/trips/{id}/chapters
+Everything the phone stores for offline. Locked chapters are included (stored locked on the device); `unlockAt` lets the final chapter unlock offline at scheduled landing.
+```json
+{
+  "tripId": "trp_8f2c",
+  "generatedBy": "llm",
+  "chapters": [
+    {
+      "number": 3, "key": "inflight", "branch": "on_time",
+      "unlockOn": "departed", "unlockAt": null,
+      "text": { "en": { "title": "...", "pages": ["...", "..."] }, "zh-Hant": { "title": "...", "pages": ["..."] } }
+    }
+  ]
+}
+```
+`generatedBy`: `llm` | `fallback` (pre-written). `branch`: `both` for chapters with no delayed version. `unlockOn`: `junior_mode_on` | `checkin` | `boarded` | `departed` | `landed`.
+
+## POST /api/trips/{id}/events
+Request:
+```json
+{ "type": "boarded", "source": "simulated", "delayMinutes": null, "newGate": null }
+```
+`type`: `checkin` | `boarded` | `departed` | `delayed` | `landed` (`junior_mode_on` is emitted by `POST /api/trips`). `source`: `simulated` | `oag` | `system`. `delayMinutes`/`newGate` only for `delayed`.
+Response `201`: the Event (below). The same object is published once on the trip's stream.
+
+## GET /api/trips/{id}/stream
+`text/event-stream`. Each message is `event: trip-event` with `data:` set to one Event as JSON. A comment line `: ping` is sent every 15 s to keep the connection open.
+Polling fallback: `GET /api/trips/{id}` every second and diff `events`.
+
+## Event shape (one shape for both screens)
+```json
+{
+  "type": "boarded",
+  "at": "2026-11-14T10:05:00+08:00",
+  "source": "simulated",
+  "mission": { "id": "boarding", "title": "Boarding Badge", "miles": 50 },
+  "cap": { "used": 1330, "limit": 2000 },
+  "chapterUnlocked": 2,
+  "branch": "on_time",
+  "childMessage": "Boarding Badge collected!",
+  "parentMessage": "Mei has boarded CX 500",
+  "systemLines": ["Mission rule passed: Boarding Badge", "Cap check 1,330 / 2,000 ✓", "Chapter 2 unlocked"]
+}
+```
+- `type`: `junior_mode_on` | `checkin` | `boarded` | `departed` | `delayed` | `landed`
+- `source`: `simulated` | `oag` | `system`. Simulated events are labelled as such on screen.
+- `mission`: `null` when the event awards nothing. `miles` is what was actually awarded after the cap.
+- `chapterUnlocked`: chapter number or `null`.
+- **`systemLines` is not shown on the phones.** It's for logging, debugging and the architecture slide wording.
+
+## POST /api/graduation/score
+Request:
+```json
+{ "membershipYears": 12, "familyFlights": 20, "juniorMiles": 48000 }
+```
+Response (numbers from `shared/program.json`):
+```json
+{
+  "score": 158,
+  "breakdown": [
+    { "id": "membershipYears", "label": "Membership years", "points": 60, "max": 75 },
+    { "id": "familyFlights", "label": "Family flights", "points": 80, "max": 100 },
+    { "id": "juniorMiles", "label": "Junior miles", "points": 18, "max": 25 }
+  ],
+  "band": { "index": 3, "min": 131, "max": 200 },
+  "package": {
+    "milesCarriedOver": 48000,
+    "statusPointsHeadStart": 150,
+    "silverThreshold": 300,
+    "transferAllowance": [120000, 80000, 40000]
+  }
+}
+```
