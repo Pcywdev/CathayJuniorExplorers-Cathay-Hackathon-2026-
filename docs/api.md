@@ -10,7 +10,7 @@ The contract between backend and frontend. **Any change is agreed by both of us 
 | Method | Path | Purpose | Status |
 |---|---|---|---|
 | GET | `/api/health` | Liveness + program version | live |
-| GET | `/api/flights/lookup` | OAG flight → boarding pass data | draft |
+| GET | `/api/flights/lookup` | OAG flight → boarding pass data | live |
 | POST | `/api/trips` | Junior mode on → create trip, generate chapters | draft |
 | GET | `/api/trips/{id}` | Trip, missions, miles, chapter lock states | draft |
 | GET | `/api/trips/{id}/chapters` | All chapters for offline storage | draft |
@@ -26,22 +26,30 @@ The contract between backend and frontend. **Any change is agreed by both of us 
 ```
 
 ## GET /api/flights/lookup?carrier=CX&number=500&date=2026-11-14
-Backend-only OAG call, cached; falls back to fixtures. `source` says where it came from. Fields OAG doesn't give (gate, seat) are synthetic and flagged.
+Serves saved OAG responses (fixtures) first, so it works offline and spends no OAG quota. Only the backend calls OAG, and only when `OAG_LIVE=true` and no fixture exists (the response is then saved as a fixture).
 ```json
 {
   "carrier": "CX", "number": "500", "date": "2026-11-14",
-  "origin": { "iata": "HKG", "city": "Hong Kong" },
-  "destination": { "iata": "NRT", "city": "Tokyo" },
-  "scheduledDeparture": "2026-11-14T10:15:00+08:00",
-  "scheduledArrival": "2026-11-14T14:55:00+09:00",
-  "durationMinutes": 280,
-  "aircraft": "Airbus A350-900",
-  "gate": "23", "seat": "34K",
+  "origin":      { "iata": "HKG", "city": "Hong Kong", "terminal": "1" },
+  "destination": { "iata": "NRT", "city": "Tokyo",     "terminal": "2" },
+  "departure": { "local": "2026-11-14T15:25:00+08:00", "utc": "2026-11-14T07:25:00Z" },
+  "arrival":   { "local": "2026-11-14T20:20:00+09:00", "utc": "2026-11-14T11:20:00Z" },
+  "durationMinutes": 235,
+  "distanceKm": 2962,
+  "aircraft": { "iata": "333", "name": "Airbus A330-300" },
+  "gate": "23",
+  "seat": "34K",
   "synthetic": ["gate", "seat"],
-  "source": "oag"
+  "status": { "oagState": null, "departureDelayMinutes": null, "arrivalDelayMinutes": null },
+  "source": "fixture"
 }
 ```
-`source`: `oag` | `cache` | `fixture`. 404 if no such flight.
+- Params: `carrier` 2 letters/digits, `number` 1 to 9999, `date` = local departure date `YYYY-MM-DD`.
+- `local` times carry the airport's own UTC offset (so the frontend can say "Tokyo is 1 hour ahead"); `utc` ends in `Z`. Final-chapter unlock uses `arrival.utc`.
+- `gate`/`seat`: **`synthetic` lists which were invented, and the UI must label them.** OAG gives a real gate only once the flight operates (then `synthetic` is just `["seat"]`); passenger seats are never available from OAG. The demo flight is pinned to gate 23, seat 34K.
+- `status` is filled only when OAG has operated-flight data (`oagState` is OAG's raw string, e.g. `InGate`); all `null` for a schedule-only flight. Delays are minutes, negative if early.
+- `source`: `fixture` | `oag` (a live response is saved, so later calls say `fixture`).
+- Errors: `404` no data for that flight; `422` bad params; `502` OAG itself failed (live mode only).
 
 ## POST /api/trips
 Request (the only child data we take):

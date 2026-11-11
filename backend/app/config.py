@@ -11,12 +11,18 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 # backend/app/config.py -> repo root. The Dockerfile keeps the same layout.
 REPO_ROOT = Path(__file__).resolve().parents[2]
+# Saved OAG responses and synthetic overrides. The Dockerfile copies this folder into the image.
+FIXTURES_DIR = Path(__file__).resolve().parents[1] / "fixtures"
 
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 
     oag_api_key: str = ""
+    # Off by default so nothing spends OAG quota by accident. When true, a fixture miss
+    # triggers one live OAG call and the response is saved as a new fixture.
+    oag_live: bool = False
+    fixtures_dir: Path = FIXTURES_DIR
     llm_provider: str = ""  # "gemini" or "bedrock", whichever credits we get
     llm_api_key: str = ""
     # Comma-separated list, e.g. "http://localhost:5173,https://demo.example.app"

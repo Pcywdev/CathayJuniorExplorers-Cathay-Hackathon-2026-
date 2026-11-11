@@ -3,8 +3,8 @@
 Read this at the start of every session. Tags: **P0** must work by Friday · **P1** only if P0 is solid. B = backend, F = frontend.
 
 ## Now / Next / Blocked
-- **Now:** B: rules engine done on `feat/rules-engine` (logic only, not yet behind an endpoint). Open questions: miles for the delay bonus mini-mission (not in program.json); what triggers Window Watcher.
-- **Next:** B: flight lookup service + endpoint (cache-first, from the saved fixtures), then trips + events endpoints and SSE. F: pull repo, static child screens (home, story, mission complete) on mock data.
+- **Now:** B: flight lookup done on `feat/flight-lookup` (tests pass, endpoint live locally). Open questions: miles for the delay bonus mini-mission (not in program.json); what triggers Window Watcher.
+- **Next:** B: trips + events endpoints using the rules engine, then SSE. F: pull repo, static child screens on mock data, then wire the boarding pass to `/api/flights/lookup` (shape in docs/api.md).
 - **On-site only (hackathon day):** Cloud Run deploy (runbook in `docs/deploy.md`), LLM credentials.
 - **Blocked:** `gcloud`, GCP project and LLM credentials are provided on the hackathon day (OAG key is available now) · Red Hat font files not in `shared/fonts/` yet · `shared/program.json` awaiting business-team sign-off · Setup ran Wed 11, a day behind the plan's Tue 10 start.
 
@@ -23,7 +23,7 @@ Done when: both run locally; backend deployed; one real OAG response saved.
 
 ## Day 2 · Wed 11
 Done when: simulating "boarded" updates both phones.
-- [ ] P0 B: flight lookup + cache + fixture fallback (OAG boarding pass)
+- [x] P0 B: flight lookup + fixture-first cache (OAG boarding pass) · `GET /api/flights/lookup`, 33 tests
 - [x] P0 B: rules engine with tests first (missions, annual cap, chapter unlock, branch) · `app/logic/rules.py`, 16 tests
 - [ ] P0 B: `POST /api/trips`, `GET /api/trips/{id}`, `POST /events` for all six events
 - [ ] P0 B: SSE stream (polling fallback documented)
@@ -63,3 +63,4 @@ Done when: demo runs with Wi-Fi off.
 - 2026-11-11 · Backend owner · Setup pushed to origin/main (630c4ce); local Python moved to the `Cathay-Hack` conda env; teammate can pull and start · Next: rules engine while deploy/OAG wait on gcloud + keys.
 - 2026-11-12 · Backend owner · Deploy and OAG moved to on-site (gcloud/keys provided on the day); wrote docs/deploy.md runbook · Next: trips + events endpoints locally.
 - 2026-11-12 · Backend owner · OAG works now: 2 fixtures saved (CX 500 on 14 Nov schedule, 11 Nov operated + delayed); gate available from status, seat not; docs corrected (OAG no longer on-site only) · Next: flight lookup service + endpoint from fixtures.
+- 2026-11-12 · Backend owner + Claude · Flight lookup: GET /api/flights/lookup (fixture-first, synthetic gate/seat, live mode off by default), 33 new tests (51 total pass), api.md updated, Dockerfile ships fixtures · Next: trips + events endpoints.
