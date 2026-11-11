@@ -1,0 +1,191 @@
+{
+  "data": [
+    {
+      "carrier": {
+        "iata": "CX",
+        "icao": "CPA"
+      },
+      "serviceSuffix": "",
+      "flightNumber": 500,
+      "sequenceNumber": 1,
+      "flightType": "Scheduled",
+      "departure": {
+        "airport": {
+          "iata": "HKG",
+          "icao": "VHHH"
+        },
+        "terminal": "1",
+        "country": {
+          "code": "HK"
+        },
+        "date": {
+          "local": "2026-11-11",
+          "utc": "2026-11-11"
+        },
+        "time": {
+          "local": "15:25",
+          "utc": "07:25"
+        }
+      },
+      "arrival": {
+        "airport": {
+          "iata": "NRT",
+          "icao": "RJAA"
+        },
+        "terminal": "2",
+        "country": {
+          "code": "JP"
+        },
+        "date": {
+          "local": "2026-11-11",
+          "utc": "2026-11-11"
+        },
+        "time": {
+          "local": "20:20",
+          "utc": "11:20"
+        }
+      },
+      "elapsedTime": 235,
+      "cargoTonnage": 11.7,
+      "aircraftType": {
+        "iata": "333",
+        "icao": "A333"
+      },
+      "serviceType": {
+        "iata": "J"
+      },
+      "segmentInfo": {
+        "numberOfStops": 0,
+        "intermediateAirports": {
+          "iata": []
+        }
+      },
+      "distance": {
+        "accumulatedGreatCircleKilometers": 2962.0,
+        "accumulatedGreatCircleMiles": 1841.0,
+        "accumulatedGreatCircleNauticalMiles": 1599.0,
+        "greatCircleKilometers": 2962.0,
+        "greatCircleMiles": 1841.0,
+        "greatCircleNauticalMiles": 1599.0
+      },
+      "codeshare": {
+        "cockpitCrewEmployer": {
+          "code": "CX",
+          "name": "",
+          "number": "4"
+        },
+        "jointOperationAirlineDesignators": [],
+        "marketingFlights": [
+          {
+            "code": "JL",
+            "serviceNumber": "7048",
+            "suffix": ""
+          },
+          {
+            "code": "QR",
+            "serviceNumber": "5852",
+            "suffix": ""
+          },
+          {
+            "code": "AA",
+            "serviceNumber": "8928",
+            "suffix": ""
+          }
+        ]
+      },
+      "scheduleInstanceKey": "b03ca66655bb55b9743ce785f17fc0bd2f93a1e84a64e68fd3ca6ca030a02c5c",
+      "statusKey": "2145823fe98015c1c34c029c75b1bbbf023dd123b1ffb43cdb84fa042aa1828c",
+      "statusDetails": [
+        {
+          "state": "InGate",
+          "updatedAt": "2026-11-11T12:27:56.072",
+          "legsTotal": 1,
+          "equipment": {
+            "aircraftRegistrationNumber": "BLAE",
+            "actualAircraftType": {
+              "iata": "333",
+              "icao": "A333"
+            }
+          },
+          "departure": {
+            "estimatedTime": {
+              "outGateTimeliness": "OnTime",
+              "outGateVariation": "00:00:00",
+              "outGate": {
+                "local": "2026-11-11T15:25:00+08:00",
+                "utc": "2026-11-11T07:25:00+00:00"
+              },
+              "offGround": {
+                "local": "2026-11-11T16:00:00+08:00",
+                "utc": "2026-11-11T08:00:00+00:00"
+              }
+            },
+            "actualTime": {
+              "outGateTimeliness": "Delayed",
+              "outGateVariation": "00:11:00",
+              "outGate": {
+                "local": "2026-11-11T15:36:00+08:00",
+                "utc": "2026-11-11T07:36:00+00:00"
+              },
+              "offGround": {
+                "local": "2026-11-11T15:52:00+08:00",
+                "utc": "2026-11-11T07:52:00+00:00"
+              }
+            },
+            "airport": {
+              "iata": "HKG",
+              "icao": "VHHH"
+            },
+            "actualTerminal": "T1",
+            "gate": "42",
+            "checkInCounter": "A",
+            "country": {
+              "code": "HK"
+            }
+          },
+          "arrival": {
+            "estimatedTime": {
+              "inGateTimeliness": "Delayed",
+              "inGateVariation": "00:28:00",
+              "onGround": {
+                "local": "2026-11-11T20:28:00+09:00",
+                "utc": "2026-11-11T11:28:00+00:00"
+              },
+              "inGate": {
+                "local": "2026-11-11T20:48:00+09:00",
+                "utc": "2026-11-11T11:48:00+00:00"
+              }
+            },
+            "actualTime": {
+              "inGateTimeliness": "Delayed",
+              "inGateVariation": "00:23:00",
+              "onGround": {
+                "local": "2026-11-11T20:36:00+09:00",
+                "utc": "2026-11-11T11:36:00+00:00"
+              },
+              "inGate": {
+                "local": "2026-11-11T20:43:00+09:00",
+                "utc": "2026-11-11T11:43:00+00:00"
+              }
+            },
+            "airport": {
+              "iata": "NRT",
+              "icao": "RJAA"
+            },
+            "actualTerminal": "T2",
+            "gate": "72",
+            "country": {
+              "code": "JP"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "paging": {
+    "limit": 10,
+    "totalCount": 1,
+    "totalPages": 1,
+    "next": ""
+  }
+}

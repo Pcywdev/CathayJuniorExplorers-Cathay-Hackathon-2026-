@@ -39,4 +39,5 @@ docker run --rm -p 8080:8080 little-explorers-api
 - [docs/DESIGN.md](docs/DESIGN.md): design system
 - [docs/progress.md](docs/progress.md): what's done, next, blocked
 - [docs/decisions.md](docs/decisions.md): decision log
+- [docs/deploy.md](docs/deploy.md): Cloud Run deploy runbook (on-site)
 - [shared/program.json](shared/program.json): every displayed number
