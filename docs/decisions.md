@@ -14,3 +14,4 @@ One line per decision, newest last. Don't re-argue these without a new reason.
 - 2026-11-11 · Rules engine: a trip's cap starts at the member's miles already earned this year (Mei: 1,250); awards are trimmed to fit under the cap, and a mission still counts as done at 0 miles.
 - 2026-11-11 · Events map to missions as checkin→Check-in Champion, boarded→Boarding Badge, landed→Arrival Explorer; Window Watcher is a child action, not a trip event.
 - 2026-11-11 · Chapters: junior_mode_on→1, boarded→2, departed→3, landed→4. A delay switches the branch to delayed for the rest of the trip. Repeat events never award or unlock twice. Event order is not enforced.
+- 2026-11-12 · This session is a pre-build: gcloud, GCP project, OAG key and LLM credentials are provided only on the hackathon day. Everything is built and tested locally (placeholder flight fixture, fallback story chapters); deploy and real OAG fixtures happen on-site.
