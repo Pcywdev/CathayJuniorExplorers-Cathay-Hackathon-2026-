@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "frontend/src/components/BoardingPass.tsx"
+        ],
+        "createdAt": "2026-11-12T07:57:30.586Z",
+        "reason": "Claude: the dashed Line border is the ticket tear line, specified in docs/DESIGN.md (Boarding pass: 'A dashed Line tear line separates the main section from the stub'), not an accent tab"
+      }
+    ]
+  }
+}

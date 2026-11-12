@@ -1,5 +1,25 @@
 @import "tailwindcss";
 
+/* Red Hat superfamily, self-hosted (SIL OFL), variable weight axis. */
+@font-face {
+  font-family: "Red Hat Display";
+  src: url("../../shared/fonts/RedHatDisplay-latin.woff2") format("woff2");
+  font-weight: 400 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Red Hat Text";
+  src: url("../../shared/fonts/RedHatText-latin.woff2") format("woff2");
+  font-weight: 400 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Red Hat Mono";
+  src: url("../../shared/fonts/RedHatMono-latin.woff2") format("woff2");
+  font-weight: 400 700;
+  font-display: swap;
+}
+
 /* Theme = docs/DESIGN.md tokens. Defaults are cleared so only these exist. */
 @theme {
   --color-*: initial;
@@ -13,11 +33,11 @@
   --color-stamp: #2e4c9e;
   --color-line: #d3dee1;
 
-  /* Red Hat files go in shared/fonts/ (not added yet); system fallback until then. */
+  /* Red Hat files live in shared/fonts/ (see @font-face above). */
   --font-*: initial;
-  --font-display: "Red Hat Display", system-ui, sans-serif;
-  --font-text: "Red Hat Text", system-ui, sans-serif;
-  --font-mono: "Red Hat Mono", ui-monospace, monospace;
+  --font-display: "Red Hat Display", "Segoe UI", "SF Pro Display", system-ui, sans-serif;
+  --font-text: "Red Hat Text", "Segoe UI", "SF Pro Text", system-ui, sans-serif;
+  --font-mono: "Red Hat Mono", Consolas, "SF Mono", Menlo, ui-monospace, monospace;
 
   --text-*: initial;
   --text-display: 34px;
@@ -62,7 +82,62 @@
     line-height: 24px;
     -webkit-font-smoothing: antialiased;
   }
+  ::selection {
+    background: color-mix(in srgb, var(--color-jade) 18%, transparent);
+    color: var(--color-ink);
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-jade);
+    outline-offset: 3px;
+  }
   .tabular {
     font-variant-numeric: tabular-nums;
   }
+}
+
+@layer utilities {
+  /* Printed security hairlines on a document: interlaced Line waves, like a ticket's guilloche. A pattern, not a gradient. */
+  .guilloche {
+    background-color: var(--color-paper);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='24' viewBox='0 0 120 24'%3E%3Cg fill='none' stroke='%23D3DEE1' stroke-width='0.75'%3E%3Cpath d='M0 12c15-10 15 10 30 0s15 10 30 0 15 10 30 0 15 10 30 0'/%3E%3Cpath d='M0 12c15 10 15-10 30 0s15-10 30 0 15-10 30 0 15-10 30 0' opacity='.7'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 120px 24px;
+  }
+  /* Faint hairlines on the Sky app background, so the whole screen reads as printed stock. */
+  .guilloche-sky {
+    background-color: var(--color-sky);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='32' viewBox='0 0 160 32'%3E%3Cg fill='none' stroke='%23D3DEE1' stroke-opacity='.55' stroke-width='1'%3E%3Cpath d='M0 16c20-13 20 13 40 0s20 13 40 0 20 13 40 0 20 13 40 0'/%3E%3Cpath d='M0 16c20 13 20-13 40 0s20-13 40 0 20-13 40 0 20-13 40 0'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 160px 32px;
+    background-attachment: fixed;
+  }
+  /* Same hairlines in Paper on the Jade band. */
+  .guilloche-on-jade {
+    background-color: var(--color-jade);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='32' viewBox='0 0 160 32'%3E%3Cg fill='none' stroke='%23FBFCFA' stroke-opacity='.07' stroke-width='1'%3E%3Cpath d='M0 16c20-13 20 13 40 0s20 13 40 0 20 13 40 0 20 13 40 0'/%3E%3Cpath d='M0 16c20 13 20-13 40 0s20-13 40 0 20-13 40 0 20-13 40 0'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 160px 32px;
+  }
+  /* The document shadow as a drop-shadow, for shapes with real cut-outs (box-shadow would be clipped by the mask). */
+  .doc-shadow {
+    filter: drop-shadow(0 1px 1px rgba(29, 43, 51, 0.08)) drop-shadow(0 8px 12px rgba(29, 43, 51, 0.08));
+  }
+  /* Real ticket notches: half-circles cut out of the top and bottom of a tear edge (hard-edged masks, nothing painted). */
+  .notch-right {
+    -webkit-mask:
+      radial-gradient(circle 12px at 100% 0, #0000 11.5px, #000 12px) top / 100% 51% no-repeat,
+      radial-gradient(circle 12px at 100% 100%, #0000 11.5px, #000 12px) bottom / 100% 51% no-repeat;
+    mask:
+      radial-gradient(circle 12px at 100% 0, #0000 11.5px, #000 12px) top / 100% 51% no-repeat,
+      radial-gradient(circle 12px at 100% 100%, #0000 11.5px, #000 12px) bottom / 100% 51% no-repeat;
+  }
+  .notch-left {
+    -webkit-mask:
+      radial-gradient(circle 12px at 0 0, #0000 11.5px, #000 12px) top / 100% 51% no-repeat,
+      radial-gradient(circle 12px at 0 100%, #0000 11.5px, #000 12px) bottom / 100% 51% no-repeat;
+    mask:
+      radial-gradient(circle 12px at 0 0, #0000 11.5px, #000 12px) top / 100% 51% no-repeat,
+      radial-gradient(circle 12px at 0 100%, #0000 11.5px, #000 12px) bottom / 100% 51% no-repeat;
+  }
+}
+
+html {
+  scrollbar-color: var(--color-line) var(--color-sky);
 }

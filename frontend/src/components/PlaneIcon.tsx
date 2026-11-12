@@ -1,3 +1,4 @@
+// Side-view plane heading right. 24px grid, 2px rounded stroke.
 export function PlaneIcon({ className = '' }: { className?: string }) {
   return (
     <svg
@@ -12,10 +13,8 @@ export function PlaneIcon({ className = '' }: { className?: string }) {
       aria-hidden="true"
       className={className}
     >
-      <path d="M3 12h18" />
-      <path d="M14 5l7 7-7 7" />
-      <path d="M8 12l-3-5" />
-      <path d="M8 12l-3 5" />
+      <path d="M3 13.5h15.5a2.5 2.5 0 0 0 0-5H15L10 3H8l2.5 5.5H6L4.5 6.5H3l1 3.5z" />
+      <path d="M10 13.5L8 19h2l4.5-5.5" />
     </svg>
   )
 }
