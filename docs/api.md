@@ -11,11 +11,12 @@ The contract between backend and frontend. **Any change is agreed by both of us 
 |---|---|---|---|
 | GET | `/api/health` | Liveness + program version | live |
 | GET | `/api/flights/lookup` | OAG flight → boarding pass data | live |
-| POST | `/api/trips` | Junior mode on → create trip, generate chapters | draft |
-| GET | `/api/trips/{id}` | Trip, missions, miles, chapter lock states | draft |
+| POST | `/api/trips` | Junior mode on → create trip (chapter text from Day 3) | live |
+| GET | `/api/trips/current` | Newest trip, so the child phone finds it | live |
+| GET | `/api/trips/{id}` | Trip, missions, miles, chapter lock states | live |
 | GET | `/api/trips/{id}/chapters` | All chapters for offline storage | draft |
-| POST | `/api/trips/{id}/events` | Fire a trip event | draft |
-| GET | `/api/trips/{id}/stream` | SSE stream of events (both screens) | draft |
+| POST | `/api/trips/{id}/events` | Fire a trip event | live |
+| GET | `/api/trips/{id}/stream` | SSE stream of events (both screens) | live |
 | POST | `/api/graduation/score` | History → score, breakdown, package | draft |
 
 ---
@@ -57,7 +58,11 @@ Request (the only child data we take):
 { "childName": "Mei", "ageBand": "6-8", "carrier": "CX", "number": "500", "date": "2026-11-14", "language": "en" }
 ```
 `ageBand`: `6-8` | `9-12`. `language`: `en` | `zh-Hant` (both are generated; this is the default shown).
-Response `201`: same body as `GET /api/trips/{id}`.
+`childName` 1–30 characters. The flight is looked up as in `/api/flights/lookup` (same `404`/`502`); the trip starts at the demo member's balance (cap `used` 1,250) and emits one `junior_mode_on` event (`source: system`, chapter 1).
+Response `201`: same body as `GET /api/trips/{id}`. Errors: `404` unknown flight, `422` bad body.
+
+## GET /api/trips/current
+The newest trip, same body as `GET /api/trips/{id}`; `404` if no trip exists yet. The child phone polls this (about every 2 s) until a trip exists, then switches to its stream. Creating a new trip makes it the current one, which is also how to reset the demo.
 
 ## GET /api/trips/{id}
 ```json
@@ -65,6 +70,7 @@ Response `201`: same body as `GET /api/trips/{id}`.
   "id": "trp_8f2c",
   "childName": "Mei",
   "ageBand": "6-8",
+  "language": "en",
   "juniorMode": true,
   "flight": { "...": "same shape as /api/flights/lookup" },
   "missions": [
@@ -77,10 +83,15 @@ Response `201`: same body as `GET /api/trips/{id}`.
   "branch": "on_time",
   "chapters": [ { "number": 1, "key": "checkin", "locked": false }, { "number": 2, "key": "boarding", "locked": true } ],
   "events": [ "...event objects, oldest first (see Event shape)" ],
+  "lastEventId": 3,
   "dataUsed": ["ageBand", "destination", "flightLength", "tripEvents"]
 }
 ```
-Mission `state`: `locked` | `available` | `done`. `branch`: `on_time` | `delayed`.
+Mission `state`: `locked` | `available` | `done`. `branch`: `on_time` | `delayed`. `404` for an unknown id.
+- Mission states: Check-in available from the start; Boarding available once checked in; Window Watcher and Arrival Explorer available once departed. **Window Watcher never completes yet** (its trigger is an open question).
+- `chapters`: always four, keys `checkin`, `boarding`, `inflight`, `landing`. Lock states only; the text comes from `/chapters` (Day 3).
+- `flight.gate` follows the latest `newGate` from a `delayed` event.
+- `lastEventId`: id of the newest event. Open the stream with `?after=<lastEventId>` so nothing is sent twice.
 
 ## GET /api/trips/{id}/chapters
 Everything the phone stores for offline. Locked chapters are included (stored locked on the device); `unlockAt` lets the final chapter unlock offline at scheduled landing.
@@ -105,10 +116,22 @@ Request:
 { "type": "boarded", "source": "simulated", "delayMinutes": null, "newGate": null }
 ```
 `type`: `checkin` | `boarded` | `departed` | `delayed` | `landed` (`junior_mode_on` is emitted by `POST /api/trips`). `source`: `simulated` | `oag` | `system`. `delayMinutes`/`newGate` only for `delayed`.
-Response `201`: the Event (below). The same object is published once on the trip's stream.
+`delayMinutes` 1–1440, `newGate` 1–4 letters/digits; sending either with another type is `422`. `source` defaults to `simulated`.
+Response `201`: the Event (below). The same object is published once on the trip's stream. Errors: `404` unknown trip, `422` bad body (including `junior_mode_on`).
+Repeat events are accepted but award nothing and unlock nothing. The delayed bonus mini-mission awards no miles yet (not in program.json).
 
 ## GET /api/trips/{id}/stream
-`text/event-stream`. Each message is `event: trip-event` with `data:` set to one Event as JSON. A comment line `: ping` is sent every 15 s to keep the connection open.
+`text/event-stream`. Each message is one Event:
+```
+id: 4
+event: trip-event
+data: {"type":"boarded", ...}
+
+```
+A comment line `: ping` is sent every 15 s to keep the connection open. Listen with `source.addEventListener("trip-event", ...)` (not `onmessage`, because the event is named).
+- `?after=N` sends events with id > N first (use the trip's `lastEventId`), then live ones. Without it, only live events.
+- On reconnect the browser sends `Last-Event-ID` by itself; the stream replays what was missed. Each event reaches each connection once.
+- `404` unknown trip.
 Polling fallback: `GET /api/trips/{id}` every second and diff `events`.
 
 ## Event shape (one shape for both screens)

@@ -11,8 +11,9 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 # backend/app/config.py -> repo root. The Dockerfile keeps the same layout.
 REPO_ROOT = Path(__file__).resolve().parents[2]
+BACKEND_DIR = Path(__file__).resolve().parents[1]
 # Saved OAG responses and synthetic overrides. The Dockerfile copies this folder into the image.
-FIXTURES_DIR = Path(__file__).resolve().parents[1] / "fixtures"
+FIXTURES_DIR = BACKEND_DIR / "fixtures"
 
 
 class Settings(BaseSettings):
@@ -28,6 +29,8 @@ class Settings(BaseSettings):
     # Comma-separated list, e.g. "http://localhost:5173,https://demo.example.app"
     allowed_origins: str = "http://localhost:5173"
     program_path: Path = REPO_ROOT / "shared" / "program.json"
+    # Trips and events. The folder is created on first use; *.db is gitignored.
+    database_url: str = f"sqlite:///{(BACKEND_DIR / 'data' / 'little-explorers.db').as_posix()}"
 
     @property
     def allowed_origins_list(self) -> list[str]:
