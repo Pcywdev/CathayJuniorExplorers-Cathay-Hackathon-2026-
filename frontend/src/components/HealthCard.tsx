@@ -5,8 +5,14 @@ import type { Health } from '../api/types'
 
 type State = { kind: 'loading' } | { kind: 'ok'; health: Health } | { kind: 'error'; message: string }
 
-// Dev-only status: shows the /api/health response. Remove before the demo.
+// Dev-only status: shows the /api/health response, only when the URL has ?health.
+const enabled = new URLSearchParams(window.location.search).has('health')
+
 export function HealthCard() {
+  return enabled ? <HealthStatus /> : null
+}
+
+function HealthStatus() {
   const [state, setState] = useState<State>({ kind: 'loading' })
 
   useEffect(() => {
