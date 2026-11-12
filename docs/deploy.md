@@ -23,6 +23,7 @@ docker push <REGION>-docker.pkg.dev/<PROJECT_ID>/little-explorers/api:latest
 gcloud run deploy little-explorers-api \
   --image <REGION>-docker.pkg.dev/<PROJECT_ID>/little-explorers/api:latest \
   --region <REGION> --allow-unauthenticated \
+  --max-instances=1 --timeout=3600 \
   --set-env-vars ALLOWED_ORIGINS=<FRONTEND_URL>,LLM_PROVIDER=<gemini|bedrock>
 ```
 Keys (`OAG_API_KEY`, `LLM_API_KEY`) go in Secret Manager and are attached with `--set-secrets`, not `--set-env-vars`.
@@ -32,5 +33,7 @@ Open `<service-url>/api/health`; expect `{"status":"ok",...}`. Then set the fron
 
 ## Notes
 - Cloud Run supplies `PORT`; the Dockerfile already reads it.
+- `--max-instances=1`: SSE subscribers live in memory and trips in a SQLite file inside the container, so every phone must reach the same instance. `--timeout=3600` lets a stream stay open up to an hour (the browser reconnects after that).
+- Trips are lost when the instance restarts; just turn junior mode on again.
 - Redeploying after a code change: repeat steps 2 and 3.
 - If CORS blocks the browser, `ALLOWED_ORIGINS` is missing the frontend's exact origin.
