@@ -6,7 +6,7 @@ Read this at the start of every session. Tags: **P0** must work by Friday · **P
 - **Now:** B: trips, events and SSE stream done on `feat/trips-events` (91 tests pass; two curl streams got the same events live). Open questions: miles for the delay bonus mini-mission (not in program.json); what triggers Window Watcher; whether simulated events should show scheduled flight times rather than the real clock.
 - **Next:** B: story generation + safety + fallback (Day 3), `GET /chapters`, graduation score. F: child screens and parent screen on the live API: `GET /api/trips/current` → `EventSource(/api/trips/{id}/stream?after=lastEventId)`, Simulate control posts to `/events` (all in docs/api.md).
 - **On-site only (hackathon day):** Cloud Run deploy (runbook in `docs/deploy.md`), LLM credentials.
-- **Blocked:** `gcloud`, GCP project and LLM credentials are provided on the hackathon day (OAG key is available now) · Red Hat font files not in `shared/fonts/` yet · `shared/program.json` awaiting business-team sign-off · Setup ran Wed 11, a day behind the plan's Tue 10 start.
+- **Blocked:** `gcloud`, GCP project and LLM credentials are provided on the hackathon day (OAG key is available now) · `shared/program.json` awaiting business-team sign-off · Setup ran Wed 11, a day behind the plan's Tue 10 start.
 
 ## Day 1 · Tue 10 (setup)
 Done when: both run locally; backend deployed; one real OAG response saved.
@@ -19,7 +19,7 @@ Done when: both run locally; backend deployed; one real OAG response saved.
 - [x] P0 Docker image builds locally
 - [ ] P0 B: deploy hello world to Cloud Run (on-site: gcloud provided on the day; runbook in docs/deploy.md)
 - [x] P0 B: OAG queries for the demo flight; save fixtures; check which fields are missing (gate, seat) · `backend/fixtures/oag/`, gate present once operating, seat absent
-- [ ] P0 F: static child screens (home, story, mission complete)
+- [x] P0 F: static child screens (home, story, mission complete) · redesign on `feat/frontend-redesign`: Jade band with 3D route globe, tilting boarding pass with press-and-hold tear, story pages with lock states, 3D stamp press + miles counter
 
 ## Day 2 · Wed 11
 Done when: simulating "boarded" updates both phones.
@@ -37,8 +37,8 @@ Done when: full trip flow end to end.
 - [ ] P0 B: safety checks (JSON, length, banned words, moderation, readability) + pre-written fallback
 - [ ] P0 B: `GET /chapters`; pre-generate and cache Mei's demo chapters
 - [ ] P0 B: `POST /api/graduation/score` with tests first
-- [ ] P0 F: story screen with lock states
-- [ ] P0 F: mission complete animation (stamp + miles counter)
+- [x] P0 F: story screen with lock states (mock fallback chapters in `src/mocks/story.ts`; wire to `GET /chapters` later)
+- [x] P0 F: mission complete animation (stamp + miles counter) · three.js stamp press, SVG stamp thump, counter lands exactly
 - [ ] P0 F: graduation screen (basic)
 - [ ] P0 F: PWA offline chapters (service worker, unlock at scheduled landing)
 
@@ -65,3 +65,5 @@ Done when: demo runs with Wi-Fi off.
 - 2026-11-12 · Backend owner · OAG works now: 2 fixtures saved (CX 500 on 14 Nov schedule, 11 Nov operated + delayed); gate available from status, seat not; docs corrected (OAG no longer on-site only) · Next: flight lookup service + endpoint from fixtures.
 - 2026-11-12 · Backend owner + Claude · Flight lookup: GET /api/flights/lookup (fixture-first, synthetic gate/seat, live mode off by default), 33 new tests (51 total pass), api.md updated, Dockerfile ships fixtures · Next: trips + events endpoints.
 - 2026-11-12 · Backend owner + Claude · Trips + events + SSE: POST /api/trips, GET /api/trips/current, GET /api/trips/{id}, POST /events, GET /stream (SQLite via SQLModel, in-memory broker, replay by event id), pure trip_view logic tested first; 40 new tests (91 pass); real run with two streams + restart persistence checked; api.md, deploy.md (max-instances=1) updated · Next: story generation (Day 3).
+- 2026-11-12 · Frontend + Claude · Home + parent polish against DESIGN.md (impeccable skill): Pip (wave pose), boarding pass with Start mission, mission list states, passport page with inked stamps, parent timeline with done/pending rail, health card hidden behind ?health, mock trip in src/mocks/trip.ts · Next: story screen, mission complete; Red Hat fonts still missing from shared/fonts.
+- 2026-11-12 · Frontend + Claude · Redesign (impeccable): PRODUCT.md added; Red Hat fonts self-hosted in shared/fonts; Jade sky band with drag-to-spin three.js route globe (SVG fallback), boarding pass with guilloche, barcode stub, drag tilt and press-and-hold tear; runway miles track; tappable passport stamps; new /story and /complete screens (Pip fly + stamp poses, 3D stamp press); parent timeline as departures board; pushState nav with 200ms slide; HKG → NRT corrected · Next: wire screens to the trips API + SSE, Simulate trip control, graduation screen.

@@ -1,11 +1,47 @@
-import { MotionConfig } from 'framer-motion'
+import { AnimatePresence, MotionConfig, motion } from 'framer-motion'
+import { useRef } from 'react'
 import { ChildScreen } from './screens/ChildScreen'
+import { MissionCompleteScreen } from './screens/MissionCompleteScreen'
 import { ParentScreen } from './screens/ParentScreen'
+import { StoryScreen } from './screens/StoryScreen'
+import { routeDepth, useRoute, type Route } from './nav'
 
-// Two routes only, so a pathname switch is enough (no router dependency).
+const SCREENS: Record<Route, () => React.JSX.Element> = {
+  '/child': ChildScreen,
+  '/story': StoryScreen,
+  '/complete': MissionCompleteScreen,
+  '/parent': ParentScreen,
+}
+
+// Screen change = 200ms horizontal slide (DESIGN.md Motion). Deeper screens enter from the right.
 export function App() {
-  const path = window.location.pathname.replace(/\/+$/, '')
-  const screen = path === '/parent' ? <ParentScreen /> : <ChildScreen />
+  const route = useRoute()
+  const prev = useRef(route)
+  const dir = routeDepth[route] >= routeDepth[prev.current] ? 1 : -1
+  prev.current = route
+  const Screen = SCREENS[route]
 
-  return <MotionConfig reducedMotion="user">{screen}</MotionConfig>
+  return (
+    <MotionConfig reducedMotion="user">
+      <div className="overflow-x-clip">
+        <AnimatePresence mode="popLayout" initial={false} custom={dir}>
+          <motion.div
+            key={route}
+            custom={dir}
+            variants={{
+              enter: (d: number) => ({ x: `${d * 100}%` }),
+              center: { x: 0 },
+              exit: (d: number) => ({ x: `${d * -100}%` }),
+            }}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{ duration: 0.2, ease: [0.2, 0.8, 0.2, 1] }}
+          >
+            <Screen />
+          </motion.div>
+        </AnimatePresence>
+      </div>
+    </MotionConfig>
+  )
 }

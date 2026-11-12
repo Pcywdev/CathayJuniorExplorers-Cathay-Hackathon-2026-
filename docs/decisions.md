@@ -26,3 +26,10 @@ One line per decision, newest last. Don't re-argue these without a new reason.
 - 2026-11-12 · Stream sends `id:` per event; `?after=<lastEventId>` and the browser's `Last-Event-ID` replay missed events, and each connection gets each event once. `lastEventId` and `language` added to the trip body.
 - 2026-11-12 · Mission states: check-in available from the start, boarding after check-in, window and arrival after departed. Window Watcher has no trigger yet; the delayed bonus mini-mission awards no miles yet. Notification text is English only for now; event times are in the origin airport's offset (destination for `landed`).
 - 2026-11-12 · Event and trip routes that publish are `async def`, so broker publishing runs on the event loop and two POSTs can't interleave a trip's read-modify-write.
+- 2026-11-12 · Frontend design passes use the installed impeccable skill (polish/critique against DESIGN.md); marketplace skills found via find-skills were low-install and unvetted, so none installed.
+- 2026-11-12 · Dev health card shows only with ?health in the URL, so demo screens stay clean.
+- 2026-11-12 · three.js added (frontend only, user-approved) for at most one interactive 3D moment per screen: the route globe on home and the stamp press on mission complete. Plain `three`, no react-three-fiber; lazy-loaded via `React.lazy` (own ~128 KB gzip chunk); static SVG fallback under reduced motion, without WebGL, or with `?static` in the URL. Framer Motion still handles all 2D motion.
+- 2026-11-12 · "Cathay style" means mood only: Jade sky band, ticket guilloche, barcode stub, Hong Kong line art. No logo, brushwing, wordmark or livery.
+- 2026-11-12 · Red Hat Display, Text and Mono (variable woff2, latin, SIL OFL) self-hosted in `shared/fonts/` (replaces the system-font fallback decision).
+- 2026-11-12 · Screens: `/child`, `/story`, `/complete`, `/parent` via a tiny pushState helper in `frontend/src/nav.ts` (still no router dependency).
+- 2026-11-12 · Product context for design work lives in `PRODUCT.md`; the impeccable direction contract lives in `.impeccable/surfaces/`.
