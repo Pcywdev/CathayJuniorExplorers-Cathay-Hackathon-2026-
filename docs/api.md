@@ -17,7 +17,7 @@ The contract between backend and frontend. **Any change is agreed by both of us 
 | GET | `/api/trips/{id}/chapters` | All chapters for offline storage | draft |
 | POST | `/api/trips/{id}/events` | Fire a trip event | live |
 | GET | `/api/trips/{id}/stream` | SSE stream of events (both screens) | live |
-| POST | `/api/graduation/score` | History → score, breakdown, package | draft |
+| POST | `/api/graduation/score` | History → score, breakdown, package | live |
 
 ---
 
@@ -164,6 +164,7 @@ Response (numbers from `shared/program.json`):
 ```json
 {
   "score": 158,
+  "maxScore": 200,
   "breakdown": [
     { "id": "membershipYears", "label": "Membership years", "points": 60, "max": 75 },
     { "id": "familyFlights", "label": "Family flights", "points": 80, "max": 100 },
@@ -178,3 +179,10 @@ Response (numbers from `shared/program.json`):
   }
 }
 ```
+- Inputs: whole numbers, `membershipYears` 0–100, `familyFlights` 0–10,000, `juniorMiles` 0–100,000,000, otherwise `422`. All three are required.
+- `points` = `pointsPer` for every full `per` units, capped at `max` (program.json `score`). 4,999 junior miles score 0.
+- `maxScore` = the sum of the three maxes (200), for "158 of 200".
+- `band`: the program.json band containing `score`.
+- `statusPointsHeadStart`: the top-band head start (150) **only when `band` is the top band**, otherwise `0`.
+- `transferAllowance`: the family transfer **limit** per year for three years after graduating, not miles received.
+- Synthetic inputs only; nothing here is stored.

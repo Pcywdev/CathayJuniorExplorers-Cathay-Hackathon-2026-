@@ -7,7 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import get_settings
 from app.db import create_tables, get_engine
-from app.routers import events, flights, health, trips
+from app.routers import events, flights, graduation, health, trips
 
 settings = get_settings()
 
@@ -33,3 +33,4 @@ app.include_router(health.router)
 app.include_router(flights.router)
 app.include_router(trips.router)
 app.include_router(events.router)
+app.include_router(graduation.router)
