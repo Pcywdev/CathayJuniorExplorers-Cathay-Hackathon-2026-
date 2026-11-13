@@ -19,6 +19,15 @@ EVENT_MISSION: dict[str, str] = {"checkin": "checkin", "boarded": "boarding", "l
 
 # Which story chapter an event unlocks (check-in, boarding, in-flight, landing).
 EVENT_CHAPTER: dict[str, int] = {"junior_mode_on": 1, "boarded": 2, "departed": 3, "landed": 4}
+DEPARTED_CHAPTER = EVENT_CHAPTER["departed"]
+
+
+class UnknownMission(ValueError):
+    """The mission id isn't in program.json."""
+
+
+class MissionLocked(ValueError):
+    """The trip hasn't reached the point where this mission opens."""
 
 
 @dataclass(frozen=True)
@@ -54,7 +63,6 @@ def apply_event(state: TripState, event_type: str, program: Program) -> RuleResu
         raise ValueError(f"Unknown event type: {event_type!r}")
 
     lines: list[str] = []
-    limit = program.annual_earn_cap
 
     # 1. Mission + cap
     awarded: Mission | None = None
@@ -62,19 +70,7 @@ def apply_event(state: TripState, event_type: str, program: Program) -> RuleResu
     missions_done = state.missions_done
     mission_id = EVENT_MISSION.get(event_type)
     if mission_id is not None:
-        mission = _mission(program, mission_id)
-        if mission_id in missions_done:
-            lines.append(f"Mission already completed: {mission.title}")
-        else:
-            miles = capped_award(mission.miles, cap_used, limit)
-            cap_used += miles
-            missions_done = missions_done | {mission_id}
-            awarded = mission.model_copy(update={"miles": miles})
-            lines.append(f"Mission rule passed: {mission.title}")
-            if miles == mission.miles:
-                lines.append(f"Cap check {cap_used:,} / {limit:,} ✓")
-            else:
-                lines.append(f"Cap reached: {miles} of {mission.miles} miles awarded")
+        awarded, cap_used, missions_done = _award(state, _mission(program, mission_id), program, lines)
 
     # 2. Chapter unlock
     unlocked: int | None = None
@@ -99,8 +95,54 @@ def apply_event(state: TripState, event_type: str, program: Program) -> RuleResu
     )
 
 
+def mission_unlocked(state: TripState, mission_id: str) -> bool:
+    """Has the trip reached the point where this mission opens? (Done missions count as unlocked.)"""
+    departed = DEPARTED_CHAPTER in state.chapters_unlocked
+    opens = {
+        "checkin": True,
+        "boarding": "checkin" in state.missions_done,
+        "window": departed,
+        "arrival": departed,
+    }
+    return mission_id in state.missions_done or opens.get(mission_id, False)
+
+
+def complete_mission(state: TripState, mission_id: str, program: Program) -> RuleResult:
+    """The child finished a mission on the phone. Same cap as trip events; whichever comes first pays.
+
+    Never unlocks a chapter or changes the branch: those follow trip events only.
+    """
+    mission = _mission(program, mission_id)  # raises UnknownMission
+    if not mission_unlocked(state, mission_id):
+        raise MissionLocked(f"{mission.title} isn't open yet")
+
+    lines: list[str] = []
+    awarded, cap_used, missions_done = _award(state, mission, program, lines, by_child=True)
+    new_state = replace(state, cap_used=cap_used, missions_done=missions_done)
+    return RuleResult(state=new_state, mission=awarded, chapter_unlocked=None, branch=state.branch, system_lines=lines)
+
+
+def _award(
+    state: TripState, mission: Mission, program: Program, lines: list[str], *, by_child: bool = False
+) -> tuple[Mission | None, int, frozenset[str]]:
+    """Mission + cap check, shared by trip events and child completions. Appends to `lines`."""
+    if mission.id in state.missions_done:
+        lines.append(f"Mission already completed: {mission.title}")
+        return None, state.cap_used, state.missions_done
+
+    limit = program.annual_earn_cap
+    miles = capped_award(mission.miles, state.cap_used, limit)
+    cap_used = state.cap_used + miles
+    lines.append(f"Mission rule passed: {mission.title}" + (" (completed by child)" if by_child else ""))
+    if miles == mission.miles:
+        lines.append(f"Cap check {cap_used:,} / {limit:,} ✓")
+    else:
+        lines.append(f"Cap reached: {miles} of {mission.miles} miles awarded")
+    return mission.model_copy(update={"miles": miles}), cap_used, state.missions_done | {mission.id}
+
+
 def _mission(program: Program, mission_id: str) -> Mission:
     for m in program.missions:
         if m.id == mission_id:
             return m
-    raise ValueError(f"Mission {mission_id!r} missing from program.json")
+    raise UnknownMission(f"Mission {mission_id!r} missing from program.json")

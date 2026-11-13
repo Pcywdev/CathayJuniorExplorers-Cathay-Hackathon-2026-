@@ -7,7 +7,7 @@ from the Program (shared/program.json). Messages never contain miles; the UI sho
 
 from datetime import datetime, timedelta
 
-from app.logic.rules import EVENT_TYPES, TripState
+from app.logic.rules import EVENT_TYPES, TripState, mission_unlocked
 from app.models.flight import Flight
 from app.models.program import Mission, Program
 
@@ -15,23 +15,16 @@ MissionState = str  # "locked" | "available" | "done"
 
 # Story chapters in trip order (rules.EVENT_CHAPTER decides which event opens each one).
 CHAPTER_KEYS: dict[int, str] = {1: "checkin", 2: "boarding", 3: "inflight", 4: "landing"}
-DEPARTED_CHAPTER = 3
+MISSION_COMPLETED = "mission_completed"  # the child finished a mission on the phone
 
 
 def mission_states(state: TripState, program: Program) -> list[tuple[Mission, MissionState]]:
-    """Each mission with locked / available / done. Window Watcher has no trigger yet, so it never completes."""
-    departed = DEPARTED_CHAPTER in state.chapters_unlocked
-    unlocked_by = {
-        "checkin": True,
-        "boarding": "checkin" in state.missions_done,
-        "window": departed,
-        "arrival": departed,
-    }
+    """Each mission with locked / available / done. Opening rules live in rules.mission_unlocked."""
     result = []
     for m in program.missions:
         if m.id in state.missions_done:
             s = "done"
-        elif unlocked_by.get(m.id, False):
+        elif mission_unlocked(state, m.id):
             s = "available"
         else:
             s = "locked"
@@ -46,9 +39,9 @@ def chapter_states(state: TripState) -> list[dict]:
     ]
 
 
-def local_time(now_utc: datetime, flight: Flight, event_type: str) -> datetime:
-    """Event time in the airport's own offset: destination for `landed`, origin otherwise."""
-    point = flight.arrival if event_type == "landed" else flight.departure
+def local_time(now_utc: datetime, flight: Flight, event_type: str, *, landed: bool = False) -> datetime:
+    """Event time in the airport's own offset: destination for `landed` (or anything after it), origin otherwise."""
+    point = flight.arrival if event_type == "landed" or landed else flight.departure
     return now_utc.astimezone(datetime.fromisoformat(point.local).tzinfo).replace(microsecond=0)
 
 
@@ -61,8 +54,14 @@ def event_messages(
     delay_minutes: int,
     new_gate: str | None,
     at: datetime,
+    mission_title: str | None = None,
 ) -> tuple[str, str]:
-    """(childMessage, parentMessage). `delay_minutes`: this delay for `delayed`, total so far otherwise."""
+    """(childMessage, parentMessage). `delay_minutes`: this delay for `delayed`, total so far otherwise.
+    `mission_title` is required for `mission_completed`."""
+    if event_type == MISSION_COMPLETED:
+        if not mission_title:
+            raise ValueError("mission_completed needs a mission_title")
+        return f"{mission_title} collected!", f"{child_name} completed {mission_title}"
     if event_type not in EVENT_TYPES:
         raise ValueError(f"Unknown event type: {event_type!r}")
 

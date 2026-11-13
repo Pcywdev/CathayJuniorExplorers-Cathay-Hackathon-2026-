@@ -16,6 +16,7 @@ The contract between backend and frontend. **Any change is agreed by both of us 
 | GET | `/api/trips/{id}` | Trip, missions, miles, chapter lock states | live |
 | GET | `/api/trips/{id}/chapters` | All chapters for offline storage | draft |
 | POST | `/api/trips/{id}/events` | Fire a trip event | live |
+| POST | `/api/trips/{id}/missions/{missionId}/complete` | Child finished a mission on the phone | live |
 | GET | `/api/trips/{id}/stream` | SSE stream of events (both screens) | live |
 | POST | `/api/graduation/score` | History → score, breakdown, package | live |
 
@@ -88,7 +89,7 @@ The newest trip, same body as `GET /api/trips/{id}`; `404` if no trip exists yet
 }
 ```
 Mission `state`: `locked` | `available` | `done`. `branch`: `on_time` | `delayed`. `404` for an unknown id.
-- Mission states: Check-in available from the start; Boarding available once checked in; Window Watcher and Arrival Explorer available once departed. **Window Watcher never completes yet** (its trigger is an open question).
+- Mission states: Check-in available from the start; Boarding available once checked in; Window Watcher and Arrival Explorer available once departed. Window Watcher has no trip event: it completes only when the child presses its stamp (see the mission-complete endpoint).
 - `chapters`: always four, keys `checkin`, `boarding`, `inflight`, `landing`. Lock states only; the text comes from `/chapters` (Day 3).
 - `flight.gate` follows the latest `newGate` from a `delayed` event.
 - `lastEventId`: id of the newest event. Open the stream with `?after=<lastEventId>` so nothing is sent twice.
@@ -120,6 +121,18 @@ Request:
 Response `201`: the Event (below). The same object is published once on the trip's stream. Errors: `404` unknown trip, `422` bad body (including `junior_mode_on`).
 Repeat events are accepted but award nothing and unlock nothing. The delayed bonus mini-mission awards no miles yet (not in program.json).
 
+## POST /api/trips/{id}/missions/{missionId}/complete
+The child pressed the stamp on the mission-complete screen. No body. `missionId` is a mission `id` from program.json (`checkin`, `boarding`, `window`, `arrival`).
+- **Any available mission** can be completed this way (see Mission states above). **Whichever comes first pays**, the stamp press or the trip event (`checkin`, `boarded`, `landed`), and the other one pays nothing. Completing a mission never unlocks a chapter or changes the branch; those follow trip events only.
+- `201`: awarded now. The body is a new Event (`type: mission_completed`, `source: child`, `mission.miles` after the cap), published once on the stream like any event.
+- `200`: already done (by the child or a trip event). Nothing is recorded or published; the body is the event that awarded it. Safe to repeat.
+- `404`: unknown trip or mission. `409`: the mission isn't open yet (`{"detail": "Window Watcher isn't open yet"}`).
+```json
+{ "type": "mission_completed", "source": "child", "mission": { "id": "window", "title": "Window Watcher", "miles": 30 },
+  "cap": { "used": 1360, "limit": 2000 }, "chapterUnlocked": null, "branch": "delayed",
+  "childMessage": "Window Watcher collected!", "parentMessage": "Mei completed Window Watcher", "...": "rest of the Event shape" }
+```
+
 ## GET /api/trips/{id}/stream
 `text/event-stream`. Each message is one Event:
 ```
@@ -149,8 +162,8 @@ Polling fallback: `GET /api/trips/{id}` every second and diff `events`.
   "systemLines": ["Mission rule passed: Boarding Badge", "Cap check 1,330 / 2,000 ✓", "Chapter 2 unlocked"]
 }
 ```
-- `type`: `junior_mode_on` | `checkin` | `boarded` | `departed` | `delayed` | `landed`
-- `source`: `simulated` | `oag` | `system`. Simulated events are labelled as such on screen.
+- `type`: `junior_mode_on` | `checkin` | `boarded` | `departed` | `delayed` | `landed` | `mission_completed`
+- `source`: `simulated` | `oag` | `system` | `child`. Simulated events are labelled as such on screen. `child` and `mission_completed` come only from the mission-complete endpoint; `POST /events` rejects them (`422`).
 - `mission`: `null` when the event awards nothing. `miles` is what was actually awarded after the cap.
 - `chapterUnlocked`: chapter number or `null`.
 - **`systemLines` is not shown on the phones.** It's for logging, debugging and the architecture slide wording.
