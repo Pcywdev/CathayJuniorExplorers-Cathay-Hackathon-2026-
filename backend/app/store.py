@@ -1,4 +1,4 @@
-"""Saving and loading trips and events. Converts between rows and the rules engine's TripState."""
+"""Saving and loading trips, events and stories. Converts between rows and the rules engine's TripState."""
 
 import json
 import secrets
@@ -6,9 +6,10 @@ from datetime import datetime
 
 from sqlmodel import Session, col, select
 
-from app.db import EventRow, TripRow
+from app.db import EventRow, StoryRow, TripRow
 from app.logic.rules import TripState
 from app.models.flight import Flight
+from app.models.story import GeneratedBy, Story
 from app.models.trip import Event
 
 
@@ -85,3 +86,15 @@ def events_after(session: Session, trip_id: str, after_seq: int = 0) -> list[tup
         .order_by(col(EventRow.seq))
     ).all()
     return [(r.seq, Event.model_validate_json(r.payload_json)) for r in rows]
+
+
+def save_story(session: Session, trip_id: str, story: Story, generated_by: GeneratedBy) -> None:
+    session.merge(StoryRow(trip_id=trip_id, generated_by=generated_by, story_json=story.model_dump_json(by_alias=True)))
+    session.commit()
+
+
+def get_story(session: Session, trip_id: str) -> tuple[Story, GeneratedBy] | None:
+    row = session.get(StoryRow, trip_id)
+    if row is None:
+        return None
+    return Story.model_validate_json(row.story_json), row.generated_by

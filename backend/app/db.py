@@ -28,6 +28,14 @@ class TripRow(SQLModel, table=True):
     state_json: str  # rules.TripState + delay_minutes
 
 
+class StoryRow(SQLModel, table=True):
+    __tablename__ = "stories"
+
+    trip_id: str = Field(primary_key=True, foreign_key="trips.id")
+    generated_by: str  # "llm" | "fallback"
+    story_json: str  # Story template, placeholders not filled (filled when served)
+
+
 class EventRow(SQLModel, table=True):
     __tablename__ = "events"
 

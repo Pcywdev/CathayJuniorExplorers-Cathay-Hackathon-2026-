@@ -1,0 +1,54 @@
+{
+  "title": { "en": "Pip and the jade sky" },
+  "chapters": [
+    {
+      "number": 1, "key": "checkin", "branch": "both", "unlockOn": "junior_mode_on",
+      "text": { "en": {
+        "title": "A ticket with your name on it",
+        "pages": ["Pip lands on the harbour rail and taps your ticket. “{city},” Pip reads. “That’s a long way for a little bird. Can I come too, {name}?”"]
+      } }
+    },
+    {
+      "number": 2, "key": "boarding", "branch": "on_time", "unlockOn": "boarded",
+      "text": { "en": {
+        "title": "Through gate {gate}",
+        "pages": ["The big plane waits by the window at gate {gate}. Pip counts the wheels twice, just to be sure. “All here,” Pip says. “Let’s find your seat, {name}.”"]
+      } }
+    },
+    {
+      "number": 2, "key": "boarding", "branch": "delayed", "unlockOn": "boarded",
+      "text": { "en": {
+        "title": "Extra time at gate {gate}",
+        "pages": ["The plane needs a little more time to get ready, so {name} and Pip get extra time at gate {gate}. They watch the luggage carts roll past. Pip counts eleven!"]
+      } }
+    },
+    {
+      "number": 3, "key": "inflight", "branch": "on_time", "unlockOn": "departed",
+      "text": { "en": {
+        "title": "Above the clouds",
+        "pages": ["Down below, the clouds look like a soft white map. Pip draws a line across it with one wing, all the way to {city}."]
+      } }
+    },
+    {
+      "number": 3, "key": "inflight", "branch": "delayed", "unlockOn": "departed",
+      "text": { "en": {
+        "title": "Above the clouds",
+        "pages": ["We waited a little longer, so the clouds had time to puff up big and round. Pip says they look like sheep on a map."]
+      } }
+    },
+    {
+      "number": 4, "key": "landing", "branch": "on_time", "unlockOn": "landed",
+      "text": { "en": {
+        "title": "Hello, {city}",
+        "pages": ["Lights everywhere, and a whole new city to see. Pip whispers, “We made it, {name}. Where shall we explore first?”"]
+      } }
+    },
+    {
+      "number": 4, "key": "landing", "branch": "delayed", "unlockOn": "landed",
+      "text": { "en": {
+        "title": "Hello, {city}",
+        "pages": ["We came in after dark, and {city} had switched on every light to say hello. Pip whispers, “Worth the wait, {name}. Where first?”"]
+      } }
+    }
+  ]
+}

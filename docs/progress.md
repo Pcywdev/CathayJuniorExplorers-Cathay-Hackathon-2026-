@@ -3,8 +3,8 @@
 Read this at the start of every session. Tags: **P0** must work by Friday · **P1** only if P0 is solid. B = backend, F = frontend.
 
 ## Now / Next / Blocked
-- **Now:** B: Day 3 in order: graduation score merged (PR #7); child-completed missions done on `feat/mission-complete`; next fallback story + `/chapters`, then LLM + safety. F: screens on API-shaped mocks (PR #6). Open: delay bonus miles (not in program.json); simulated events show the real clock, not scheduled times.
-- **Next:** B: story with fallback chapters (7 versions × EN + 繁中) + `GET /api/trips/{id}/chapters`. F: swap `useTrip()` for `GET /api/trips/current` + stream; `mocks/graduation.ts` for `POST /api/graduation/score`; `markDone()` for `POST /api/trips/{id}/missions/{missionId}/complete` (add `mission_completed` / `child` to `api/types.ts`).
+- **Now:** B: Day 3: score (PR #7) and child missions (PR #8) merged; story with fallback chapters + `/chapters` done on `feat/story` (English only, user decision); next LLM wrapper + safety checks. Open: delay bonus miles (not in program.json); simulated events show the real clock; story voice in chapters 3–4 delayed ("We").
+- **Next:** B: Milestone D (LLM wrapper + safety, fake provider now, live on site). F: swap `mocks/story.ts` for `GET /api/trips/{id}/chapters` (pick version by `branch`, map `key`→art, `unlockOn`→wording); plus the earlier swaps (trip + stream, graduation score, mission complete).
 - **On-site only (hackathon day):** Cloud Run deploy (runbook in `docs/deploy.md`), LLM credentials.
 - **Blocked:** `gcloud`, GCP project and LLM credentials are provided on the hackathon day (OAG key is available now) · `shared/program.json` awaiting business-team sign-off · Setup ran Wed 11, a day behind the plan's Tue 10 start.
 
@@ -34,8 +34,8 @@ Done when: simulating "boarded" updates both phones.
 ## Day 3 · Thu 12
 Done when: full trip flow end to end.
 - [ ] P0 B: story generation via one LLM wrapper, EN + 繁中, on-time and delayed branches
-- [ ] P0 B: safety checks (JSON, length, banned words, moderation, readability) + pre-written fallback
-- [ ] P0 B: `GET /chapters`; pre-generate and cache Mei's demo chapters
+- [ ] P0 B: safety checks (JSON, length, banned words, moderation, readability) + pre-written fallback · fallback story done (`fixtures/stories/fallback.json`, English); safety checks in Milestone D
+- [x] P0 B: `GET /chapters`; pre-generate and cache Mei's demo chapters · `/chapters` live, fixture-first story source; Mei's AI story fixture made on site
 - [x] P0 B: `POST /api/graduation/score` with tests first · `app/logic/graduation.py`, 15 tests, adds `maxScore`
 - [x] P0 B: child-completed missions (Window Watcher trigger) · `POST /api/trips/{id}/missions/{missionId}/complete`, 20 tests
 - [x] P0 F: story screen with lock states (mock fallback chapters in `src/mocks/story.ts`; wire to `GET /chapters` later)
@@ -71,3 +71,4 @@ Done when: demo runs with Wi-Fi off.
 - 2026-11-13 · Frontend + Claude · Child mode across the six events (impeccable): mock trip built from API-shaped events (`src/trip/`), stepped with `?at=welcome|checkin|delayed|boarded|departed|landed`; new /welcome (passport cover opens, Pip peek pose) and /graduation (score count-up, package, Pip proud pose); home reacts per event (Pip's speech line, extra-time pose, delayed time on the pass, bonus row, waiting state, Tokyo stamp, 'See me at 18'); story chapter map + delayed chapter text; /complete?m=<mission>; parent timeline, notification banner and globe from the same events; /demo shows both phones side by side and passes ?at through; screen-check passed after two fix rounds · Next: swap useTrip() for GET /api/trips/current + stream, Simulate trip control.
 - 2026-11-13 · Backend owner + Claude · Day 3 re-planned after PR #6 (score → child missions → fallback story + /chapters → LLM + safety). POST /api/graduation/score live: pure logic tested first, top-band-only head start, `maxScore` added; 15 new tests (106 pass); real requests checked · Next: child-completed missions endpoint.
 - 2026-11-13 · Backend owner + Claude · Child-completed missions: POST /api/trips/{id}/missions/{missionId}/complete (any available mission, whichever comes first pays, same cap, published on the stream); mission-opening rule moved into rules.mission_unlocked, shared cap helper; 20 new tests (126 pass); real run with two streams checked (201, repeat 200, locked 409) · Next: fallback story + `/chapters`.
+- 2026-11-13 · Backend owner + Claude · Story without an LLM: fallback story (7 versions, English, 1 page each, {name}/{city}/{gate}), stories table, fixture-first story source, POST /trips stores it, GET /api/trips/{id}/chapters live (filled on read, landing unlockAt = arrival + delay); pure logic tested first; 19 new tests (145 pass); real run checked incl. old trips and UTF-8 quotes · Next: LLM wrapper + safety checks.
