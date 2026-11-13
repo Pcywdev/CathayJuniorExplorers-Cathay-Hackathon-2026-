@@ -15,10 +15,26 @@ interface Props {
   fromCity: string
   toCity: string
   departs: string
+  /** Scheduled time when the flight is delayed; shown struck through beside the new time. */
+  departsWas?: string
   gate: string
   seat: string
   serial: string
-  onStart?: () => void
+  /** Short trip status on the ticket, e.g. "In the air". */
+  status?: string
+  /** Label under the stub's number. */
+  milesLabel?: string
+  /** Hold to tear and go; or a sealed line saying when the next mission opens. */
+  action: { kind: 'hold'; label: string; onDone: () => void } | { kind: 'waiting'; text: string }
+}
+
+function LockIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <rect x="5" y="11" width="14" height="9" rx="2" />
+      <path d="M8 11V8a4 4 0 0 1 8 0v3" />
+    </svg>
+  )
 }
 
 const TILT = 7
@@ -44,8 +60,10 @@ export function BoardingPass(p: Props) {
   }
 
   const tear = () => {
+    if (p.action.kind !== 'hold') return
+    const go = p.action.onDone
     setTorn(true)
-    window.setTimeout(() => p.onStart?.(), reduce ? 0 : 420)
+    window.setTimeout(go, reduce ? 0 : 420)
   }
 
   return (
@@ -63,8 +81,14 @@ export function BoardingPass(p: Props) {
       <div className="notch-right guilloche flex min-w-0 flex-1 flex-col gap-4 rounded-l-doc border-r-2 border-dashed border-line p-5">
         <div className="flex items-baseline justify-between gap-2">
           <h2 className="font-display text-heading">{p.missionTitle}</h2>
-          <span className="font-mono text-flight text-ink-soft">{p.flight}</span>
+          <span className="shrink-0 font-mono text-flight text-ink-soft">{p.flight}</span>
         </div>
+        {p.status && (
+          <p className="-mt-2 flex items-center gap-2 text-small text-ink" aria-live="polite">
+            <span className="h-2 w-2 rounded-pill bg-jade" aria-hidden="true" />
+            {p.status}
+          </p>
+        )}
 
         <div className="flex items-end justify-between">
           <div className="flex flex-col">
@@ -85,7 +109,15 @@ export function BoardingPass(p: Props) {
         <dl className="grid grid-cols-3 gap-2 border-t border-line pt-3 font-mono text-flight">
           <div className="flex flex-col">
             <dt className="font-text text-small text-ink-soft">Departs</dt>
-            <dd>{p.departs}</dd>
+            <dd className="flex flex-col">
+              {p.departs}
+              {p.departsWas && (
+                <span className="text-small text-ink-soft line-through">
+                  <span className="sr-only">was </span>
+                  {p.departsWas}
+                </span>
+              )}
+            </dd>
           </div>
           <div className="flex flex-col">
             <dt className="font-text text-small text-ink-soft">Gate</dt>
@@ -97,12 +129,19 @@ export function BoardingPass(p: Props) {
           </div>
         </dl>
 
-        <div className="flex flex-col gap-2">
-          <HoldButton compact onComplete={tear}>
-            Start mission
-          </HoldButton>
-          <p className="text-small text-ink-soft">Press and hold to tear your ticket</p>
-        </div>
+        {p.action.kind === 'hold' ? (
+          <div className="flex flex-col gap-2">
+            <HoldButton compact onComplete={tear}>
+              {p.action.label}
+            </HoldButton>
+            <p className="text-small text-ink-soft">Press and hold to tear your ticket</p>
+          </div>
+        ) : (
+          <p className="flex h-12 items-center justify-center gap-2 rounded-pill border-2 border-dashed border-line text-body font-medium text-ink-soft">
+            <LockIcon />
+            {p.action.text}
+          </p>
+        )}
       </div>
 
       </div>
@@ -117,7 +156,7 @@ export function BoardingPass(p: Props) {
         <div className="flex h-full flex-col items-center justify-between rounded-r-doc bg-miles/15 px-2 py-5">
           <div className="flex flex-col items-center">
             <span className="tabular font-display text-title text-ink">+{formatNumber(p.miles)}</span>
-            <span className="text-small text-ink">miles</span>
+            <span className="text-center text-small text-ink">{p.milesLabel ?? 'miles'}</span>
           </div>
           <div className="flex flex-col items-center gap-1.5">
             <span className="text-small text-ink-soft">{p.passenger}</span>

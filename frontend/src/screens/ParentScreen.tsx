@@ -1,11 +1,16 @@
+import { motion } from 'framer-motion'
 import { useState } from 'react'
+import type { EventType, TripEvent } from '../api/types'
 import { ConceptLabel } from '../components/ConceptLabel'
 import { HealthCard } from '../components/HealthCard'
 import { JuniorModeToggle } from '../components/JuniorModeToggle'
 import { RouteGlobeStatic } from '../components/RouteGlobeStatic'
-import { formatNumber, missionById } from '../program'
-import { mockTrip } from '../mocks/trip'
+import { addMinutes, DELAY_MINUTES, delayedArrives, delayedDeparts } from '../mocks/events'
+import { mockFlight } from '../mocks/trip'
+import { formatNumber } from '../program'
 import type { GlobeLayout } from '../three/geo'
+import { navigate } from '../nav'
+import { useTrip } from '../trip/useTrip'
 
 const DATA_USED = ['Age band', 'Destination', 'Flight length', 'Trip events']
 
@@ -17,34 +22,81 @@ const thumbLayout = (w: number, h: number): GlobeLayout => ({
   view: { lat: 24, lon: 127 },
 })
 
-// Mock timeline until the SSE stream exists. Done rows carry their result; upcoming rows show the scheduled time.
-const checkin = missionById('checkin')
-const TIMELINE = [
-  { label: 'Checked in', time: '13:10', done: true, result: `${checkin.title}, +${checkin.miles} miles` },
-  { label: 'Boarding', time: '14:45', done: false, result: 'Gate 23' },
-  { label: 'Departs Hong Kong', time: '15:25', done: false, result: 'Terminal 1' },
-  { label: 'Lands in Tokyo', time: '20:20', done: false, result: 'Narita Terminal 2' },
-]
+const LABEL: Record<EventType, string> = {
+  junior_mode_on: 'Junior mode on',
+  checkin: 'Checked in',
+  delayed: 'Delayed',
+  boarded: 'Boarded',
+  departed: 'Departed Hong Kong',
+  landed: `Landed in ${mockFlight.toCity}`,
+}
 
-function BellIcon() {
+// Event time in its own airport's offset (the backend sends it that way).
+const hhmm = (iso: string) => iso.slice(11, 16)
+
+function result(e: TripEvent) {
+  if (e.mission) {
+    return `${e.mission.title}, +${formatNumber(e.mission.miles)} miles, ${formatNumber(e.cap.used)} of ${formatNumber(e.cap.limit)} this year`
+  }
+  if (e.type === 'junior_mode_on') return 'Chapter 1 of the story is ready'
+  if (e.type === 'delayed') return `${e.parentMessage}, now departs ${delayedDeparts}`
+  if (e.type === 'departed') return e.parentMessage.replace(/^Departed \d\d:\d\d, l/, 'L')
+  return e.parentMessage
+}
+
+function AppIcon() {
   return (
-    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15zM10 20.5a2 2 0 0 0 4 0" />
-    </svg>
+    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-doc bg-jade text-paper" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="8" />
+        <path d="M4 12h16M12 4c2.5 2.2 3.5 5 3.5 8s-1 5.8-3.5 8c-2.5-2.2-3.5-5-3.5-8s1-5.8 3.5-8z" />
+      </svg>
+    </span>
   )
 }
 
-// Parent view. Hero: the trip timeline, set like a departures board.
+// Parent view. Hero: the trip timeline, set like a departures board, filling in as events arrive.
+// The newest event also arrives as a phone notification (native styling, DESIGN.md overlay note).
 export function ParentScreen() {
-  const trip = mockTrip
-  const { flight } = trip
+  const { trip, has, progress, latest } = useTrip()
+  const flight = mockFlight
   const [junior, setJunior] = useState(true)
+  const delayed = trip.branch === 'delayed'
+  const shift = (t: string) => (delayed ? addMinutes(t, DELAY_MINUTES) : t)
+
+  // Rows still to come show their scheduled (or delay-adjusted) time.
+  const upcoming = [
+    { type: 'checkin' as const, label: 'Check-in', time: '', note: 'Opens online before the flight' },
+    { type: 'boarded' as const, label: 'Boarding', time: shift(flight.boards), note: `Gate ${flight.gate}` },
+    { type: 'departed' as const, label: 'Departs Hong Kong', time: delayed ? delayedDeparts : flight.departs, note: flight.fromTerminal },
+    { type: 'landed' as const, label: `Lands in ${flight.toCity}`, time: delayed ? delayedArrives : flight.arrives, note: flight.toTerminal },
+  ].filter((u) => !has(u.type))
 
   return (
-    <main className="mx-auto flex min-h-dvh max-w-[393px] flex-col gap-8 px-5 pt-8 pb-6">
+    <main className="mx-auto flex min-h-dvh max-w-[393px] flex-col gap-6 px-5 pt-6 pb-6">
+      {/* Notification banner: system UI, not app content, so it uses the system font. */}
+      <motion.div
+        key={latest.type}
+        initial={{ y: -12, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.22, ease: [0.2, 0.8, 0.2, 1] }}
+        className="flex items-start gap-3 rounded-doc border border-line bg-paper p-3"
+        style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", sans-serif' }}
+        role="status"
+      >
+        <AppIcon />
+        <div className="flex min-w-0 flex-1 flex-col">
+          <div className="flex items-baseline justify-between gap-2 text-[13px] leading-[18px] text-ink-soft">
+            <span>Little Explorers</span>
+            <span>{latest.source === 'simulated' ? 'Simulated, now' : 'now'}</span>
+          </div>
+          <p className="text-[15px] leading-[20px] font-semibold text-ink">{latest.parentMessage}</p>
+        </div>
+      </motion.div>
+
       <header className="flex items-center gap-3">
         <span className="shrink-0 overflow-hidden rounded-pill bg-jade" aria-hidden="true">
-          <RouteGlobeStatic from={flight.from} to={flight.to} progress={trip.progress} width={52} height={52} layout={thumbLayout} labels={false} />
+          <RouteGlobeStatic from={flight.from} to={flight.to} progress={progress} width={52} height={52} layout={thumbLayout} labels={false} />
         </span>
         <div className="flex flex-1 flex-col">
           <h1 className="font-display text-title">{trip.childName}'s trip</h1>
@@ -55,14 +107,6 @@ export function ParentScreen() {
         <JuniorModeToggle on={junior} onChange={setJunior} label="Junior mode" />
       </header>
 
-      <p className="flex items-center gap-3 border-y border-line py-3 text-body" aria-live="polite">
-        <span className="text-jade">
-          <BellIcon />
-        </span>
-        <span className="flex-1">{trip.childName} is checked in for {flight.carrier} {flight.number}</span>
-        <span className="font-mono text-flight text-ink-soft">{TIMELINE[0].time}</span>
-      </p>
-
       <article className="guilloche flex flex-col rounded-doc shadow-doc" aria-label="Trip timeline">
         <div className="flex items-baseline justify-between gap-2 px-5 pt-5 pb-3">
           <h2 className="font-display text-heading">Trip timeline</h2>
@@ -70,20 +114,30 @@ export function ParentScreen() {
             {flight.duration} on an {flight.aircraft}
           </span>
         </div>
-        <ol className="flex flex-col">
-          {TIMELINE.map((step) => (
-            <li key={step.label} className="flex items-start gap-4 border-t border-line px-5 py-3">
-              <span className={`w-12 shrink-0 font-mono text-flight ${step.done ? 'text-ink' : 'text-ink-soft'}`}>{step.time}</span>
-              <span
-                className={`mt-1.5 h-2.5 w-2.5 shrink-0 rounded-pill ${step.done ? 'bg-jade' : 'border-2 border-line'}`}
-                aria-hidden="true"
-              />
+        <ol className="flex flex-col" aria-live="polite">
+          {trip.events.map((e) => (
+            <li key={e.type} className="flex items-start gap-4 border-t border-line px-5 py-3">
+              <span className="w-12 shrink-0 font-mono text-flight text-ink">{hhmm(e.at)}</span>
+              <span className="mt-1.5 h-2.5 w-2.5 shrink-0 rounded-pill bg-jade" aria-hidden="true" />
               <span className="flex flex-1 flex-col">
-                <span className={`text-body ${step.done ? 'font-medium' : 'text-ink-soft'}`}>
-                  {step.label}
-                  {!step.done && <span className="sr-only"> (scheduled)</span>}
+                <span className="flex items-baseline justify-between gap-2">
+                  <span className="text-body font-medium">{LABEL[e.type]}</span>
+                  {e.source === 'simulated' && <span className="text-small text-ink-soft">Simulated</span>}
                 </span>
-                <span className="text-small text-ink-soft">{step.result}</span>
+                <span className="tabular text-small text-ink-soft">{result(e)}</span>
+              </span>
+            </li>
+          ))}
+          {upcoming.map((u) => (
+            <li key={u.type} className="flex items-start gap-4 border-t border-line px-5 py-3">
+              <span className="w-12 shrink-0 font-mono text-flight text-ink-soft">{u.time}</span>
+              <span className="mt-1.5 h-2.5 w-2.5 shrink-0 rounded-pill border-2 border-line" aria-hidden="true" />
+              <span className="flex flex-1 flex-col">
+                <span className="text-body text-ink-soft">
+                  {u.label}
+                  <span className="sr-only"> (scheduled)</span>
+                </span>
+                <span className="text-small text-ink-soft">{u.note}</span>
               </span>
             </li>
           ))}
@@ -92,6 +146,20 @@ export function ParentScreen() {
           {formatNumber(trip.cap.used)} of {formatNumber(trip.cap.limit)} miles this year
         </p>
       </article>
+
+      <button
+        type="button"
+        onClick={() => navigate('/family')}
+        className="-my-2 flex items-center gap-3 border-b border-line py-3 text-left text-ink active:text-jade"
+      >
+        <span className="flex flex-1 flex-col">
+          <span className="font-display text-heading">Family miles</span>
+          <span className="text-small text-ink-soft">Your balance, and how {trip.childName}'s miles grow to 18</span>
+        </span>
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <path d="M9 6l6 6-6 6" />
+        </svg>
+      </button>
 
       <section className="flex flex-col gap-2">
         <h2 className="font-display text-heading">Data used</h2>

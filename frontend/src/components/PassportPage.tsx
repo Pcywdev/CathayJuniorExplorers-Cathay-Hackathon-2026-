@@ -10,22 +10,24 @@ interface StampData {
   opacity: number
 }
 
-const SPOTS = ['top-3 left-2', 'top-[70px] left-[108px]']
+// The third spot is where the next stop waits; this trip's stamp lands there once collected.
+const SPOTS = ['top-3 left-2', 'top-[70px] left-[108px]', 'top-5 right-1']
 
 const longDate = (iso: string) =>
   new Date(`${iso}T12:00:00`).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
 
-// Passport page: collected stamps staggered and overlapping, then a dashed "Next stop".
+// Passport page: collected stamps staggered and overlapping, then a dashed "Next stop" (or this trip's stamp once landed).
 // Tap a stamp to lift it off the page and read where and when it was collected.
-export function PassportPage({ stamps, nextCity }: { stamps: readonly StampData[]; nextCity: string }) {
+export function PassportPage({ past, current, nextCity }: { past: readonly StampData[]; current?: StampData; nextCity: string }) {
   const [picked, setPicked] = useState<number | null>(null)
+  const stamps = current ? [...past.slice(0, 2), current] : past.slice(0, 2)
   const chosen = picked === null ? null : stamps[picked]
 
   return (
     <section className="flex flex-col gap-3" aria-label="Passport page">
       <h2 className="font-display text-heading">My passport</h2>
       <div className="guilloche relative h-[196px] overflow-hidden rounded-doc shadow-doc">
-        {stamps.slice(0, SPOTS.length).map((s, i) => (
+        {stamps.map((s, i) => (
           <motion.button
             key={s.city}
             type="button"
@@ -40,6 +42,7 @@ export function PassportPage({ stamps, nextCity }: { stamps: readonly StampData[
             <Stamp {...s} />
           </motion.button>
         ))}
+        {!current && (
         <div
           className="absolute top-8 right-4 flex h-[108px] w-[116px] -rotate-3 flex-col items-center justify-center rounded-pill border-2 border-dashed border-line"
           aria-label={`Next stop: ${nextCity}`}
@@ -47,6 +50,7 @@ export function PassportPage({ stamps, nextCity }: { stamps: readonly StampData[
           <span className="text-small text-ink-soft">Next stop</span>
           <span className="font-display text-body font-bold text-ink-soft">{nextCity}</span>
         </div>
+        )}
       </div>
       <p className="min-h-[18px] text-small text-ink-soft" aria-live="polite">
         {chosen ? `${chosen.city}, collected ${longDate(chosen.date)}` : 'Tap a stamp to see when you collected it'}

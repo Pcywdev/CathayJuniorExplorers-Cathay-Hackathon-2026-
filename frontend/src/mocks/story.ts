@@ -8,6 +8,8 @@ export interface Chapter {
   text: string
   art: ChapterArt
   unlocksWhen: string
+  /** Delayed-branch version (plan.md §4: later chapters come in on-time and delayed versions). */
+  textDelayed?: string
 }
 
 export const mockStoryTitle = 'Pip and the jade sky'
@@ -31,6 +33,7 @@ export const mockChapters: Chapter[] = [
     number: 3,
     title: 'Above the clouds',
     text: 'Down below, the clouds look like a soft white map. Pip draws a line across it with one wing.',
+    textDelayed: 'We waited a little longer, so the clouds had time to puff up big and round. Pip says they look like sheep on a map.',
     art: 'clouds',
     unlocksWhen: 'Opens when the plane takes off',
   },
@@ -38,6 +41,7 @@ export const mockChapters: Chapter[] = [
     number: 4,
     title: 'Hello, Tokyo',
     text: 'Lights everywhere, and a mountain far away. Pip whispers, “We made it. Where shall we explore first?”',
+    textDelayed: 'We came in after dark, and Tokyo had switched on every light to say hello. Pip whispers, “Worth the wait. Where first?”',
     art: 'arrival',
     unlocksWhen: 'Opens when you land',
   },
