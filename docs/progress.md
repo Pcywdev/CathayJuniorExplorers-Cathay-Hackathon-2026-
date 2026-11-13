@@ -3,8 +3,8 @@
 Read this at the start of every session. Tags: **P0** must work by Friday · **P1** only if P0 is solid. B = backend, F = frontend.
 
 ## Now / Next / Blocked
-- **Now:** B: trips, events and SSE stream done on `feat/trips-events` (91 tests pass; two curl streams got the same events live). Open questions: miles for the delay bonus mini-mission (not in program.json); what triggers Window Watcher; whether simulated events should show scheduled flight times rather than the real clock.
-- **Next:** B: story generation + safety + fallback (Day 3), `GET /chapters`, graduation score. F: child screens and parent screen on the live API: `GET /api/trips/current` → `EventSource(/api/trips/{id}/stream?after=lastEventId)`, Simulate control posts to `/events` (all in docs/api.md).
+- **Now:** B: Day 3 in order: graduation score done on `feat/graduation-score`; next child-completed missions, then fallback story + `/chapters`, then LLM + safety. F: screens on API-shaped mocks (PR #6). Open: delay bonus miles (not in program.json); simulated events show the real clock, not scheduled times.
+- **Next:** B: `POST /api/trips/{id}/missions/{missionId}/complete` (Window Watcher), then story. F: swap `useTrip()` for `GET /api/trips/current` + stream, `mocks/graduation.ts` for `POST /api/graduation/score` (shape in docs/api.md, now with `maxScore`).
 - **On-site only (hackathon day):** Cloud Run deploy (runbook in `docs/deploy.md`), LLM credentials.
 - **Blocked:** `gcloud`, GCP project and LLM credentials are provided on the hackathon day (OAG key is available now) · `shared/program.json` awaiting business-team sign-off · Setup ran Wed 11, a day behind the plan's Tue 10 start.
 
@@ -36,7 +36,7 @@ Done when: full trip flow end to end.
 - [ ] P0 B: story generation via one LLM wrapper, EN + 繁中, on-time and delayed branches
 - [ ] P0 B: safety checks (JSON, length, banned words, moderation, readability) + pre-written fallback
 - [ ] P0 B: `GET /chapters`; pre-generate and cache Mei's demo chapters
-- [ ] P0 B: `POST /api/graduation/score` with tests first
+- [x] P0 B: `POST /api/graduation/score` with tests first · `app/logic/graduation.py`, 15 tests, adds `maxScore`
 - [x] P0 F: story screen with lock states (mock fallback chapters in `src/mocks/story.ts`; wire to `GET /chapters` later)
 - [x] P0 F: mission complete animation (stamp + miles counter) · three.js stamp press, SVG stamp thump, counter lands exactly
 - [x] P0 F: graduation screen (basic) (on a program.json-based mock until `POST /api/graduation/score` exists)
@@ -68,3 +68,4 @@ Done when: demo runs with Wi-Fi off.
 - 2026-11-12 · Frontend + Claude · Home + parent polish against DESIGN.md (impeccable skill): Pip (wave pose), boarding pass with Start mission, mission list states, passport page with inked stamps, parent timeline with done/pending rail, health card hidden behind ?health, mock trip in src/mocks/trip.ts · Next: story screen, mission complete; Red Hat fonts still missing from shared/fonts.
 - 2026-11-12 · Frontend + Claude · Redesign (impeccable): PRODUCT.md added; Red Hat fonts self-hosted in shared/fonts; Jade sky band with drag-to-spin three.js route globe (SVG fallback), boarding pass with guilloche, barcode stub, drag tilt and press-and-hold tear; runway miles track; tappable passport stamps; new /story and /complete screens (Pip fly + stamp poses, 3D stamp press); parent timeline as departures board; pushState nav with 200ms slide; HKG → NRT corrected · Next: wire screens to the trips API + SSE, Simulate trip control, graduation screen.
 - 2026-11-13 · Frontend + Claude · Child mode across the six events (impeccable): mock trip built from API-shaped events (`src/trip/`), stepped with `?at=welcome|checkin|delayed|boarded|departed|landed`; new /welcome (passport cover opens, Pip peek pose) and /graduation (score count-up, package, Pip proud pose); home reacts per event (Pip's speech line, extra-time pose, delayed time on the pass, bonus row, waiting state, Tokyo stamp, 'See me at 18'); story chapter map + delayed chapter text; /complete?m=<mission>; parent timeline, notification banner and globe from the same events; /demo shows both phones side by side and passes ?at through; screen-check passed after two fix rounds · Next: swap useTrip() for GET /api/trips/current + stream, Simulate trip control.
+- 2026-11-13 · Backend owner + Claude · Day 3 re-planned after PR #6 (score → child missions → fallback story + /chapters → LLM + safety). POST /api/graduation/score live: pure logic tested first, top-band-only head start, `maxScore` added; 15 new tests (106 pass); real requests checked · Next: child-completed missions endpoint.
