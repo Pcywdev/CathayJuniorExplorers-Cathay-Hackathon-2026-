@@ -5,24 +5,40 @@ import { MilesProgress } from '../components/MilesProgress'
 import { Pip } from '../components/Pip'
 import { PrimaryButton } from '../components/PrimaryButton'
 import { Stamp } from '../components/Stamp'
-import { mockPastStamps, mockTrip } from '../mocks/trip'
-import { navigate } from '../nav'
-import { formatNumber, missionById } from '../program'
+import { mockFlight, mockPastStamps } from '../mocks/trip'
+import { navigate, searchParam } from '../nav'
+import { formatNumber, missionById, program } from '../program'
 import { Scene3D } from '../three/Scene3D'
 import { use3D } from '../three/support'
+import { markDone } from '../trip/localMissions'
+import { useTrip } from '../trip/useTrip'
 import { useElementSize } from '../useElementSize'
 
 const loadPress = () => import('../three/StampPress3D')
 
-// The demo flight date (OAG fixture CX500_2026-11-14).
-const STAMP_DATE = '2026-11-14'
+const isMission = (id: string | null) => program.missions.some((m) => m.id === id)
 
-// Mission complete. Hero: the stamp. Press it onto the passport page, then the miles land exactly on the new total.
+// A little thump in the hand where the phone supports it (Android); silent elsewhere.
+const thump = () => {
+  try {
+    navigator.vibrate?.(20)
+  } catch {
+    /* not supported */
+  }
+}
+
+// Mission complete for `?m=<mission id>`. Hero: the stamp. Press it onto the passport page, then the miles land exactly on the new total.
+// If the trip event already awarded the mission, the counter runs up to the trip's total; otherwise it adds the mission's miles.
 export function MissionCompleteScreen() {
   const reduce = useReducedMotion() ?? false
-  const mission = missionById('boarding')
-  const before = mockTrip.cap.used
-  const after = Math.min(mockTrip.cap.limit, before + mission.miles)
+  const { trip } = useTrip()
+  const id = searchParam('m')
+  const mission = missionById(isMission(id) ? id! : 'boarding')
+  // Captured on mount: already done (by a trip event or an earlier press) means the miles are in the total.
+  const [already] = useState(() => trip.missions.find((m) => m.id === mission.id)?.state === 'done')
+  const after = already ? trip.cap.used : Math.min(trip.cap.limit, trip.cap.used + mission.miles)
+  const miles = already ? (trip.events.find((e) => e.mission?.id === mission.id)?.mission?.miles ?? mission.miles) : after - trip.cap.used
+  const before = after - miles
 
   const [stamped, setStamped] = useState(reduce)
   const [shown, setShown] = useState(reduce ? after : before)
@@ -30,8 +46,14 @@ export function MissionCompleteScreen() {
   const [pageRef, size] = useElementSize<HTMLDivElement>()
 
   // Miles counter: about one second, landing exactly on the final value.
+  // Pressing the stamp completes the mission: it stays ticked and its miles stay counted.
+  useEffect(() => {
+    if (stamped) markDone(mission.id)
+  }, [stamped, mission.id])
+
   useEffect(() => {
     if (!stamped || reduce) return
+    thump()
     const run = animate(before, after, {
       duration: 1,
       delay: 0.25,
@@ -65,7 +87,7 @@ export function MissionCompleteScreen() {
               transition={{ duration: 0.22, ease: 'easeOut' }}
             >
               <div className="scale-[1.1]">
-                <Stamp city={mission.title} date={STAMP_DATE} shape="oval" rotate={-8} opacity={0.92} />
+                <Stamp city={mission.title} date={mockFlight.date} shape="oval" rotate={-8} opacity={0.92} />
               </div>
             </motion.div>
           ) : (
@@ -83,12 +105,12 @@ export function MissionCompleteScreen() {
       <div className="flex flex-col items-center gap-3" aria-live="polite">
         <h1 className="font-display text-title">{stamped ? `${mission.title.split(' ')[0]} mission complete!` : 'Press the stamp onto your passport'}</h1>
         <p className="tabular rounded-pill bg-miles/20 px-5 py-1 font-display text-display text-ink">
-          +{formatNumber(mission.miles)} <span className="text-heading">miles</span>
+          +{formatNumber(miles)} <span className="text-heading">miles</span>
         </p>
       </div>
 
       <div className="w-full text-left">
-        <MilesProgress used={shown} limit={mockTrip.cap.limit} />
+        <MilesProgress used={shown} limit={trip.cap.limit} />
       </div>
 
       <div className="mt-auto flex w-full flex-col gap-3 text-left">

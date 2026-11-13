@@ -1,9 +1,9 @@
 import { useSyncExternalStore } from 'react'
 
 // Tiny pushState navigation (no router dependency, see docs/decisions.md).
-export type Route = '/child' | '/story' | '/complete' | '/parent'
+export type Route = '/welcome' | '/child' | '/story' | '/complete' | '/graduation' | '/parent' | '/family' | '/demo'
 
-const ROUTES: Route[] = ['/child', '/story', '/complete', '/parent']
+const ROUTES: Route[] = ['/welcome', '/child', '/story', '/complete', '/graduation', '/parent', '/family', '/demo']
 const EVENT = 'little-explorers:navigate'
 
 function current(): Route {
@@ -20,9 +20,15 @@ function subscribe(cb: () => void) {
   }
 }
 
-export function navigate(to: Route) {
-  if (current() === to) return
-  window.history.pushState(null, '', to)
+// The mock trip step (`?at=`) travels with every navigation; other params are per screen.
+export function navigate(to: Route, params: Record<string, string> = {}) {
+  const query = new URLSearchParams(params)
+  const at = new URLSearchParams(window.location.search).get('at')
+  if (at) query.set('at', at)
+  const qs = query.toString()
+  const url = qs ? `${to}?${qs}` : to
+  if (window.location.pathname + window.location.search === url) return
+  window.history.pushState(null, '', url)
   window.scrollTo(0, 0)
   window.dispatchEvent(new Event(EVENT))
 }
@@ -31,5 +37,16 @@ export function useRoute(): Route {
   return useSyncExternalStore(subscribe, current)
 }
 
+export const searchParam = (key: string) => new URLSearchParams(window.location.search).get(key)
+
 // Order used to pick the slide direction between screens.
-export const routeDepth: Record<Route, number> = { '/child': 0, '/story': 1, '/complete': 1, '/parent': 0 }
+export const routeDepth: Record<Route, number> = {
+  '/welcome': -1,
+  '/child': 0,
+  '/story': 1,
+  '/complete': 1,
+  '/graduation': 1,
+  '/parent': 0,
+  '/family': 1,
+  '/demo': 0,
+}

@@ -213,7 +213,7 @@ export default function RouteGlobe3D({ from, to, progress, width, height, layout
         {to}
       </span>
       <p
-        className="pointer-events-none absolute top-[132px] left-5 max-w-[150px] text-small text-paper/80 transition-opacity duration-300"
+        className="pointer-events-none absolute top-[170px] right-5 max-w-[150px] text-right text-small text-paper/80 transition-opacity duration-300"
         style={{ opacity: dragged ? 0 : 1 }}
       >
         Drag to spin your route

@@ -1,12 +1,13 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
+import { ChapterMap } from '../components/ChapterMap'
 import { ConceptLabel } from '../components/ConceptLabel'
 import { Pip } from '../components/Pip'
 import { PrimaryButton } from '../components/PrimaryButton'
 import { StoryArt } from '../components/StoryArt'
 import { mockChapters, mockStoryTitle } from '../mocks/story'
-import { mockTrip } from '../mocks/trip'
 import { navigate } from '../nav'
+import { useTrip } from '../trip/useTrip'
 
 // Where Pip flies on each unlocked page (percent of the illustration box).
 const PIP_SPOT = [
@@ -33,13 +34,18 @@ function LockIcon() {
   )
 }
 
-// Story. Hero: the illustration. Swipe the page or use "Next page"; locked chapters wait with their unlock moment.
+// Story. Hero: the illustration. Swipe the page, tap a chapter tab or use "Next page";
+// sealed chapters wait with their unlock moment. Opens on the newest unlocked page.
 export function StoryScreen() {
-  const [page, setPage] = useState(0)
+  const { trip } = useTrip()
+  const isLocked = (n: number) => trip.chapters.find((c) => c.number === n)?.locked ?? true
+  const newest = Math.max(0, ...trip.chapters.filter((c) => !c.locked).map((c) => c.number - 1))
+  const [page, setPage] = useState(newest)
   const [dir, setDir] = useState(1)
   const chapters = mockChapters
   const chapter = chapters[page]
-  const locked = chapter.number > mockTrip.chaptersUnlocked
+  const locked = isLocked(chapter.number)
+  const text = trip.branch === 'delayed' && chapter.textDelayed ? chapter.textDelayed : chapter.text
   const last = page === chapters.length - 1
 
   const go = (to: number) => {
@@ -76,10 +82,10 @@ export function StoryScreen() {
               if (info.offset.x < -70) go(page + 1)
               else if (info.offset.x > 70) go(page - 1)
             }}
-            className="flex h-full min-h-[600px] touch-pan-y flex-col overflow-hidden rounded-doc bg-paper shadow-doc"
+            className="flex h-full min-h-[520px] touch-pan-y flex-col overflow-hidden rounded-doc bg-paper shadow-doc"
             aria-label={`Chapter ${chapter.number}${locked ? ', locked' : ''}`}
           >
-            <div className={`relative h-[400px] shrink-0 border-b border-line ${locked ? 'bg-sky/40' : 'guilloche'}`}>
+            <div className={`relative h-[340px] shrink-0 border-b border-line ${locked ? 'bg-sky/40' : 'guilloche'}`}>
               <div className={`absolute inset-x-4 top-8 ${locked ? 'bottom-20' : 'bottom-4'}`}>
                 <StoryArt art={chapter.art} locked={locked} />
               </div>
@@ -104,33 +110,20 @@ export function StoryScreen() {
               {locked ? (
                 <p className="text-body text-ink-soft">This page is still sealed. Pip is saving it for later.</p>
               ) : (
-                <p className="text-body">{chapter.text}</p>
+                <p className="text-body">{text}</p>
               )}
             </div>
           </motion.article>
         </AnimatePresence>
       </div>
 
-      <div className="flex items-center gap-4">
-        <div className="flex flex-1 gap-2" role="tablist" aria-label="Pages">
-          {chapters.map((c, i) => (
-            <button
-              key={c.number}
-              type="button"
-              role="tab"
-              aria-selected={i === page}
-              aria-label={`Chapter ${c.number}`}
-              onClick={() => go(i)}
-              className="flex h-11 w-6 items-center justify-center"
-            >
-              <span className={`h-2.5 rounded-pill ${i === page ? 'w-6 bg-jade' : 'w-2.5 border-2 border-line'}`} />
-            </button>
-          ))}
-        </div>
-        <div className="w-[168px]">
-          <PrimaryButton onClick={() => (last ? navigate('/child') : go(page + 1))}>{last ? 'Back to my trip' : 'Next page'}</PrimaryButton>
-        </div>
-      </div>
+      <ChapterMap
+        tabs={chapters.map((c) => ({ number: c.number, title: c.title, locked: isLocked(c.number), unlocksWhen: c.unlocksWhen }))}
+        page={page}
+        onPick={go}
+      />
+
+      <PrimaryButton onClick={() => (last ? navigate('/child') : go(page + 1))}>{last ? 'Back to my trip' : 'Next page'}</PrimaryButton>
 
       <ConceptLabel />
     </main>
