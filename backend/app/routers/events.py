@@ -2,16 +2,17 @@ import asyncio
 from collections.abc import AsyncIterator
 from datetime import datetime, timezone
 
-from fastapi import APIRouter, Depends, Header, HTTPException, Query
+from fastapi import APIRouter, Depends, Header, HTTPException, Query, Response
 from fastapi.responses import StreamingResponse
 from sqlmodel import Session
 
 from app import broker, store
 from app.db import get_session
+from app.logic.rules import MissionLocked, UnknownMission
 from app.models.program import Program
 from app.models.trip import Event, EventRequest
 from app.program import get_program
-from app.trip_service import fire_event
+from app.trip_service import complete_mission, fire_event
 
 router = APIRouter(prefix="/api", tags=["events"])
 
@@ -34,6 +35,34 @@ async def post_event(
         session, row, body.type, source=body.source, program=program,
         now_utc=datetime.now(timezone.utc), delay_minutes=body.delay_minutes, new_gate=body.new_gate,
     )
+
+
+@router.post(
+    "/trips/{trip_id}/missions/{mission_id}/complete",
+    response_model=Event, status_code=201, response_model_by_alias=True,
+)
+async def post_mission_complete(
+    trip_id: str,
+    mission_id: str,
+    response: Response,
+    session: Session = Depends(get_session),
+    program: Program = Depends(get_program),
+) -> Event:
+    """The child pressed the stamp. 201 = awarded now; 200 = already done (returns the event that awarded it)."""
+    row = store.get_trip(session, trip_id)
+    if row is None:
+        raise HTTPException(404, f"Trip {trip_id} not found")
+    try:
+        event, awarded = complete_mission(
+            session, row, mission_id, program=program, now_utc=datetime.now(timezone.utc)
+        )
+    except UnknownMission:
+        raise HTTPException(404, f"Mission {mission_id} not found")
+    except MissionLocked as exc:
+        raise HTTPException(409, str(exc))
+    if not awarded:
+        response.status_code = 200
+    return event
 
 
 @router.get("/trips/{trip_id}/stream")

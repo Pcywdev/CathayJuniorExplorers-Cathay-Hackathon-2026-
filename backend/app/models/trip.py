@@ -9,9 +9,10 @@ from app.models.program import CamelModel
 
 AgeBand = Literal["6-8", "9-12"]
 Language = Literal["en", "zh-Hant"]
-EventType = Literal["junior_mode_on", "checkin", "boarded", "departed", "delayed", "landed"]
+EventType = Literal["junior_mode_on", "checkin", "boarded", "departed", "delayed", "landed", "mission_completed"]
 PostableEventType = Literal["checkin", "boarded", "departed", "delayed", "landed"]
-EventSource = Literal["simulated", "oag", "system"]
+EventSource = Literal["simulated", "oag", "system", "child"]
+PostableEventSource = Literal["simulated", "oag", "system"]  # "child" only via the mission-complete endpoint
 Branch = Literal["on_time", "delayed"]
 
 # The only child data we use (plan.md section 15). Shown on the parent's "Data used" panel.
@@ -29,7 +30,7 @@ class CreateTripRequest(CamelModel):
 
 class EventRequest(CamelModel):
     type: PostableEventType
-    source: EventSource = "simulated"
+    source: PostableEventSource = "simulated"
     delay_minutes: int | None = Field(default=None, ge=1, le=1440)
     new_gate: str | None = Field(default=None, pattern=r"^[A-Za-z0-9]{1,4}$")
 

@@ -137,3 +137,29 @@ def test_delayed_message_with_and_without_gate(program, flight):
 def test_unknown_event_type_raises(program, flight):
     with pytest.raises(ValueError):
         msgs(program, flight, "teleported", at=NOW)
+
+
+# --- child-completed missions ------------------------------------------------
+
+def test_mission_completed_messages(program, flight):
+    at = local_time(NOW, flight, "mission_completed")
+    assert event_messages(
+        "mission_completed", "Mei", flight, program, delay_minutes=0, new_gate=None, at=at, mission_title="Window Watcher",
+    ) == ("Window Watcher collected!", "Mei completed Window Watcher")
+
+
+def test_mission_completed_without_title_raises(program, flight):
+    with pytest.raises(ValueError):
+        event_messages("mission_completed", "Mei", flight, program, delay_minutes=0, new_gate=None, at=NOW)
+
+
+def test_mission_completed_time_uses_destination_once_landed(flight):
+    assert local_time(NOW, flight, "mission_completed").isoformat().endswith("+08:00")
+    assert local_time(NOW, flight, "mission_completed", landed=True).isoformat().endswith("+09:00")
+
+
+def test_mission_states_counts_child_completed_window(program):
+    from app.logic.rules import complete_mission
+
+    state = complete_mission(run(program, "checkin", "boarded", "departed"), "window", program).state
+    assert states(program, state)["window"] == "done"

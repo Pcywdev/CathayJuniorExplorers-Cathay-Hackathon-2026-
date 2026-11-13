@@ -2,7 +2,15 @@
 
 import pytest
 
-from app.logic.rules import TripState, apply_event, initial_state
+from app.logic.rules import (
+    MissionLocked,
+    TripState,
+    UnknownMission,
+    apply_event,
+    complete_mission,
+    initial_state,
+    mission_unlocked,
+)
 from app.models.program import Program
 from app.program import get_program
 
@@ -176,3 +184,76 @@ def test_numbers_come_from_program_not_constants(start, program):
     result = apply_event(start, "checkin", changed)
 
     assert result.mission is not None and result.mission.miles == 99
+
+
+# --- child-completed missions (the child presses the stamp on the phone) -----
+
+
+def test_mission_unlocked_follows_trip_progress(start, program):
+    assert mission_unlocked(start, "checkin")
+    assert not mission_unlocked(start, "boarding")
+    assert not mission_unlocked(start, "window")
+    checked_in = run(start, program, "checkin")
+    assert mission_unlocked(checked_in, "boarding")
+    departed = run(start, program, "checkin", "boarded", "departed")
+    assert mission_unlocked(departed, "window") and mission_unlocked(departed, "arrival")
+
+
+def test_window_watcher_after_departed_pays_30(start, program):
+    state = run(start, program, "junior_mode_on", "checkin", "boarded", "departed")
+    result = complete_mission(state, "window", program)
+
+    assert result.mission.id == "window" and result.mission.miles == 30
+    assert result.state.cap_used == 1360
+    assert "window" in result.state.missions_done
+    assert result.chapter_unlocked is None and result.branch == state.branch
+    assert result.system_lines[0] == "Mission rule passed: Window Watcher (completed by child)"
+
+
+def test_window_watcher_before_departed_is_locked(start, program):
+    with pytest.raises(MissionLocked):
+        complete_mission(run(start, program, "checkin", "boarded"), "window", program)
+
+
+def test_boarding_before_checkin_is_locked(start, program):
+    with pytest.raises(MissionLocked):
+        complete_mission(start, "boarding", program)
+
+
+def test_unknown_mission_raises(start, program):
+    with pytest.raises(UnknownMission):
+        complete_mission(start, "teleport", program)
+
+
+def test_repeat_completion_pays_nothing(start, program):
+    once = complete_mission(start, "checkin", program).state
+    again = complete_mission(once, "checkin", program)
+
+    assert again.mission is None
+    assert again.state.cap_used == once.cap_used == 1280
+    assert again.system_lines == ["Mission already completed: Check-in Champion"]
+
+
+def test_child_checkin_first_then_event_pays_nothing(start, program):
+    state = complete_mission(start, "checkin", program).state
+    result = apply_event(state, "checkin", program)
+
+    assert result.mission is None
+    assert result.state.cap_used == 1280
+    assert "Mission already completed: Check-in Champion" in result.system_lines
+
+
+def test_child_boarding_first_then_event_still_unlocks_chapter(start, program):
+    state = complete_mission(run(start, program, "checkin"), "boarding", program).state
+    result = apply_event(state, "boarded", program)
+
+    assert result.mission is None and result.chapter_unlocked == 2
+    assert result.state.cap_used == 1330
+
+
+def test_child_completion_is_capped(program):
+    state = TripState(cap_used=1990, missions_done=frozenset({"checkin", "boarding"}), chapters_unlocked=frozenset({1, 2, 3}))
+    result = complete_mission(state, "window", program)
+
+    assert result.mission.miles == 10 and result.state.cap_used == 2000
+    assert "Cap reached: 10 of 30 miles awarded" in result.system_lines
