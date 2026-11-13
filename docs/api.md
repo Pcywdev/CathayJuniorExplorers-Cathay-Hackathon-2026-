@@ -11,10 +11,10 @@ The contract between backend and frontend. **Any change is agreed by both of us 
 |---|---|---|---|
 | GET | `/api/health` | Liveness + program version | live |
 | GET | `/api/flights/lookup` | OAG flight → boarding pass data | live |
-| POST | `/api/trips` | Junior mode on → create trip (chapter text from Day 3) | live |
+| POST | `/api/trips` | Junior mode on → create trip and store its story | live |
 | GET | `/api/trips/current` | Newest trip, so the child phone finds it | live |
 | GET | `/api/trips/{id}` | Trip, missions, miles, chapter lock states | live |
-| GET | `/api/trips/{id}/chapters` | All chapters for offline storage | draft |
+| GET | `/api/trips/{id}/chapters` | All chapters for offline storage | live |
 | POST | `/api/trips/{id}/events` | Fire a trip event | live |
 | POST | `/api/trips/{id}/missions/{missionId}/complete` | Child finished a mission on the phone | live |
 | GET | `/api/trips/{id}/stream` | SSE stream of events (both screens) | live |
@@ -90,26 +90,35 @@ The newest trip, same body as `GET /api/trips/{id}`; `404` if no trip exists yet
 ```
 Mission `state`: `locked` | `available` | `done`. `branch`: `on_time` | `delayed`. `404` for an unknown id.
 - Mission states: Check-in available from the start; Boarding available once checked in; Window Watcher and Arrival Explorer available once departed. Window Watcher has no trip event: it completes only when the child presses its stamp (see the mission-complete endpoint).
-- `chapters`: always four, keys `checkin`, `boarding`, `inflight`, `landing`. Lock states only; the text comes from `/chapters` (Day 3).
+- `chapters`: always four, keys `checkin`, `boarding`, `inflight`, `landing`. Lock states only; the text comes from `GET /api/trips/{id}/chapters`.
 - `flight.gate` follows the latest `newGate` from a `delayed` event.
 - `lastEventId`: id of the newest event. Open the stream with `?after=<lastEventId>` so nothing is sent twice.
 
 ## GET /api/trips/{id}/chapters
-Everything the phone stores for offline. Locked chapters are included (stored locked on the device); `unlockAt` lets the final chapter unlock offline at scheduled landing.
+Everything the phone stores for offline: **every chapter version, locked ones included**, filled in for this trip. The phone keeps them locked and opens each one when its `unlockOn` event arrives. The landing chapter can also open offline at `unlockAt`.
 ```json
 {
   "tripId": "trp_8f2c",
-  "generatedBy": "llm",
+  "generatedBy": "fallback",
+  "language": "en",
+  "title": { "en": "Pip and the jade sky" },
   "chapters": [
-    {
-      "number": 3, "key": "inflight", "branch": "on_time",
-      "unlockOn": "departed", "unlockAt": null,
-      "text": { "en": { "title": "...", "pages": ["...", "..."] }, "zh-Hant": { "title": "...", "pages": ["..."] } }
-    }
+    { "number": 1, "key": "checkin", "branch": "both", "unlockOn": "junior_mode_on", "unlockAt": null,
+      "text": { "en": { "title": "A ticket with your name on it", "pages": ["Pip lands on the harbour rail and taps your ticket. “Tokyo,” Pip reads. ..."] } } },
+    { "number": 2, "key": "boarding", "branch": "on_time", "unlockOn": "boarded", "unlockAt": null, "text": { "en": { "title": "Through gate 23", "pages": ["..."] } } },
+    { "number": 2, "key": "boarding", "branch": "delayed", "unlockOn": "boarded", "unlockAt": null, "text": { "en": { "title": "Extra time at gate 23", "pages": ["..."] } } },
+    { "number": 4, "key": "landing", "branch": "on_time", "unlockOn": "landed", "unlockAt": "2026-11-14T11:20:00Z", "text": { "en": { "...": "..." } } }
   ]
 }
 ```
-`generatedBy`: `llm` | `fallback` (pre-written). `branch`: `both` for chapters with no delayed version. `unlockOn`: `junior_mode_on` | `checkin` | `boarded` | `departed` | `landed`.
+- **Always 7 versions, in this order:** 1 `both`; 2, 3 and 4 each `on_time` then `delayed`. Show the version whose `branch` is `both` or equals the trip's `branch` (from `GET /api/trips/{id}` or the latest event).
+- `key` → illustration and `unlockOn` → "Opens when…" wording are mapped **on the frontend**. The backend sends no presentation text.
+- **One page per chapter** for now. `pages` stays a list, so more pages can come later without a contract change.
+- **English only for now** (decisions.md). `text` and `title` are keyed by language. A trip created with `language: zh-Hant` still gets `en`, and `language` says which one was served.
+- Text is filled when served: the child's name, the destination city and the **current** gate (a `newGate` on a `delayed` event shows up on the next fetch). Re-fetch after a `delayed` event: it also moves `unlockAt`.
+- `unlockAt`: landing chapter only, UTC, scheduled arrival + the trip's delay so far. `null` for the others.
+- `generatedBy`: `fallback` = the pre-written story; `llm` = an AI-written story (a reviewed story fixture today, live generation in Milestone D).
+- `404` unknown trip.
 
 ## POST /api/trips/{id}/events
 Request:
