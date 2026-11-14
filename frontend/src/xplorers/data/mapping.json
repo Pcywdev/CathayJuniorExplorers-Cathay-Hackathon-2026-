@@ -1,0 +1,6040 @@
+{
+ "meta": {
+  "note": "illustrative, synthetic data, confirm with team",
+  "generator": "tools/xplorers_mapping (toy dual encoder)",
+  "seed": 2026,
+  "users": 800,
+  "promos": 49,
+  "interactions": 12800,
+  "dim": 16,
+  "epochs": 20,
+  "temperature": 1.0,
+  "loss": {
+   "first": 0.5142,
+   "last": 0.3941
+  },
+  "eval": {
+   "auc": 0.8214,
+   "baselineAuc": 0.7355,
+   "recallAt6": 0.4967,
+   "baselineRecallAt6": 0.4221,
+   "testInteractions": 2560
+  },
+  "minAge": 4,
+  "maxAge": 25
+ },
+ "ageBands": [
+  {
+   "id": "little",
+   "name": "Little Xplorers",
+   "minAge": 4,
+   "maxAge": 11
+  },
+  {
+   "id": "teen",
+   "name": "Teen Xplorers",
+   "minAge": 12,
+   "maxAge": 17
+  },
+  {
+   "id": "campus",
+   "name": "Campus Xplorers",
+   "minAge": 18,
+   "maxAge": 25
+  }
+ ],
+ "ageBuckets": [
+  {
+   "id": "4-6",
+   "minAge": 4,
+   "maxAge": 6
+  },
+  {
+   "id": "7-9",
+   "minAge": 7,
+   "maxAge": 9
+  },
+  {
+   "id": "10-11",
+   "minAge": 10,
+   "maxAge": 11
+  },
+  {
+   "id": "12-13",
+   "minAge": 12,
+   "maxAge": 13
+  },
+  {
+   "id": "14-15",
+   "minAge": 14,
+   "maxAge": 15
+  },
+  {
+   "id": "16-17",
+   "minAge": 16,
+   "maxAge": 17
+  },
+  {
+   "id": "18-19",
+   "minAge": 18,
+   "maxAge": 19
+  },
+  {
+   "id": "20-22",
+   "minAge": 20,
+   "maxAge": 22
+  },
+  {
+   "id": "23-25",
+   "minAge": 23,
+   "maxAge": 25
+  }
+ ],
+ "traits": [
+  {
+   "id": "gamer",
+   "label": "Loves games",
+   "group": "style",
+   "minAge": 4,
+   "requires": [],
+   "reason": "Because you love games"
+  },
+  {
+   "id": "foodie",
+   "label": "Foodie",
+   "group": "style",
+   "minAge": 4,
+   "requires": [],
+   "reason": "Because you're a foodie"
+  },
+  {
+   "id": "outdoorsy",
+   "label": "Outdoors and sport",
+   "group": "style",
+   "minAge": 4,
+   "requires": [],
+   "reason": "Because you like the outdoors"
+  },
+  {
+   "id": "creative",
+   "label": "Arts and photos",
+   "group": "style",
+   "minAge": 4,
+   "requires": [],
+   "reason": "Because you like making things"
+  },
+  {
+   "id": "techie",
+   "label": "Planes and tech",
+   "group": "style",
+   "minAge": 4,
+   "requires": [],
+   "reason": "Because you like planes and tech"
+  },
+  {
+   "id": "budget",
+   "label": "Watching every mile",
+   "group": "situation",
+   "minAge": 4,
+   "requires": [],
+   "reason": "Good value for your miles"
+  },
+  {
+   "id": "with_siblings",
+   "label": "Travels with siblings",
+   "group": "situation",
+   "minAge": 4,
+   "requires": [],
+   "reason": "Fun with your siblings"
+  },
+  {
+   "id": "first_solo",
+   "label": "First trip alone",
+   "group": "situation",
+   "minAge": 15,
+   "requires": [],
+   "reason": "For your first trip alone"
+  },
+  {
+   "id": "studying",
+   "label": "University student",
+   "group": "situation",
+   "minAge": 18,
+   "requires": [],
+   "reason": "For students"
+  },
+  {
+   "id": "studying_abroad",
+   "label": "Studying abroad",
+   "group": "situation",
+   "minAge": 18,
+   "requires": [
+    "studying"
+   ],
+   "reason": "For studying abroad"
+  }
+ ],
+ "userTower": {
+  "band:campus": [
+   -0.3183,
+   0.3477,
+   0.1541,
+   -0.5122,
+   -0.8972,
+   -0.0363,
+   -0.2295,
+   -0.0121,
+   -0.2867,
+   -0.2354,
+   -0.2948,
+   -0.113,
+   -0.3002,
+   -0.124,
+   0.1341,
+   0.7693
+  ],
+  "band:little": [
+   0.1258,
+   0.2167,
+   0.0824,
+   0.1007,
+   -0.6467,
+   -0.2504,
+   -0.0889,
+   0.8129,
+   -0.4512,
+   -0.4459,
+   0.0286,
+   -0.4295,
+   -0.3263,
+   0.519,
+   -0.2625,
+   0.5731
+  ],
+  "band:teen": [
+   0.1753,
+   0.4512,
+   -0.0781,
+   -0.1518,
+   -0.4324,
+   0.3852,
+   0.0793,
+   0.2079,
+   -0.4473,
+   -0.1582,
+   -0.2702,
+   -0.5069,
+   0.448,
+   0.2948,
+   -0.3246,
+   0.6635
+  ],
+  "bucket:10-11": [
+   0.0838,
+   0.88,
+   0.3609,
+   0.3562,
+   -0.2781,
+   -0.0168,
+   0.1806,
+   0.1852,
+   -0.0844,
+   -0.037,
+   -0.0794,
+   -0.0368,
+   0.5804,
+   0.0939,
+   -0.1318,
+   -0.3621
+  ],
+  "bucket:12-13": [
+   -0.0983,
+   -0.0165,
+   -0.0151,
+   0.0332,
+   0.0373,
+   -0.0498,
+   -0.1555,
+   -0.0049,
+   -0.1923,
+   -0.0778,
+   0.0846,
+   -0.4844,
+   0.0876,
+   0.2544,
+   -0.3562,
+   0.4622
+  ],
+  "bucket:14-15": [
+   0.1683,
+   0.0813,
+   0.4081,
+   0.296,
+   0.0502,
+   -0.3137,
+   0.1402,
+   -0.0366,
+   -0.2345,
+   0.1356,
+   -0.0928,
+   -0.0526,
+   0.2886,
+   0.1545,
+   0.1714,
+   0.2364
+  ],
+  "bucket:16-17": [
+   -0.0262,
+   0.2978,
+   -0.2004,
+   -0.2803,
+   -0.4811,
+   0.7048,
+   0.0118,
+   0.2255,
+   0.1743,
+   -0.2984,
+   -0.1891,
+   0.0909,
+   -0.0675,
+   -0.466,
+   -0.0204,
+   0.2231
+  ],
+  "bucket:18-19": [
+   -0.0819,
+   0.2886,
+   0.1125,
+   -0.2882,
+   -0.2441,
+   0.1308,
+   0.0161,
+   -0.1421,
+   0.5317,
+   0.3638,
+   -0.66,
+   -0.2893,
+   -0.3648,
+   0.224,
+   0.061,
+   0.0009
+  ],
+  "bucket:20-22": [
+   -0.0207,
+   0.0429,
+   0.0279,
+   -0.0514,
+   -0.5433,
+   -0.481,
+   -0.0645,
+   0.1174,
+   -0.3189,
+   0.1926,
+   0.2768,
+   0.1137,
+   0.0721,
+   -0.5717,
+   0.0878,
+   0.3896
+  ],
+  "bucket:23-25": [
+   -0.1249,
+   -0.1277,
+   0.3719,
+   -0.2774,
+   -0.117,
+   0.0588,
+   0.1484,
+   -0.3004,
+   -0.417,
+   -0.8123,
+   -0.1179,
+   0.2915,
+   -0.2783,
+   0.5224,
+   0.1071,
+   0.6432
+  ],
+  "bucket:4-6": [
+   -0.0756,
+   -0.2708,
+   -0.0714,
+   -0.1719,
+   -0.0823,
+   0.0025,
+   0.0659,
+   0.2965,
+   -0.3867,
+   -0.4462,
+   0.2585,
+   -0.3595,
+   -0.2445,
+   0.1193,
+   -0.0534,
+   0.1962
+  ],
+  "bucket:7-9": [
+   0.3547,
+   -0.0946,
+   0.1538,
+   0.0922,
+   -0.1578,
+   -0.0863,
+   -0.3894,
+   0.223,
+   0.0771,
+   0.0033,
+   -0.3342,
+   0.2517,
+   -0.2799,
+   0.1168,
+   -0.1309,
+   0.2351
+  ],
+  "trait:budget": [
+   -0.3079,
+   0.1592,
+   -0.165,
+   -0.1672,
+   0.8631,
+   -0.1315,
+   -0.5188,
+   0.3411,
+   0.2992,
+   -0.2029,
+   -0.0969,
+   0.2902,
+   0.5128,
+   -0.3193,
+   0.3844,
+   -0.0493
+  ],
+  "trait:creative": [
+   0.0271,
+   -0.2242,
+   0.2957,
+   -0.143,
+   0.6653,
+   0.2676,
+   0.5377,
+   0.0517,
+   -0.6475,
+   0.517,
+   -0.2471,
+   0.023,
+   -0.4094,
+   -0.061,
+   0.5152,
+   -0.4171
+  ],
+  "trait:first_solo": [
+   -0.4097,
+   -0.1151,
+   -0.2844,
+   0.1603,
+   -0.3294,
+   0.5595,
+   -0.4578,
+   0.0357,
+   -0.0773,
+   0.1309,
+   0.5649,
+   -0.2872,
+   0.0798,
+   0.2703,
+   0.8125,
+   -0.7949
+  ],
+  "trait:foodie": [
+   0.5547,
+   0.1086,
+   0.5086,
+   -0.2784,
+   0.5005,
+   0.0338,
+   -0.1192,
+   -0.4598,
+   0.6631,
+   -0.1612,
+   0.4722,
+   -0.0683,
+   -0.1301,
+   -0.5366,
+   0.0676,
+   -0.1549
+  ],
+  "trait:gamer": [
+   -0.1418,
+   -0.5784,
+   0.2105,
+   -0.0374,
+   -0.1152,
+   -0.379,
+   -0.044,
+   -0.2704,
+   0.3272,
+   0.0797,
+   -0.5248,
+   0.1241,
+   0.5924,
+   -0.3952,
+   -0.3769,
+   -0.7137
+  ],
+  "trait:outdoorsy": [
+   -0.1942,
+   -0.5619,
+   0.1855,
+   0.4367,
+   -0.0031,
+   0.4226,
+   0.5153,
+   0.0466,
+   0.7447,
+   0.4299,
+   0.1551,
+   0.1165,
+   -0.1004,
+   -0.0872,
+   -0.0304,
+   0.3305
+  ],
+  "trait:studying": [
+   0.6307,
+   0.0077,
+   -0.5448,
+   0.2916,
+   -0.227,
+   -0.0748,
+   0.3955,
+   -0.2576,
+   0.0395,
+   -0.4389,
+   0.0726,
+   0.3379,
+   0.3842,
+   0.4844,
+   0.4961,
+   -0.0988
+  ],
+  "trait:studying_abroad": [
+   0.5335,
+   -0.3873,
+   -0.4638,
+   -0.7752,
+   -0.0618,
+   -0.215,
+   -0.2942,
+   -0.0255,
+   -0.2952,
+   0.6713,
+   0.3136,
+   -0.1019,
+   0.1396,
+   -0.0103,
+   -0.3592,
+   0.0133
+  ],
+  "trait:techie": [
+   0.4205,
+   0.0441,
+   -0.5633,
+   0.9849,
+   0.4301,
+   -0.1216,
+   -0.4379,
+   -0.5886,
+   0.0459,
+   0.194,
+   -0.276,
+   -0.2052,
+   -0.0946,
+   -0.274,
+   -0.0949,
+   -0.297
+  ],
+  "trait:with_siblings": [
+   -0.4316,
+   0.1201,
+   -0.2307,
+   -0.0866,
+   0.3476,
+   -0.3128,
+   0.0444,
+   -0.3489,
+   0.0487,
+   0.2458,
+   0.4231,
+   0.6013,
+   -0.4241,
+   0.0652,
+   -0.52,
+   -0.4699
+  ]
+ },
+ "promos": [
+  {
+   "id": "cockpit-colouring",
+   "kind": "game",
+   "title": "Cockpit colouring kit",
+   "where": "On board",
+   "minAge": 4,
+   "maxAge": 10,
+   "peakAge": 6,
+   "tags": [
+    "arts",
+    "aviation",
+    "kids"
+   ],
+   "requires": [],
+   "hardMinAge": 4,
+   "hardMaxAge": 25,
+   "embedding": [
+    0.5677,
+    -0.5257,
+    -0.6729,
+    1.2949,
+    1.4445,
+    -0.0836,
+    -0.3553,
+    0.2268,
+    -0.611,
+    0.2135,
+    0.0611,
+    -0.3418,
+    -1.1591,
+    0.0566,
+    -0.3204,
+    -0.7084
+   ],
+   "bias": -1.9828
+  },
+  {
+   "id": "puppet-show",
+   "kind": "event",
+   "title": "Pip puppet show at the gate",
+   "where": "HKG terminal",
+   "minAge": 4,
+   "maxAge": 9,
+   "peakAge": 5,
+   "tags": [
+    "arts",
+    "kids",
+    "family"
+   ],
+   "requires": [],
+   "hardMinAge": 4,
+   "hardMaxAge": 25,
+   "embedding": [
+    -0.328,
+    0.2219,
+    -0.231,
+    0.2258,
+    1.2524,
+    -0.5596,
+    0.539,
+    0.3342,
+    -0.8349,
+    0.0061,
+    0.1104,
+    0.2753,
+    -0.8548,
+    0.5365,
+    -0.2393,
+    -1.1554
+   ],
+   "bias": -1.5824
+  },
+  {
+   "id": "draw-a-plane",
+   "kind": "game",
+   "title": "Draw your dream plane",
+   "where": "In app",
+   "miles": 50,
+   "minAge": 4,
+   "maxAge": 10,
+   "peakAge": 6,
+   "tags": [
+    "arts",
+    "aviation",
+    "kids"
+   ],
+   "requires": [],
+   "hardMinAge": 4,
+   "hardMaxAge": 25,
+   "embedding": [
+    0.3831,
+    -0.3498,
+    -0.5482,
+    1.5542,
+    1.1172,
+    -0.5197,
+    -0.4869,
+    0.5939,
+    -0.3744,
+    0.5166,
+    -0.2282,
+    0.0039,
+    -1.66,
+    0.0269,
+    -0.0604,
+    -0.7321
+   ],
+   "bias": -1.8382
+  },
+  {
+   "id": "seatbelt-song",
+   "kind": "game",
+   "title": "Seatbelt sing-along",
+   "where": "On board",
+   "miles": 30,
+   "minAge": 4,
+   "maxAge": 8,
+   "peakAge": 5,
+   "tags": [
+    "kids",
+    "family"
+   ],
+   "requires": [],
+   "hardMinAge": 4,
+   "hardMaxAge": 25,
+   "embedding": [
+    -0.4781,
+    0.032,
+    -1.1083,
+    0.3732,
+    0.8188,
+    -0.9512,
+    0.048,
+    0.0478,
+    0.4195,
+    -0.5207,
+    0.7706,
+    0.8157,
+    -0.7183,
+    0.3525,
+    -0.8253,
+    -0.2086
+   ],
+   "bias": -3.1169
+  },
+  {
+   "id": "cloud-spotter",
+   "kind": "game",
+   "title": "Cloud spotter bingo",
+   "where": "On board",
+   "miles": 50,
+   "minAge": 4,
+   "maxAge": 11,
+   "peakAge": 7,
+   "tags": [
+    "games",
+    "outdoors",
+    "kids"
+   ],
+   "requires": [],
+   "hardMinAge": 4,
+   "hardMaxAge": 25,
+   "embedding": [
+    -0.4585,
+    -1.0602,
+    0.3631,
+    0.7783,
+    -0.3748,
+    -0.0859,
+    0.2904,
+    0.7405,
+    0.9532,
+    0.4514,
+    0.1971,
+    0.2239,
+    0.5807,
+    -0.3376,
+    -1.4334,
+    -0.7155
+   ],
+   "bias": -1.3809
+  },
+  {
+   "id": "pip-sticker-hunt",
+   "kind": "game",
+   "title": "Find Pip stickers at the airport",
+   "where": "HKG terminal",
+   "miles": 80,
+   "minAge": 5,
+   "maxAge": 11,
+   "peakAge": 7,
+   "tags": [
+    "games",
+    "kids",
+    "family"
+   ],
+   "requires": [],
+   "hardMinAge": 4,
+   "hardMaxAge": 25,
+   "embedding": [
+    -0.4386,
+    -0.4351,
+    -0.0937,
+    -0.0736,
+    0.1076,
+    -1.9635,
+    -0.0338,
+    0.373,
+    0.1115,
+    -0.1451,
+    -0.1375,
+    0.6259,
+    0.082,
+    -0.2777,
+    -1.8358,
+    -1.0644
+   ],
+   "bias": -2.2053
+  },
+  {
+   "id": "plane-spotting",
+   "kind": "event",
+   "title": "Plane-spotting morning",
+   "where": "Airport viewing deck",
+   "minAge": 6,
+   "maxAge": 14,
+   "peakAge": 9,
+   "tags": [
+    "aviation",
+    "outdoors"
+   ],
+   "requires": [],
+   "hardMinAge": 4,
+   "hardMaxAge": 25,
+   "embedding": [
+    0.2688,
+    -0.3129,
+    0.3006,
+    1.4759,
+    0.37,
+    0.4152,
+    0.6941,
+    0.0976,
+    1.0144,
+    0.0819,
+    -0.2408,
+    0.0849,
+    -0.4322,
+    0.0393,
+    -0.4407,
+    0.1595
+   ],
+   "bias": -0.5073
+  },
+  {
+   "id": "crew-workshop",
+   "kind": "activity",
+   "title": "Junior cabin crew workshop",
+   "where": "Cathay City",
+   "minAge": 7,
+   "maxAge": 13,
+   "peakAge": 10,
+   "tags": [
+    "aviation",
+    "kids"
+   ],
+   "requires": [],
+   "hardMinAge": 4,
+   "hardMaxAge": 25,
+   "embedding": [
+    0.9268,
+    0.7636,
+    -0.6255,
+    1.3341,
+    0.3507,
+    -0.856,
+    -0.8491,
+    0.1189,
+    0.1684,
+    1.0725,
+    -0.4762,
+    -0.1213,
+    0.3195,
+    -0.5349,
+    -0.4381,
+    -0.9264
+   ],
+   "bias": -2.1869
+  },
+  {
+   "id": "kids-meal-upgrade",
+   "kind": "discount",
+   "title": "Dessert with your kids meal",
+   "where": "On board",
+   "miles": 150,
+   "minAge": 4,
+   "maxAge": 11,
+   "peakAge": 8,
+   "tags": [
+    "food",
+    "kids"
+   ],
+   "requires": [],
+   "hardMinAge": 4,
+   "hardMaxAge": 13,
+   "embedding": [
+    1.0843,
+    0.6558,
+    1.1421,
+    -0.5158,
+    0.7877,
+    0.0874,
+    0.0287,
+    -0.1181,
+    0.8666,
+    0.3662,
+    0.6172,
+    0.1648,
+    -0.3759,
+    -0.8451,
+    -0.2324,
+    -0.5792
+   ],
+   "bias": -1.1624
+  },
+  {
+   "id": "flight-sim-try",
+   "kind": "activity",
+   "title": "Try a flight simulator",
+   "where": "Partner centre",
+   "miles": 600,
+   "minAge": 10,
+   "maxAge": 17,
+   "peakAge": 13,
+   "tags": [
+    "aviation",
+    "games"
+   ],
+   "requires": [],
+   "hardMinAge": 4,
+   "hardMaxAge": 25,
+   "embedding": [
+    0.1506,
+    -0.4577,
+    0.0493,
+    0.8966,
+    0.6807,
+    -0.7098,
+    -0.2502,
+    -0.735,
+    0.2694,
+    1.1639,
+    -0.5453,
+    -0.573,
+    1.1209,
+    -0.6517,
+    -1.1616,
+    -0.2828
+   ],
+   "bias": -2.384
+  },
+  {
+   "id": "blind-box-drop",
+   "kind": "discount",
+   "title": "Travel blind box drop",
+   "where": "Partner shop",
+   "miles": 800,
+   "minAge": 11,
+   "maxAge": 17,
+   "peakAge": 14,
+   "tags": [
+    "arts",
+    "value"
+   ],
+   "requires": [],
+   "hardMinAge": 4,
+   "hardMaxAge": 25,
+   "embedding": [
+    0.3264,
+    0.0383,
+    0.2963,
+    -0.1302,
+    0.8097,
+    0.1766,
+    0.6625,
+    0.5519,
+    -0.4761,
+    0.7389,
+    -0.0787,
+    -0.4681,
+    0.828,
+    0.0378,
+    0.6544,
+    -0.2202
+   ],
+   "bias": -2.03
+  },
+  {
+   "id": "bubble-tea-gate",
+   "kind": "discount",
+   "title": "Bubble tea at the gate",
+   "where": "Partner café",
+   "miles": 250,
+   "minAge": 12,
+   "maxAge": 19,
+   "peakAge": 15,
+   "tags": [
+    "food",
+    "value"
+   ],
+   "requires": [],
+   "hardMinAge": 4,
+   "hardMaxAge": 25,
+   "embedding": [
+    0.6256,
+    0.2859,
+    0.3732,
+    -0.3267,
+    0.815,
+    0.3058,
+    -0.5611,
+    0.4862,
+    0.8053,
+    -0.217,
+    0.787,
+    -0.6191,
+    0.4966,
+    -1.0009,
+    0.0895,
+    -0.1468
+   ],
+   "bias": -1.2357
+  },
+  {
+   "id": "snack-pack",
+   "kind": "discount",
+   "title": "Pick-your-own snack pack",
+   "where": "Cathay",
+   "miles": 400,
+   "minAge": 11,
+   "maxAge": 18,
+   "peakAge": 14,
+   "tags": [
+    "food",
+    "value"
+   ],
+   "requires": [],
+   "hardMinAge": 4,
+   "hardMaxAge": 25,
+   "embedding": [
+    0.4361,
+    0.7231,
+    0.9224,
+    0.1701,
+    0.9937,
+    -0.0077,
+    -0.4777,
+    -0.1412,
+    1.7106,
+    -0.4424,
+    -0.3869,
+    0.125,
+    0.4768,
+    -0.5549,
+    0.5702,
+    -0.2366
+   ],
+   "bias": -2.5612
+  },
+  {
+   "id": "esports-night",
+   "kind": "event",
+   "title": "Esports night in the lounge",
+   "where": "Partner arena",
+   "minAge": 13,
+   "maxAge": 20,
+   "peakAge": 16,
+   "tags": [
+    "games"
+   ],
+   "requires": [],
+   "hardMinAge": 4,
+   "hardMaxAge": 25,
+   "embedding": [
+    0.2766,
+    -0.3872,
+    -0.4343,
+    -0.665,
+    -0.1638,
+    0.3554,
+    -0.4168,
+    0.0094,
+    0.5527,
+    -0.0229,
+    -1.3424,
+    -0.3101,
+    0.7407,
+    -0.7612,
+    -0.3596,
+    -0.6724
+   ],
+   "bias": -1.7283
+  },
+  {
+   "id": "route-quiz",
+   "kind": "game",
+   "title": "Guess-the-route quiz",
+   "where": "In app",
+   "miles": 120,
+   "minAge": 10,
+   "maxAge": 18,
+   "peakAge": 14,
+   "tags": [
+    "games",
+    "aviation"
+   ],
+   "requires": [],
+   "hardMinAge": 4,
+   "hardMaxAge": 25,
+   "embedding": [
+    0.2294,
+    -0.4555,
+    -0.3545,
+    0.8803,
+    0.5219,
+    -0.073,
+    -0.164,
+    -0.6745,
+    -0.0901,
+    0.3017,
+    -0.2654,
+    -0.2426,
+    1.6469,
+    -0.3244,
+    -0.691,
+    -0.7092
+   ],
+   "bias": -1.0331
+  },
+  {
+   "id": "photo-challenge",
+   "kind": "game",
+   "title": "Window seat photo challenge",
+   "where": "In app",
+   "miles": 100,
+   "minAge": 12,
+   "maxAge": 20,
+   "peakAge": 16,
+   "tags": [
+    "arts",
+    "games"
+   ],
+   "requires": [],
+   "hardMinAge": 4,
+   "hardMaxAge": 25,
+   "embedding": [
+    0.1983,
+    -0.2621,
+    0.7549,
+    -0.079,
+    0.1927,
+    0.0053,
+    1.0162,
+    -0.1686,
+    -0.4435,
+    0.3683,
+    -0.6816,
+    -0.3836,
+    0.7481,
+    -0.7547,
+    -0.0966,
+    -0.9898
+   ],
+   "bias": -1.0591
+  },
+  {
+   "id": "phone-strap",
+   "kind": "discount",
+   "title": "Travel phone strap",
+   "where": "Partner shop",
+   "miles": 1200,
+   "minAge": 12,
+   "maxAge": 18,
+   "peakAge": 15,
+   "tags": [
+    "arts"
+   ],
+   "requires": [],
+   "hardMinAge": 4,
+   "hardMaxAge": 25,
+   "embedding": [
+    0.0512,
+    0.2146,
+    0.0619,
+    -0.5536,
+    0.9083,
+    0.6274,
+    1.0448,
+    -0.2516,
+    -1.0288,
+    0.9458,
+    -0.1079,
+    0.0294,
+    0.2409,
+    -0.0174,
+    0.2687,
+    -0.2878
+   ],
+   "bias": -2.59
+  },
+  {
+   "id": "summer-camp",
+   "kind": "event",
+   "title": "Summer aviation camp",
+   "where": "Cathay City",
+   "minAge": 12,
+   "maxAge": 17,
+   "peakAge": 14,
+   "tags": [
+    "aviation",
+    "outdoors"
+   ],
+   "requires": [],
+   "hardMinAge": 4,
+   "hardMaxAge": 25,
+   "embedding": [
+    0.0691,
+    -0.2774,
+    -0.1366,
+    1.142,
+    1.2328,
+    0.8496,
+    0.6241,
+    -0.7543,
+    0.6155,
+    0.6201,
+    -0.5344,
+    -0.2884,
+    0.4073,
+    -0.2428,
+    -0.5207,
+    0.4651
+   ],
+   "bias": -1.3122
+  },
+  {
+   "id": "student-fare",
+   "kind": "discount",
+   "title": "Student fare saver",
+   "where": "Cathay",
+   "miles": 2500,
+   "minAge": 18,
+   "maxAge": 25,
+   "peakAge": 21,
+   "tags": [
+    "study",
+    "campus",
+    "value"
+   ],
+   "requires": [
+    "studying"
+   ],
+   "hardMinAge": 4,
+   "hardMaxAge": 25,
+   "embedding": [
+    0.6499,
+    0.0261,
+    -0.5717,
+    -1.3715,
+    -0.6958,
+    -0.1775,
+    -0.5818,
+    -0.3378,
+    0.1213,
+    0.4437,
+    0.0309,
+    0.2281,
+    0.2313,
+    -0.4166,
+    1.3006,
+    0.4922
+   ],
+   "bias": -0.4466
+  },
+  {
+   "id": "extra-bag",
+   "kind": "discount",
+   "title": "Extra 10 kg for move-in day",
+   "where": "Cathay",
+   "miles": 3000,
+   "minAge": 17,
+   "maxAge": 25,
+   "peakAge": 19,
+   "tags": [
+    "campus",
+    "abroad"
+   ],
+   "requires": [],
+   "hardMinAge": 4,
+   "hardMaxAge": 25,
+   "embedding": [
+    1.0151,
+    -0.669,
+    -0.4546,
+    -0.2118,
+    -2.0928,
+    -0.4753,
+    0.0961,
+    -0.293,
+    0.4163,
+    1.2871,
+    0.2105,
+    -0.6302,
+    -1.1039,
+    0.3843,
+    -0.6388,
+    0.1312
+   ],
+   "bias": -2.4307
+  },
+  {
+   "id": "language-trip",
+   "kind": "activity",
+   "title": "Language exchange trip",
+   "where": "Partner school",
+   "minAge": 16,
+   "maxAge": 24,
+   "peakAge": 19,
+   "tags": [
+    "study",
+    "abroad",
+    "solo"
+   ],
+   "requires": [],
+   "hardMinAge": 4,
+   "hardMaxAge": 25,
+   "embedding": [
+    -0.1403,
+    -0.5488,
+    -1.7893,
+    -1.0948,
+    -0.4287,
+    0.5325,
+    -0.6829,
+    -0.857,
+    0.7509,
+    0.6431,
+    0.1899,
+    0.3139,
+    0.4807,
+    0.4092,
+    1.3113,
+    -0.5053
+   ],
+   "bias": -1.4871
+  },
+  {
+   "id": "hostel-deal",
+   "kind": "discount",
+   "title": "Two nights at a partner hostel",
+   "where": "Partner hotel",
+   "miles": 4000,
+   "minAge": 18,
+   "maxAge": 25,
+   "peakAge": 22,
+   "tags": [
+    "solo",
+    "value",
+    "abroad"
+   ],
+   "requires": [],
+   "hardMinAge": 18,
+   "hardMaxAge": 25,
+   "embedding": [
+    0.756,
+    -0.4824,
+    -0.473,
+    -0.4102,
+    -0.8487,
+    0.1849,
+    -0.5255,
+    -0.0255,
+    -0.2258,
+    0.211,
+    1.65,
+    -0.556,
+    -0.1971,
+    0.4165,
+    0.754,
+    -0.5233
+   ],
+   "bias": -1.6634
+  },
+  {
+   "id": "lounge-study",
+   "kind": "event",
+   "title": "Exam-week lounge study pass",
+   "where": "HKG lounge",
+   "miles": 6000,
+   "minAge": 18,
+   "maxAge": 25,
+   "peakAge": 21,
+   "tags": [
+    "study",
+    "campus"
+   ],
+   "requires": [
+    "studying"
+   ],
+   "hardMinAge": 4,
+   "hardMaxAge": 25,
+   "embedding": [
+    0.7467,
+    -0.3182,
+    -0.584,
+    0.1924,
+    -1.0189,
+    -0.3534,
+    0.2355,
+    -1.2665,
+    -0.3674,
+    -0.0734,
+    -0.3722,
+    0.3092,
+    0.2493,
+    0.0288,
+    0.1182,
+    -0.2946
+   ],
+   "bias": -0.9822
+  },
+  {
+   "id": "career-day",
+   "kind": "event",
+   "title": "Careers day at Cathay City",
+   "where": "Cathay City",
+   "minAge": 18,
+   "maxAge": 25,
+   "peakAge": 22,
+   "tags": [
+    "aviation",
+    "campus"
+   ],
+   "requires": [],
+   "hardMinAge": 4,
+   "hardMaxAge": 25,
+   "embedding": [
+    0.1911,
+    0.1006,
+    -0.8447,
+    0.3858,
+    -0.6828,
+    -0.3456,
+    -0.3273,
+    -1.2398,
+    -0.0013,
+    0.2807,
+    -0.3169,
+    1.0873,
+    -0.0543,
+    -0.6657,
+    0.7539,
+    -0.0801
+   ],
+   "bias": -2.2939
+  },
+  {
+   "id": "grad-trip",
+   "kind": "discount",
+   "title": "Graduation trip, flight and hotel",
+   "where": "Cathay",
+   "miles": 15000,
+   "minAge": 20,
+   "maxAge": 25,
+   "peakAge": 23,
+   "tags": [
+    "campus",
+    "solo"
+   ],
+   "requires": [],
+   "hardMinAge": 18,
+   "hardMaxAge": 25,
+   "embedding": [
+    -0.0997,
+    -0.2754,
+    -0.627,
+    0.6766,
+    -1.0479,
+    0.2849,
+    0.0574,
+    -0.5067,
+    -0.2993,
+    -0.3507,
+    1.3585,
+    0.584,
+    -0.4091,
+    0.9789,
+    0.5725,
+    -0.608
+   ],
+   "bias": -1.6503
+  },
+  {
+   "id": "hike-meetup",
+   "kind": "activity",
+   "title": "Weekend hike with other Xplorers",
+   "where": "Lantau",
+   "minAge": 15,
+   "maxAge": 25,
+   "peakAge": 20,
+   "tags": [
+    "outdoors",
+    "solo"
+   ],
+   "requires": [],
+   "hardMinAge": 4,
+   "hardMaxAge": 25,
+   "embedding": [
+    -1.1248,
+    -0.2248,
+    -0.5576,
+    -0.032,
+    -0.7593,
+    1.365,
+    0.0391,
+    0.07,
+    1.1583,
+    0.7917,
+    0.6056,
+    -0.0069,
+    0.3364,
+    -0.6406,
+    0.7717,
+    0.019
+   ],
+   "bias": -1.4038
+  },
+  {
+   "id": "travel-hack",
+   "kind": "game",
+   "title": "Pack in 7 kg challenge",
+   "where": "In app",
+   "miles": 150,
+   "minAge": 15,
+   "maxAge": 25,
+   "peakAge": 19,
+   "tags": [
+    "games",
+    "value",
+    "solo"
+   ],
+   "requires": [],
+   "hardMinAge": 4,
+   "hardMaxAge": 25,
+   "embedding": [
+    -0.6611,
+    -0.7038,
+    0.2264,
+    -0.6702,
+    -0.4026,
+    0.2646,
+    -0.3966,
+    -0.1297,
+    0.4915,
+    -0.6327,
+    -0.5186,
+    0.1802,
+    0.6493,
+    -0.5283,
+    1.1869,
+    -1.1379
+   ],
+   "bias": -0.5645
+  },
+  {
+   "id": "gate-arcade",
+   "kind": "event",
+   "title": "Retro arcade corner at the gate",
+   "where": "HKG terminal",
+   "minAge": 8,
+   "maxAge": 18,
+   "peakAge": 13,
+   "tags": [
+    "games",
+    "kids"
+   ],
+   "requires": [],
+   "hardMinAge": 4,
+   "hardMaxAge": 25,
+   "embedding": [
+    -0.1964,
+    0.569,
+    0.1753,
+    0.1786,
+    -0.2136,
+    0.1279,
+    -0.1345,
+    -0.3241,
+    0.2769,
+    0.5684,
+    -0.6816,
+    -0.4534,
+    0.774,
+    0.1243,
+    -1.2736,
+    -1.0517
+   ],
+   "bias": -0.0084
+  },
+  {
+   "id": "game-bundle",
+   "kind": "discount",
+   "title": "In-flight game bundle",
+   "where": "On board",
+   "miles": 300,
+   "minAge": 9,
+   "maxAge": 20,
+   "peakAge": 14,
+   "tags": [
+    "games",
+    "value"
+   ],
+   "requires": [],
+   "hardMinAge": 4,
+   "hardMaxAge": 25,
+   "embedding": [
+    -0.1473,
+    -0.252,
+    0.0498,
+    -0.2557,
+    0.6427,
+    -0.5365,
+    -0.356,
+    0.3626,
+    0.0855,
+    0.4792,
+    -0.5511,
+    0.058,
+    0.8839,
+    -0.5621,
+    -0.4524,
+    -0.2907
+   ],
+   "bias": -0.2339
+  },
+  {
+   "id": "dim-sum-class",
+   "kind": "activity",
+   "title": "Mini dim sum class",
+   "where": "Partner restaurant",
+   "miles": 500,
+   "minAge": 7,
+   "maxAge": 16,
+   "peakAge": 11,
+   "tags": [
+    "food",
+    "kids",
+    "family"
+   ],
+   "requires": [],
+   "hardMinAge": 4,
+   "hardMaxAge": 25,
+   "embedding": [
+    0.1101,
+    0.8193,
+    0.2365,
+    -0.5133,
+    1.4203,
+    0.0938,
+    -0.0537,
+    -0.6833,
+    0.5108,
+    0.0873,
+    0.6698,
+    -0.0186,
+    -0.3284,
+    -0.0854,
+    -1.248,
+    -0.8238
+   ],
+   "bias": -1.4063
+  },
+  {
+   "id": "street-food-pass",
+   "kind": "discount",
+   "title": "Street food tasting pass",
+   "where": "Partner food hall",
+   "miles": 900,
+   "minAge": 14,
+   "maxAge": 25,
+   "peakAge": 19,
+   "tags": [
+    "food",
+    "value"
+   ],
+   "requires": [],
+   "hardMinAge": 4,
+   "hardMaxAge": 25,
+   "embedding": [
+    -0.1476,
+    0.1939,
+    0.4267,
+    -0.5535,
+    0.4256,
+    0.0247,
+    -0.2646,
+    -0.5632,
+    0.6859,
+    0.49,
+    1.2008,
+    -0.0112,
+    -0.0353,
+    -1.198,
+    0.6625,
+    -0.0812
+   ],
+   "bias": -1.1036
+  },
+  {
+   "id": "chef-table",
+   "kind": "event",
+   "title": "Meet the in-flight chef",
+   "where": "Cathay City",
+   "miles": 1500,
+   "minAge": 12,
+   "maxAge": 25,
+   "peakAge": 18,
+   "tags": [
+    "food",
+    "aviation"
+   ],
+   "requires": [],
+   "hardMinAge": 4,
+   "hardMaxAge": 25,
+   "embedding": [
+    1.1208,
+    0.1111,
+    -0.0688,
+    0.1533,
+    0.3071,
+    -0.2775,
+    -0.3631,
+    -1.4717,
+    0.9845,
+    0.2355,
+    0.1096,
+    -0.2298,
+    -0.0421,
+    -1.3311,
+    0.197,
+    -0.2194
+   ],
+   "bias": -1.0181
+  },
+  {
+   "id": "sunrise-paddle",
+   "kind": "activity",
+   "title": "Sunrise paddleboard session",
+   "where": "Partner club",
+   "miles": 1100,
+   "minAge": 13,
+   "maxAge": 25,
+   "peakAge": 19,
+   "tags": [
+    "outdoors"
+   ],
+   "requires": [],
+   "hardMinAge": 10,
+   "hardMaxAge": 25,
+   "embedding": [
+    0.0544,
+    -1.0779,
+    0.4118,
+    0.033,
+    -0.3316,
+    0.2737,
+    0.7561,
+    -0.8941,
+    0.953,
+    1.1933,
+    -0.4579,
+    -0.0475,
+    -0.5164,
+    -0.2677,
+    -0.1264,
+    0.6642
+   ],
+   "bias": -1.7222
+  },
+  {
+   "id": "trail-run",
+   "kind": "event",
+   "title": "Island trail run for Xplorers",
+   "where": "Partner club",
+   "minAge": 14,
+   "maxAge": 25,
+   "peakAge": 18,
+   "tags": [
+    "outdoors",
+    "solo"
+   ],
+   "requires": [],
+   "hardMinAge": 14,
+   "hardMaxAge": 25,
+   "embedding": [
+    0.1456,
+    -0.7345,
+    -0.2301,
+    0.2631,
+    -0.7169,
+    0.5717,
+    0.5662,
+    -0.3994,
+    1.4873,
+    0.0785,
+    0.5312,
+    0.3934,
+    0.738,
+    0.1288,
+    0.8779,
+    0.0252
+   ],
+   "bias": -0.7646
+  },
+  {
+   "id": "kite-day",
+   "kind": "activity",
+   "title": "Kite-making day",
+   "where": "Partner park",
+   "minAge": 5,
+   "maxAge": 12,
+   "peakAge": 8,
+   "tags": [
+    "outdoors",
+    "arts",
+    "kids",
+    "family"
+   ],
+   "requires": [],
+   "hardMinAge": 4,
+   "hardMaxAge": 25,
+   "embedding": [
+    -0.0748,
+    -0.6019,
+    0.3877,
+    0.383,
+    0.9527,
+    -0.1405,
+    1.0998,
+    0.3785,
+    0.2554,
+    1.1875,
+    0.1278,
+    0.5273,
+    -0.8539,
+    0.4931,
+    -0.5524,
+    -0.6535
+   ],
+   "bias": -1.1451
+  },
+  {
+   "id": "skyline-sketch",
+   "kind": "activity",
+   "title": "Sketch the skyline workshop",
+   "where": "Partner studio",
+   "miles": 400,
+   "minAge": 9,
+   "maxAge": 22,
+   "peakAge": 15,
+   "tags": [
+    "arts"
+   ],
+   "requires": [],
+   "hardMinAge": 4,
+   "hardMaxAge": 25,
+   "embedding": [
+    0.0366,
+    0.1696,
+    0.4962,
+    -0.3541,
+    0.5405,
+    0.656,
+    1.0044,
+    -0.0313,
+    -0.8464,
+    1.2362,
+    -0.565,
+    0.0452,
+    -0.1197,
+    -0.2293,
+    0.45,
+    -0.0769
+   ],
+   "bias": -1.6904
+  },
+  {
+   "id": "film-photo-walk",
+   "kind": "event",
+   "title": "Film photo walk",
+   "where": "Partner studio",
+   "miles": 700,
+   "minAge": 15,
+   "maxAge": 25,
+   "peakAge": 20,
+   "tags": [
+    "arts",
+    "solo"
+   ],
+   "requires": [],
+   "hardMinAge": 4,
+   "hardMaxAge": 25,
+   "embedding": [
+    -0.1684,
+    -0.1999,
+    -0.1407,
+    -0.5347,
+    -0.0945,
+    0.1639,
+    0.5074,
+    -0.1107,
+    -0.5934,
+    0.8041,
+    0.4277,
+    0.3317,
+    0.488,
+    -0.4728,
+    1.6743,
+    -0.7571
+   ],
+   "bias": -2.3803
+  },
+  {
+   "id": "hangar-tour",
+   "kind": "event",
+   "title": "Behind-the-scenes hangar tour",
+   "where": "Cathay City",
+   "miles": 800,
+   "minAge": 8,
+   "maxAge": 25,
+   "peakAge": 14,
+   "tags": [
+    "aviation"
+   ],
+   "requires": [],
+   "hardMinAge": 4,
+   "hardMaxAge": 25,
+   "embedding": [
+    -0.4044,
+    0.6252,
+    -0.6221,
+    1.3702,
+    0.1676,
+    0.2888,
+    -0.1615,
+    -0.0069,
+    0.2587,
+    0.5771,
+    -0.4097,
+    -0.7762,
+    0.264,
+    -0.0356,
+    -0.3677,
+    -0.5207
+   ],
+   "bias": -1.3613
+  },
+  {
+   "id": "pilot-qa",
+   "kind": "event",
+   "title": "Ask a pilot live session",
+   "where": "In app",
+   "minAge": 7,
+   "maxAge": 18,
+   "peakAge": 12,
+   "tags": [
+    "aviation",
+    "kids"
+   ],
+   "requires": [],
+   "hardMinAge": 4,
+   "hardMaxAge": 25,
+   "embedding": [
+    0.6956,
+    0.9032,
+    -0.3265,
+    1.0785,
+    0.1145,
+    -0.2338,
+    -0.1009,
+    -0.13,
+    -0.0875,
+    0.4241,
+    -0.4169,
+    -0.5621,
+    0.2791,
+    -0.4015,
+    -0.7479,
+    -0.6266
+   ],
+   "bias": -0.7877
+  },
+  {
+   "id": "sibling-seats",
+   "kind": "discount",
+   "title": "Sit-together seats for siblings",
+   "where": "Cathay",
+   "miles": 200,
+   "minAge": 4,
+   "maxAge": 17,
+   "peakAge": 10,
+   "tags": [
+    "family",
+    "value",
+    "kids"
+   ],
+   "requires": [],
+   "hardMinAge": 4,
+   "hardMaxAge": 25,
+   "embedding": [
+    -0.502,
+    0.5388,
+    -0.4028,
+    -0.0419,
+    0.7362,
+    -0.6448,
+    -0.3985,
+    0.8751,
+    -0.1461,
+    0.2554,
+    0.1919,
+    0.6215,
+    0.0544,
+    -0.017,
+    -1.1829,
+    -0.2547
+   ],
+   "bias": -0.6883
+  },
+  {
+   "id": "family-lounge-play",
+   "kind": "event",
+   "title": "Lounge play corner pass",
+   "where": "HKG lounge",
+   "miles": 600,
+   "minAge": 4,
+   "maxAge": 12,
+   "peakAge": 7,
+   "tags": [
+    "family",
+    "kids"
+   ],
+   "requires": [],
+   "hardMinAge": 4,
+   "hardMaxAge": 12,
+   "embedding": [
+    0.2049,
+    0.5592,
+    -0.2874,
+    -0.6448,
+    -0.3091,
+    -1.0933,
+    -0.2924,
+    -0.0178,
+    0.4713,
+    0.2074,
+    0.4563,
+    1.1858,
+    -1.0891,
+    0.0664,
+    -0.8167,
+    -0.7649
+   ],
+   "bias": -1.9998
+  },
+  {
+   "id": "solo-starter",
+   "kind": "activity",
+   "title": "First solo trip starter guide",
+   "where": "In app",
+   "minAge": 15,
+   "maxAge": 25,
+   "peakAge": 18,
+   "tags": [
+    "solo"
+   ],
+   "requires": [],
+   "hardMinAge": 15,
+   "hardMaxAge": 25,
+   "embedding": [
+    -0.8534,
+    -0.1523,
+    0.1989,
+    -0.0834,
+    0.0482,
+    0.2133,
+    -0.3698,
+    -0.2616,
+    -0.1676,
+    0.7746,
+    0.3645,
+    -0.4461,
+    0.2572,
+    0.2386,
+    1.0106,
+    -1.0837
+   ],
+   "bias": -1.1639
+  },
+  {
+   "id": "solo-meet-assist",
+   "kind": "discount",
+   "title": "Airport meet-and-assist for solo travellers",
+   "where": "Cathay",
+   "miles": 1000,
+   "minAge": 15,
+   "maxAge": 19,
+   "peakAge": 16,
+   "tags": [
+    "solo",
+    "family"
+   ],
+   "requires": [],
+   "hardMinAge": 12,
+   "hardMaxAge": 17,
+   "embedding": [
+    -0.2896,
+    0.263,
+    -1.0316,
+    0.0254,
+    -0.2308,
+    0.1589,
+    -0.2284,
+    -0.7838,
+    0.0246,
+    0.4001,
+    0.8818,
+    0.7272,
+    0.2458,
+    0.3935,
+    1.1118,
+    -1.385
+   ],
+   "bias": -1.1528
+  },
+  {
+   "id": "mile-stretcher",
+   "kind": "discount",
+   "title": "Mile-stretcher value pack",
+   "where": "Cathay",
+   "miles": 350,
+   "minAge": 12,
+   "maxAge": 25,
+   "peakAge": 18,
+   "tags": [
+    "value"
+   ],
+   "requires": [],
+   "hardMinAge": 4,
+   "hardMaxAge": 25,
+   "embedding": [
+    -0.5885,
+    0.1451,
+    -0.7248,
+    0.0862,
+    0.0067,
+    0.053,
+    -0.3147,
+    0.4761,
+    0.5465,
+    0.7448,
+    -0.4917,
+    0.3395,
+    0.64,
+    -0.2537,
+    0.5709,
+    -0.2126
+   ],
+   "bias": -1.9169
+  },
+  {
+   "id": "off-peak-fare",
+   "kind": "discount",
+   "title": "Off-peak fare saver",
+   "where": "Cathay",
+   "miles": 2000,
+   "minAge": 16,
+   "maxAge": 25,
+   "peakAge": 21,
+   "tags": [
+    "value",
+    "solo"
+   ],
+   "requires": [],
+   "hardMinAge": 16,
+   "hardMaxAge": 25,
+   "embedding": [
+    -0.9495,
+    -0.4041,
+    -0.3219,
+    -0.3214,
+    0.164,
+    -0.6515,
+    -1.2598,
+    -0.2203,
+    -0.027,
+    -0.1397,
+    0.648,
+    0.6081,
+    0.2213,
+    -0.2628,
+    1.3742,
+    -0.9979
+   ],
+   "bias": -0.783
+  },
+  {
+   "id": "move-abroad-bags",
+   "kind": "discount",
+   "title": "Move-abroad baggage allowance",
+   "where": "Cathay",
+   "miles": 3500,
+   "minAge": 18,
+   "maxAge": 25,
+   "peakAge": 19,
+   "tags": [
+    "abroad",
+    "campus"
+   ],
+   "requires": [
+    "studying_abroad"
+   ],
+   "hardMinAge": 4,
+   "hardMaxAge": 25,
+   "embedding": [
+    0.517,
+    -0.8242,
+    0.5789,
+    -0.3939,
+    -1.4878,
+    -0.306,
+    0.8443,
+    -0.8415,
+    1.0694,
+    0.7085,
+    0.6506,
+    0.0803,
+    -0.1369,
+    0.1188,
+    -0.9065,
+    -0.4996
+   ],
+   "bias": -1.0516
+  },
+  {
+   "id": "term-break-home",
+   "kind": "discount",
+   "title": "Term-break flight home",
+   "where": "Cathay",
+   "miles": 5000,
+   "minAge": 18,
+   "maxAge": 25,
+   "peakAge": 21,
+   "tags": [
+    "abroad",
+    "study"
+   ],
+   "requires": [
+    "studying_abroad"
+   ],
+   "hardMinAge": 4,
+   "hardMaxAge": 25,
+   "embedding": [
+    0.5986,
+    -0.9351,
+    -0.4257,
+    -1.6293,
+    -1.3931,
+    0.2271,
+    0.4322,
+    -1.0019,
+    0.1632,
+    0.5402,
+    0.0859,
+    0.0915,
+    0.2607,
+    0.6007,
+    0.1713,
+    -1.5586
+   ],
+   "bias": -0.6798
+  },
+  {
+   "id": "study-cafe-pass",
+   "kind": "discount",
+   "title": "Quiet study café pass",
+   "where": "Partner café",
+   "miles": 900,
+   "minAge": 17,
+   "maxAge": 25,
+   "peakAge": 20,
+   "tags": [
+    "study",
+    "food",
+    "campus"
+   ],
+   "requires": [
+    "studying"
+   ],
+   "hardMinAge": 4,
+   "hardMaxAge": 25,
+   "embedding": [
+    1.1021,
+    -0.4622,
+    -0.1691,
+    -2.044,
+    0.5182,
+    0.0482,
+    -0.6841,
+    -1.1821,
+    1.5622,
+    0.1642,
+    0.127,
+    0.6346,
+    1.1274,
+    -1.4288,
+    1.4856,
+    -0.2622
+   ],
+   "bias": 0.1194
+  },
+  {
+   "id": "campus-storage",
+   "kind": "discount",
+   "title": "Summer dorm storage",
+   "where": "Partner storage",
+   "miles": 2200,
+   "minAge": 18,
+   "maxAge": 25,
+   "peakAge": 20,
+   "tags": [
+    "campus",
+    "abroad"
+   ],
+   "requires": [
+    "studying"
+   ],
+   "hardMinAge": 4,
+   "hardMaxAge": 25,
+   "embedding": [
+    0.8305,
+    -0.895,
+    -0.0597,
+    -0.439,
+    -0.5343,
+    -0.1117,
+    0.1955,
+    -0.4741,
+    0.299,
+    0.8366,
+    0.6385,
+    0.0077,
+    -0.5153,
+    -0.1577,
+    -0.1125,
+    -0.0686
+   ],
+   "bias": -1.153
+  }
+ ],
+ "byBand": {
+  "little": [
+   {
+    "id": "sibling-seats",
+    "score": 0.4362,
+    "reason": "Popular at your age"
+   },
+   {
+    "id": "plane-spotting",
+    "score": 0.3782,
+    "reason": "Popular at your age"
+   },
+   {
+    "id": "pilot-qa",
+    "score": 0.2939,
+    "reason": "Popular at your age"
+   },
+   {
+    "id": "gate-arcade",
+    "score": 0.288,
+    "reason": "Popular at your age"
+   },
+   {
+    "id": "draw-a-plane",
+    "score": 0.2757,
+    "reason": "Popular at your age"
+   },
+   {
+    "id": "game-bundle",
+    "score": 0.2315,
+    "reason": "Popular at your age"
+   },
+   {
+    "id": "family-lounge-play",
+    "score": 0.1824,
+    "reason": "Popular at your age"
+   },
+   {
+    "id": "cloud-spotter",
+    "score": 0.1451,
+    "reason": "Popular at your age"
+   }
+  ],
+  "teen": [
+   {
+    "id": "gate-arcade",
+    "score": 0.6202,
+    "reason": "Popular at your age"
+   },
+   {
+    "id": "pilot-qa",
+    "score": 0.4917,
+    "reason": "Popular at your age"
+   },
+   {
+    "id": "game-bundle",
+    "score": 0.393,
+    "reason": "Popular at your age"
+   },
+   {
+    "id": "photo-challenge",
+    "score": 0.3363,
+    "reason": "Popular at your age"
+   },
+   {
+    "id": "route-quiz",
+    "score": 0.3271,
+    "reason": "Popular at your age"
+   },
+   {
+    "id": "blind-box-drop",
+    "score": 0.2792,
+    "reason": "Popular at your age"
+   },
+   {
+    "id": "plane-spotting",
+    "score": 0.2778,
+    "reason": "Popular at your age"
+   },
+   {
+    "id": "skyline-sketch",
+    "score": 0.265,
+    "reason": "Popular at your age"
+   }
+  ],
+  "campus": [
+   {
+    "id": "extra-bag",
+    "score": 0.4713,
+    "reason": "Popular at your age"
+   },
+   {
+    "id": "travel-hack",
+    "score": 0.3214,
+    "reason": "Popular at your age"
+   },
+   {
+    "id": "off-peak-fare",
+    "score": 0.3194,
+    "reason": "Popular at your age"
+   },
+   {
+    "id": "street-food-pass",
+    "score": 0.3188,
+    "reason": "Popular at your age"
+   },
+   {
+    "id": "game-bundle",
+    "score": 0.2799,
+    "reason": "Popular at your age"
+   },
+   {
+    "id": "hike-meetup",
+    "score": 0.2701,
+    "reason": "Popular at your age"
+   },
+   {
+    "id": "career-day",
+    "score": 0.2655,
+    "reason": "Popular at your age"
+   },
+   {
+    "id": "hostel-deal",
+    "score": 0.2192,
+    "reason": "Popular at your age"
+   }
+  ]
+ },
+ "byTrait": {
+  "gamer": {
+   "little": [
+    {
+     "id": "gate-arcade",
+     "score": 0.7253,
+     "reason": "Because you love games",
+     "lift": 2.519
+    },
+    {
+     "id": "pip-sticker-hunt",
+     "score": 0.6845,
+     "reason": "Because you love games",
+     "lift": 5.445
+    },
+    {
+     "id": "cloud-spotter",
+     "score": 0.6491,
+     "reason": "Because you love games",
+     "lift": 4.474
+    },
+    {
+     "id": "game-bundle",
+     "score": 0.6272,
+     "reason": "Because you love games",
+     "lift": 2.709
+    },
+    {
+     "id": "sibling-seats",
+     "score": 0.4939,
+     "reason": "Popular at your age",
+     "lift": 1.132
+    },
+    {
+     "id": "pilot-qa",
+     "score": 0.4295,
+     "reason": "Popular at your age",
+     "lift": 1.461
+    }
+   ],
+   "teen": [
+    {
+     "id": "gate-arcade",
+     "score": 0.9142,
+     "reason": "Because you love games",
+     "lift": 1.474
+    },
+    {
+     "id": "route-quiz",
+     "score": 0.8225,
+     "reason": "Because you love games",
+     "lift": 2.515
+    },
+    {
+     "id": "game-bundle",
+     "score": 0.7834,
+     "reason": "Because you love games",
+     "lift": 1.993
+    },
+    {
+     "id": "photo-challenge",
+     "score": 0.7791,
+     "reason": "Because you love games",
+     "lift": 2.317
+    },
+    {
+     "id": "pilot-qa",
+     "score": 0.6362,
+     "reason": "Popular at your age",
+     "lift": 1.294
+    },
+    {
+     "id": "flight-sim-try",
+     "score": 0.6036,
+     "reason": "Because you love games",
+     "lift": 5.824
+    }
+   ],
+   "campus": [
+    {
+     "id": "travel-hack",
+     "score": 0.7664,
+     "reason": "Because you love games",
+     "lift": 2.384
+    },
+    {
+     "id": "game-bundle",
+     "score": 0.6847,
+     "reason": "Because you love games",
+     "lift": 2.446
+    },
+    {
+     "id": "gate-arcade",
+     "score": 0.5963,
+     "reason": "Because you love games",
+     "lift": 3.231
+    },
+    {
+     "id": "off-peak-fare",
+     "score": 0.511,
+     "reason": "Popular at your age",
+     "lift": 1.6
+    },
+    {
+     "id": "extra-bag",
+     "score": 0.482,
+     "reason": "Popular at your age",
+     "lift": 1.023
+    },
+    {
+     "id": "esports-night",
+     "score": 0.477,
+     "reason": "Because you love games",
+     "lift": 5.283
+    }
+   ]
+  },
+  "foodie": {
+   "little": [
+    {
+     "id": "kids-meal-upgrade",
+     "score": 0.654,
+     "reason": "Because you're a foodie",
+     "lift": 9.29
+    },
+    {
+     "id": "bubble-tea-gate",
+     "score": 0.529,
+     "reason": "Because you're a foodie",
+     "lift": 5.745
+    },
+    {
+     "id": "plane-spotting",
+     "score": 0.4881,
+     "reason": "Popular at your age",
+     "lift": 1.29
+    },
+    {
+     "id": "pilot-qa",
+     "score": 0.3107,
+     "reason": "Popular at your age",
+     "lift": 1.057
+    },
+    {
+     "id": "sibling-seats",
+     "score": 0.3086,
+     "reason": "Popular at your age",
+     "lift": 0.708
+    },
+    {
+     "id": "family-lounge-play",
+     "score": 0.2978,
+     "reason": "Popular at your age",
+     "lift": 1.632
+    }
+   ],
+   "teen": [
+    {
+     "id": "bubble-tea-gate",
+     "score": 0.6386,
+     "reason": "Because you're a foodie",
+     "lift": 4.64
+    },
+    {
+     "id": "chef-table",
+     "score": 0.5943,
+     "reason": "Because you're a foodie",
+     "lift": 7.747
+    },
+    {
+     "id": "gate-arcade",
+     "score": 0.5636,
+     "reason": "Popular at your age",
+     "lift": 0.909
+    },
+    {
+     "id": "pilot-qa",
+     "score": 0.5116,
+     "reason": "Popular at your age",
+     "lift": 1.04
+    },
+    {
+     "id": "photo-challenge",
+     "score": 0.4172,
+     "reason": "Popular at your age",
+     "lift": 1.241
+    },
+    {
+     "id": "game-bundle",
+     "score": 0.413,
+     "reason": "Popular at your age",
+     "lift": 1.051
+    }
+   ],
+   "campus": [
+    {
+     "id": "street-food-pass",
+     "score": 0.846,
+     "reason": "Because you're a foodie",
+     "lift": 2.653
+    },
+    {
+     "id": "chef-table",
+     "score": 0.766,
+     "reason": "Because you're a foodie",
+     "lift": 4.891
+    },
+    {
+     "id": "bubble-tea-gate",
+     "score": 0.536,
+     "reason": "Because you're a foodie",
+     "lift": 5.673
+    },
+    {
+     "id": "travel-hack",
+     "score": 0.4139,
+     "reason": "Popular at your age",
+     "lift": 1.288
+    },
+    {
+     "id": "off-peak-fare",
+     "score": 0.3868,
+     "reason": "Popular at your age",
+     "lift": 1.211
+    },
+    {
+     "id": "extra-bag",
+     "score": 0.3425,
+     "reason": "Popular at your age",
+     "lift": 0.727
+    }
+   ]
+  },
+  "outdoorsy": {
+   "little": [
+    {
+     "id": "plane-spotting",
+     "score": 0.8498,
+     "reason": "Because you like the outdoors",
+     "lift": 2.247
+    },
+    {
+     "id": "cloud-spotter",
+     "score": 0.5513,
+     "reason": "Because you like the outdoors",
+     "lift": 3.8
+    },
+    {
+     "id": "kite-day",
+     "score": 0.3926,
+     "reason": "Because you like the outdoors",
+     "lift": 3.852
+    },
+    {
+     "id": "draw-a-plane",
+     "score": 0.2931,
+     "reason": "Popular at your age",
+     "lift": 1.063
+    },
+    {
+     "id": "sibling-seats",
+     "score": 0.2802,
+     "reason": "Popular at your age",
+     "lift": 0.642
+    },
+    {
+     "id": "gate-arcade",
+     "score": 0.2294,
+     "reason": "Popular at your age",
+     "lift": 0.797
+    }
+   ],
+   "teen": [
+    {
+     "id": "plane-spotting",
+     "score": 0.7815,
+     "reason": "Because you like the outdoors",
+     "lift": 2.813
+    },
+    {
+     "id": "summer-camp",
+     "score": 0.7125,
+     "reason": "Because you like the outdoors",
+     "lift": 2.871
+    },
+    {
+     "id": "trail-run",
+     "score": 0.6053,
+     "reason": "Because you like the outdoors",
+     "lift": 3.959
+    },
+    {
+     "id": "sunrise-paddle",
+     "score": 0.5622,
+     "reason": "Because you like the outdoors",
+     "lift": 6.429
+    },
+    {
+     "id": "gate-arcade",
+     "score": 0.5459,
+     "reason": "Popular at your age",
+     "lift": 0.88
+    },
+    {
+     "id": "cloud-spotter",
+     "score": 0.3615,
+     "reason": "Because you like the outdoors",
+     "lift": 4.984
+    }
+   ],
+   "campus": [
+    {
+     "id": "hike-meetup",
+     "score": 0.7571,
+     "reason": "Because you like the outdoors",
+     "lift": 2.803
+    },
+    {
+     "id": "sunrise-paddle",
+     "score": 0.7181,
+     "reason": "Because you like the outdoors",
+     "lift": 4.495
+    },
+    {
+     "id": "extra-bag",
+     "score": 0.6662,
+     "reason": "Popular at your age",
+     "lift": 1.414
+    },
+    {
+     "id": "trail-run",
+     "score": 0.6058,
+     "reason": "Because you like the outdoors",
+     "lift": 3.954
+    },
+    {
+     "id": "street-food-pass",
+     "score": 0.4531,
+     "reason": "Popular at your age",
+     "lift": 1.421
+    },
+    {
+     "id": "plane-spotting",
+     "score": 0.3397,
+     "reason": "Because you like the outdoors",
+     "lift": 6.478
+    }
+   ]
+  },
+  "creative": {
+   "little": [
+    {
+     "id": "draw-a-plane",
+     "score": 0.6524,
+     "reason": "Because you like making things",
+     "lift": 2.367
+    },
+    {
+     "id": "kite-day",
+     "score": 0.4901,
+     "reason": "Because you like making things",
+     "lift": 4.808
+    },
+    {
+     "id": "puppet-show",
+     "score": 0.4556,
+     "reason": "Because you like making things",
+     "lift": 4.601
+    },
+    {
+     "id": "skyline-sketch",
+     "score": 0.435,
+     "reason": "Because you like making things",
+     "lift": 10.587
+    },
+    {
+     "id": "cockpit-colouring",
+     "score": 0.4131,
+     "reason": "Because you like making things",
+     "lift": 3.299
+    },
+    {
+     "id": "plane-spotting",
+     "score": 0.3827,
+     "reason": "Popular at your age",
+     "lift": 1.012
+    }
+   ],
+   "teen": [
+    {
+     "id": "skyline-sketch",
+     "score": 0.8663,
+     "reason": "Because you like making things",
+     "lift": 3.269
+    },
+    {
+     "id": "photo-challenge",
+     "score": 0.7361,
+     "reason": "Because you like making things",
+     "lift": 2.189
+    },
+    {
+     "id": "blind-box-drop",
+     "score": 0.7141,
+     "reason": "Because you like making things",
+     "lift": 2.558
+    },
+    {
+     "id": "phone-strap",
+     "score": 0.6579,
+     "reason": "Because you like making things",
+     "lift": 5.826
+    },
+    {
+     "id": "gate-arcade",
+     "score": 0.4794,
+     "reason": "Popular at your age",
+     "lift": 0.773
+    },
+    {
+     "id": "game-bundle",
+     "score": 0.4185,
+     "reason": "Popular at your age",
+     "lift": 1.065
+    }
+   ],
+   "campus": [
+    {
+     "id": "skyline-sketch",
+     "score": 0.6884,
+     "reason": "Because you like making things",
+     "lift": 6.287
+    },
+    {
+     "id": "film-photo-walk",
+     "score": 0.4568,
+     "reason": "Because you like making things",
+     "lift": 4.603
+    },
+    {
+     "id": "photo-challenge",
+     "score": 0.3806,
+     "reason": "Because you like making things",
+     "lift": 3.791
+    },
+    {
+     "id": "street-food-pass",
+     "score": 0.3756,
+     "reason": "Popular at your age",
+     "lift": 1.178
+    },
+    {
+     "id": "travel-hack",
+     "score": 0.3724,
+     "reason": "Popular at your age",
+     "lift": 1.159
+    },
+    {
+     "id": "off-peak-fare",
+     "score": 0.3439,
+     "reason": "Popular at your age",
+     "lift": 1.077
+    }
+   ]
+  },
+  "techie": {
+   "little": [
+    {
+     "id": "draw-a-plane",
+     "score": 0.8748,
+     "reason": "Because you like planes and tech",
+     "lift": 3.173
+    },
+    {
+     "id": "pilot-qa",
+     "score": 0.8249,
+     "reason": "Because you like planes and tech",
+     "lift": 2.806
+    },
+    {
+     "id": "cockpit-colouring",
+     "score": 0.7273,
+     "reason": "Because you like planes and tech",
+     "lift": 5.809
+    },
+    {
+     "id": "crew-workshop",
+     "score": 0.7247,
+     "reason": "Because you like planes and tech",
+     "lift": 9.413
+    },
+    {
+     "id": "plane-spotting",
+     "score": 0.6835,
+     "reason": "Because you like planes and tech",
+     "lift": 1.807
+    },
+    {
+     "id": "hangar-tour",
+     "score": 0.5419,
+     "reason": "Because you like planes and tech",
+     "lift": 4.844
+    }
+   ],
+   "teen": [
+    {
+     "id": "pilot-qa",
+     "score": 0.9163,
+     "reason": "Because you like planes and tech",
+     "lift": 1.864
+    },
+    {
+     "id": "route-quiz",
+     "score": 0.8191,
+     "reason": "Because you like planes and tech",
+     "lift": 2.504
+    },
+    {
+     "id": "gate-arcade",
+     "score": 0.7994,
+     "reason": "Popular at your age",
+     "lift": 1.289
+    },
+    {
+     "id": "hangar-tour",
+     "score": 0.7585,
+     "reason": "Because you like planes and tech",
+     "lift": 3.027
+    },
+    {
+     "id": "summer-camp",
+     "score": 0.7315,
+     "reason": "Because you like planes and tech",
+     "lift": 2.948
+    },
+    {
+     "id": "crew-workshop",
+     "score": 0.7201,
+     "reason": "Because you like planes and tech",
+     "lift": 9.554
+    }
+   ],
+   "campus": [
+    {
+     "id": "chef-table",
+     "score": 0.6673,
+     "reason": "Because you like planes and tech",
+     "lift": 4.261
+    },
+    {
+     "id": "career-day",
+     "score": 0.6463,
+     "reason": "Because you like planes and tech",
+     "lift": 2.434
+    },
+    {
+     "id": "pilot-qa",
+     "score": 0.6048,
+     "reason": "Because you like planes and tech",
+     "lift": 5.076
+    },
+    {
+     "id": "extra-bag",
+     "score": 0.4946,
+     "reason": "Popular at your age",
+     "lift": 1.049
+    },
+    {
+     "id": "crew-workshop",
+     "score": 0.3946,
+     "reason": "Because you like planes and tech",
+     "lift": 19.499
+    },
+    {
+     "id": "game-bundle",
+     "score": 0.3596,
+     "reason": "Popular at your age",
+     "lift": 1.285
+    }
+   ]
+  },
+  "budget": {
+   "little": [
+    {
+     "id": "sibling-seats",
+     "score": 0.7191,
+     "reason": "Good value for your miles",
+     "lift": 1.649
+    },
+    {
+     "id": "game-bundle",
+     "score": 0.5611,
+     "reason": "Good value for your miles",
+     "lift": 2.423
+    },
+    {
+     "id": "bubble-tea-gate",
+     "score": 0.3369,
+     "reason": "Good value for your miles",
+     "lift": 3.659
+    },
+    {
+     "id": "draw-a-plane",
+     "score": 0.297,
+     "reason": "Popular at your age",
+     "lift": 1.077
+    },
+    {
+     "id": "plane-spotting",
+     "score": 0.2564,
+     "reason": "Popular at your age",
+     "lift": 0.678
+    },
+    {
+     "id": "pilot-qa",
+     "score": 0.2394,
+     "reason": "Popular at your age",
+     "lift": 0.814
+    }
+   ],
+   "teen": [
+    {
+     "id": "game-bundle",
+     "score": 0.7331,
+     "reason": "Good value for your miles",
+     "lift": 1.865
+    },
+    {
+     "id": "gate-arcade",
+     "score": 0.5405,
+     "reason": "Popular at your age",
+     "lift": 0.871
+    },
+    {
+     "id": "route-quiz",
+     "score": 0.4866,
+     "reason": "Popular at your age",
+     "lift": 1.488
+    },
+    {
+     "id": "sibling-seats",
+     "score": 0.47,
+     "reason": "Good value for your miles",
+     "lift": 2.224
+    },
+    {
+     "id": "bubble-tea-gate",
+     "score": 0.4442,
+     "reason": "Good value for your miles",
+     "lift": 3.227
+    },
+    {
+     "id": "blind-box-drop",
+     "score": 0.4266,
+     "reason": "Popular at your age",
+     "lift": 1.528
+    }
+   ],
+   "campus": [
+    {
+     "id": "off-peak-fare",
+     "score": 0.7847,
+     "reason": "Good value for your miles",
+     "lift": 2.457
+    },
+    {
+     "id": "travel-hack",
+     "score": 0.6434,
+     "reason": "Good value for your miles",
+     "lift": 2.002
+    },
+    {
+     "id": "game-bundle",
+     "score": 0.6226,
+     "reason": "Good value for your miles",
+     "lift": 2.224
+    },
+    {
+     "id": "street-food-pass",
+     "score": 0.5641,
+     "reason": "Good value for your miles",
+     "lift": 1.769
+    },
+    {
+     "id": "sibling-seats",
+     "score": 0.4596,
+     "reason": "Good value for your miles",
+     "lift": 2.248
+    },
+    {
+     "id": "hike-meetup",
+     "score": 0.3499,
+     "reason": "Popular at your age",
+     "lift": 1.296
+    }
+   ]
+  },
+  "with_siblings": {
+   "little": [
+    {
+     "id": "sibling-seats",
+     "score": 0.8141,
+     "reason": "Fun with your siblings",
+     "lift": 1.867
+    },
+    {
+     "id": "family-lounge-play",
+     "score": 0.7425,
+     "reason": "Fun with your siblings",
+     "lift": 4.07
+    },
+    {
+     "id": "pip-sticker-hunt",
+     "score": 0.6072,
+     "reason": "Fun with your siblings",
+     "lift": 4.83
+    },
+    {
+     "id": "draw-a-plane",
+     "score": 0.5588,
+     "reason": "Fun with your siblings",
+     "lift": 2.027
+    },
+    {
+     "id": "puppet-show",
+     "score": 0.4377,
+     "reason": "Fun with your siblings",
+     "lift": 4.42
+    },
+    {
+     "id": "kite-day",
+     "score": 0.4055,
+     "reason": "Fun with your siblings",
+     "lift": 3.978
+    }
+   ],
+   "teen": [
+    {
+     "id": "gate-arcade",
+     "score": 0.7328,
+     "reason": "Popular at your age",
+     "lift": 1.181
+    },
+    {
+     "id": "sibling-seats",
+     "score": 0.6027,
+     "reason": "Fun with your siblings",
+     "lift": 2.852
+    },
+    {
+     "id": "pilot-qa",
+     "score": 0.5088,
+     "reason": "Popular at your age",
+     "lift": 1.035
+    },
+    {
+     "id": "game-bundle",
+     "score": 0.4359,
+     "reason": "Popular at your age",
+     "lift": 1.109
+    },
+    {
+     "id": "route-quiz",
+     "score": 0.3424,
+     "reason": "Popular at your age",
+     "lift": 1.047
+    },
+    {
+     "id": "dim-sum-class",
+     "score": 0.315,
+     "reason": "Fun with your siblings",
+     "lift": 6.682
+    }
+   ],
+   "campus": [
+    {
+     "id": "sibling-seats",
+     "score": 0.5926,
+     "reason": "Fun with your siblings",
+     "lift": 2.899
+    },
+    {
+     "id": "off-peak-fare",
+     "score": 0.5588,
+     "reason": "Popular at your age",
+     "lift": 1.749
+    },
+    {
+     "id": "street-food-pass",
+     "score": 0.472,
+     "reason": "Popular at your age",
+     "lift": 1.48
+    },
+    {
+     "id": "extra-bag",
+     "score": 0.4571,
+     "reason": "Popular at your age",
+     "lift": 0.97
+    },
+    {
+     "id": "career-day",
+     "score": 0.3957,
+     "reason": "Popular at your age",
+     "lift": 1.49
+    },
+    {
+     "id": "pip-sticker-hunt",
+     "score": 0.3912,
+     "reason": "Fun with your siblings",
+     "lift": 6.935
+    }
+   ]
+  },
+  "first_solo": {
+   "teen": [
+    {
+     "id": "solo-starter",
+     "score": 0.6327,
+     "reason": "For your first trip alone",
+     "lift": 6.535
+    },
+    {
+     "id": "gate-arcade",
+     "score": 0.5917,
+     "reason": "Popular at your age",
+     "lift": 0.954
+    },
+    {
+     "id": "solo-meet-assist",
+     "score": 0.4383,
+     "reason": "For your first trip alone",
+     "lift": 12.874
+    },
+    {
+     "id": "hangar-tour",
+     "score": 0.4375,
+     "reason": "Popular at your age",
+     "lift": 1.746
+    },
+    {
+     "id": "travel-hack",
+     "score": 0.4077,
+     "reason": "For your first trip alone",
+     "lift": 4.57
+    },
+    {
+     "id": "hike-meetup",
+     "score": 0.4031,
+     "reason": "For your first trip alone",
+     "lift": 7.406
+    }
+   ],
+   "campus": [
+    {
+     "id": "off-peak-fare",
+     "score": 0.87,
+     "reason": "For your first trip alone",
+     "lift": 2.724
+    },
+    {
+     "id": "hike-meetup",
+     "score": 0.8128,
+     "reason": "For your first trip alone",
+     "lift": 3.01
+    },
+    {
+     "id": "hostel-deal",
+     "score": 0.8067,
+     "reason": "For your first trip alone",
+     "lift": 3.681
+    },
+    {
+     "id": "travel-hack",
+     "score": 0.769,
+     "reason": "For your first trip alone",
+     "lift": 2.392
+    },
+    {
+     "id": "language-trip",
+     "score": 0.6792,
+     "reason": "For your first trip alone",
+     "lift": 6.139
+    },
+    {
+     "id": "grad-trip",
+     "score": 0.6584,
+     "reason": "For your first trip alone",
+     "lift": 5.153
+    }
+   ]
+  },
+  "studying": {
+   "campus": [
+    {
+     "id": "student-fare",
+     "score": 0.9511,
+     "reason": "Popular at your age",
+     "lift": 1.052
+    },
+    {
+     "id": "lounge-study",
+     "score": 0.8215,
+     "reason": "For students",
+     "lift": 1.915
+    },
+    {
+     "id": "study-cafe-pass",
+     "score": 0.6496,
+     "reason": "Popular at your age",
+     "lift": 1.443
+    },
+    {
+     "id": "career-day",
+     "score": 0.5762,
+     "reason": "For students",
+     "lift": 2.17
+    },
+    {
+     "id": "grad-trip",
+     "score": 0.5055,
+     "reason": "For students",
+     "lift": 3.957
+    },
+    {
+     "id": "extra-bag",
+     "score": 0.504,
+     "reason": "Popular at your age",
+     "lift": 1.069
+    }
+   ]
+  },
+  "studying_abroad": {
+   "campus": [
+    {
+     "id": "student-fare",
+     "score": 0.9911,
+     "reason": "For studying abroad",
+     "lift": 1.096
+    },
+    {
+     "id": "term-break-home",
+     "score": 0.9262,
+     "reason": "For studying abroad",
+     "lift": 3.764
+    },
+    {
+     "id": "study-cafe-pass",
+     "score": 0.9239,
+     "reason": "For studying abroad",
+     "lift": 2.053
+    },
+    {
+     "id": "extra-bag",
+     "score": 0.9127,
+     "reason": "For studying abroad",
+     "lift": 1.937
+    },
+    {
+     "id": "lounge-study",
+     "score": 0.8976,
+     "reason": "For students",
+     "lift": 2.092
+    },
+    {
+     "id": "hostel-deal",
+     "score": 0.8129,
+     "reason": "For studying abroad",
+     "lift": 3.709
+    }
+   ]
+  }
+ },
+ "mostLifted": {
+  "gamer": {
+   "little": [
+    {
+     "id": "pip-sticker-hunt",
+     "gain": 0.5588,
+     "lift": 5.445,
+     "score": 0.6845
+    },
+    {
+     "id": "cloud-spotter",
+     "gain": 0.504,
+     "lift": 4.474,
+     "score": 0.6491
+    },
+    {
+     "id": "gate-arcade",
+     "gain": 0.4373,
+     "lift": 2.519,
+     "score": 0.7253
+    },
+    {
+     "id": "game-bundle",
+     "gain": 0.3957,
+     "lift": 2.709,
+     "score": 0.6272
+    },
+    {
+     "id": "esports-night",
+     "gain": 0.3156,
+     "lift": 6.099,
+     "score": 0.3775
+    },
+    {
+     "id": "travel-hack",
+     "gain": 0.263,
+     "lift": 4.975,
+     "score": 0.3292
+    }
+   ],
+   "teen": [
+    {
+     "id": "flight-sim-try",
+     "gain": 0.5,
+     "lift": 5.824,
+     "score": 0.6036
+    },
+    {
+     "id": "route-quiz",
+     "gain": 0.4954,
+     "lift": 2.515,
+     "score": 0.8225
+    },
+    {
+     "id": "photo-challenge",
+     "gain": 0.4429,
+     "lift": 2.317,
+     "score": 0.7791
+    },
+    {
+     "id": "esports-night",
+     "gain": 0.4139,
+     "lift": 4.941,
+     "score": 0.5189
+    },
+    {
+     "id": "game-bundle",
+     "gain": 0.3903,
+     "lift": 1.993,
+     "score": 0.7834
+    },
+    {
+     "id": "cloud-spotter",
+     "gain": 0.3876,
+     "lift": 6.344,
+     "score": 0.4602
+    }
+   ],
+   "campus": [
+    {
+     "id": "travel-hack",
+     "gain": 0.4449,
+     "lift": 2.384,
+     "score": 0.7664
+    },
+    {
+     "id": "pip-sticker-hunt",
+     "gain": 0.4179,
+     "lift": 8.407,
+     "score": 0.4743
+    },
+    {
+     "id": "gate-arcade",
+     "gain": 0.4118,
+     "lift": 3.231,
+     "score": 0.5963
+    },
+    {
+     "id": "game-bundle",
+     "gain": 0.4047,
+     "lift": 2.446,
+     "score": 0.6847
+    },
+    {
+     "id": "esports-night",
+     "gain": 0.3867,
+     "lift": 5.283,
+     "score": 0.477
+    },
+    {
+     "id": "photo-challenge",
+     "gain": 0.3369,
+     "lift": 4.356,
+     "score": 0.4373
+    }
+   ]
+  },
+  "foodie": {
+   "little": [
+    {
+     "id": "kids-meal-upgrade",
+     "gain": 0.5836,
+     "lift": 9.291,
+     "score": 0.654
+    },
+    {
+     "id": "bubble-tea-gate",
+     "gain": 0.4369,
+     "lift": 5.744,
+     "score": 0.529
+    },
+    {
+     "id": "street-food-pass",
+     "gain": 0.1764,
+     "lift": 9.627,
+     "score": 0.1968
+    },
+    {
+     "id": "snack-pack",
+     "gain": 0.1748,
+     "lift": 12.073,
+     "score": 0.1906
+    },
+    {
+     "id": "dim-sum-class",
+     "gain": 0.1728,
+     "lift": 7.586,
+     "score": 0.1991
+    },
+    {
+     "id": "family-lounge-play",
+     "gain": 0.1153,
+     "lift": 1.632,
+     "score": 0.2978
+    }
+   ],
+   "teen": [
+    {
+     "id": "chef-table",
+     "gain": 0.5176,
+     "lift": 7.747,
+     "score": 0.5943
+    },
+    {
+     "id": "bubble-tea-gate",
+     "gain": 0.501,
+     "lift": 4.64,
+     "score": 0.6386
+    },
+    {
+     "id": "street-food-pass",
+     "gain": 0.3304,
+     "lift": 7.659,
+     "score": 0.38
+    },
+    {
+     "id": "snack-pack",
+     "gain": 0.2795,
+     "lift": 10.452,
+     "score": 0.309
+    },
+    {
+     "id": "dim-sum-class",
+     "gain": 0.2662,
+     "lift": 6.646,
+     "score": 0.3133
+    },
+    {
+     "id": "summer-camp",
+     "gain": 0.1238,
+     "lift": 1.499,
+     "score": 0.3719
+    }
+   ],
+   "campus": [
+    {
+     "id": "chef-table",
+     "gain": 0.6094,
+     "lift": 4.892,
+     "score": 0.766
+    },
+    {
+     "id": "street-food-pass",
+     "gain": 0.5272,
+     "lift": 2.654,
+     "score": 0.846
+    },
+    {
+     "id": "bubble-tea-gate",
+     "gain": 0.4416,
+     "lift": 5.673,
+     "score": 0.536
+    },
+    {
+     "id": "snack-pack",
+     "gain": 0.1253,
+     "lift": 12.821,
+     "score": 0.1358
+    },
+    {
+     "id": "trail-run",
+     "gain": 0.109,
+     "lift": 1.712,
+     "score": 0.2622
+    },
+    {
+     "id": "sunrise-paddle",
+     "gain": 0.0983,
+     "lift": 1.615,
+     "score": 0.258
+    }
+   ]
+  },
+  "outdoorsy": {
+   "little": [
+    {
+     "id": "plane-spotting",
+     "gain": 0.4715,
+     "lift": 2.247,
+     "score": 0.8498
+    },
+    {
+     "id": "cloud-spotter",
+     "gain": 0.4063,
+     "lift": 3.8,
+     "score": 0.5513
+    },
+    {
+     "id": "kite-day",
+     "gain": 0.2907,
+     "lift": 3.852,
+     "score": 0.3926
+    },
+    {
+     "id": "summer-camp",
+     "gain": 0.1444,
+     "lift": 6.394,
+     "score": 0.1712
+    },
+    {
+     "id": "hike-meetup",
+     "gain": 0.1399,
+     "lift": 7.217,
+     "score": 0.1624
+    },
+    {
+     "id": "hangar-tour",
+     "gain": 0.0399,
+     "lift": 1.356,
+     "score": 0.1517
+    }
+   ],
+   "teen": [
+    {
+     "id": "plane-spotting",
+     "gain": 0.5037,
+     "lift": 2.813,
+     "score": 0.7815
+    },
+    {
+     "id": "sunrise-paddle",
+     "gain": 0.4747,
+     "lift": 6.429,
+     "score": 0.5622
+    },
+    {
+     "id": "summer-camp",
+     "gain": 0.4643,
+     "lift": 2.871,
+     "score": 0.7125
+    },
+    {
+     "id": "trail-run",
+     "gain": 0.4524,
+     "lift": 3.959,
+     "score": 0.6053
+    },
+    {
+     "id": "cloud-spotter",
+     "gain": 0.289,
+     "lift": 4.985,
+     "score": 0.3615
+    },
+    {
+     "id": "hike-meetup",
+     "gain": 0.2721,
+     "lift": 5.999,
+     "score": 0.3265
+    }
+   ],
+   "campus": [
+    {
+     "id": "sunrise-paddle",
+     "gain": 0.5584,
+     "lift": 4.495,
+     "score": 0.7181
+    },
+    {
+     "id": "hike-meetup",
+     "gain": 0.487,
+     "lift": 2.803,
+     "score": 0.7571
+    },
+    {
+     "id": "trail-run",
+     "gain": 0.4526,
+     "lift": 3.954,
+     "score": 0.6058
+    },
+    {
+     "id": "plane-spotting",
+     "gain": 0.2873,
+     "lift": 6.479,
+     "score": 0.3397
+    },
+    {
+     "id": "cloud-spotter",
+     "gain": 0.2058,
+     "lift": 5.683,
+     "score": 0.2497
+    },
+    {
+     "id": "extra-bag",
+     "gain": 0.1949,
+     "lift": 1.414,
+     "score": 0.6662
+    }
+   ]
+  },
+  "creative": {
+   "little": [
+    {
+     "id": "skyline-sketch",
+     "gain": 0.3939,
+     "lift": 10.587,
+     "score": 0.435
+    },
+    {
+     "id": "kite-day",
+     "gain": 0.3882,
+     "lift": 4.808,
+     "score": 0.4901
+    },
+    {
+     "id": "draw-a-plane",
+     "gain": 0.3768,
+     "lift": 2.367,
+     "score": 0.6524
+    },
+    {
+     "id": "puppet-show",
+     "gain": 0.3566,
+     "lift": 4.601,
+     "score": 0.4556
+    },
+    {
+     "id": "cockpit-colouring",
+     "gain": 0.2879,
+     "lift": 3.3,
+     "score": 0.4131
+    },
+    {
+     "id": "blind-box-drop",
+     "gain": 0.1646,
+     "lift": 5.345,
+     "score": 0.2025
+    }
+   ],
+   "teen": [
+    {
+     "id": "skyline-sketch",
+     "gain": 0.6013,
+     "lift": 3.269,
+     "score": 0.8663
+    },
+    {
+     "id": "phone-strap",
+     "gain": 0.5449,
+     "lift": 5.826,
+     "score": 0.6579
+    },
+    {
+     "id": "blind-box-drop",
+     "gain": 0.4349,
+     "lift": 2.558,
+     "score": 0.7141
+    },
+    {
+     "id": "photo-challenge",
+     "gain": 0.3999,
+     "lift": 2.189,
+     "score": 0.7361
+    },
+    {
+     "id": "kite-day",
+     "gain": 0.2776,
+     "lift": 5.979,
+     "score": 0.3334
+    },
+    {
+     "id": "puppet-show",
+     "gain": 0.2305,
+     "lift": 5.771,
+     "score": 0.2788
+    }
+   ],
+   "campus": [
+    {
+     "id": "skyline-sketch",
+     "gain": 0.5789,
+     "lift": 6.287,
+     "score": 0.6884
+    },
+    {
+     "id": "film-photo-walk",
+     "gain": 0.3576,
+     "lift": 4.603,
+     "score": 0.4568
+    },
+    {
+     "id": "photo-challenge",
+     "gain": 0.2802,
+     "lift": 3.792,
+     "score": 0.3806
+    },
+    {
+     "id": "phone-strap",
+     "gain": 0.2145,
+     "lift": 11.8,
+     "score": 0.2343
+    },
+    {
+     "id": "solo-starter",
+     "gain": 0.1792,
+     "lift": 2.709,
+     "score": 0.2841
+    },
+    {
+     "id": "blind-box-drop",
+     "gain": 0.138,
+     "lift": 5.53,
+     "score": 0.1685
+    }
+   ]
+  },
+  "techie": {
+   "little": [
+    {
+     "id": "crew-workshop",
+     "gain": 0.6477,
+     "lift": 9.413,
+     "score": 0.7247
+    },
+    {
+     "id": "cockpit-colouring",
+     "gain": 0.6021,
+     "lift": 5.809,
+     "score": 0.7273
+    },
+    {
+     "id": "draw-a-plane",
+     "gain": 0.5992,
+     "lift": 3.174,
+     "score": 0.8748
+    },
+    {
+     "id": "pilot-qa",
+     "gain": 0.5309,
+     "lift": 2.806,
+     "score": 0.8249
+    },
+    {
+     "id": "hangar-tour",
+     "gain": 0.43,
+     "lift": 4.844,
+     "score": 0.5419
+    },
+    {
+     "id": "plane-spotting",
+     "gain": 0.3053,
+     "lift": 1.807,
+     "score": 0.6835
+    }
+   ],
+   "teen": [
+    {
+     "id": "crew-workshop",
+     "gain": 0.6447,
+     "lift": 9.553,
+     "score": 0.7201
+    },
+    {
+     "id": "hangar-tour",
+     "gain": 0.5079,
+     "lift": 3.027,
+     "score": 0.7585
+    },
+    {
+     "id": "flight-sim-try",
+     "gain": 0.5035,
+     "lift": 5.857,
+     "score": 0.6071
+    },
+    {
+     "id": "route-quiz",
+     "gain": 0.492,
+     "lift": 2.504,
+     "score": 0.8191
+    },
+    {
+     "id": "summer-camp",
+     "gain": 0.4833,
+     "lift": 2.948,
+     "score": 0.7315
+    },
+    {
+     "id": "pilot-qa",
+     "gain": 0.4246,
+     "lift": 1.863,
+     "score": 0.9163
+    }
+   ],
+   "campus": [
+    {
+     "id": "chef-table",
+     "gain": 0.5107,
+     "lift": 4.261,
+     "score": 0.6673
+    },
+    {
+     "id": "pilot-qa",
+     "gain": 0.4857,
+     "lift": 5.076,
+     "score": 0.6048
+    },
+    {
+     "id": "career-day",
+     "gain": 0.3808,
+     "lift": 2.434,
+     "score": 0.6463
+    },
+    {
+     "id": "crew-workshop",
+     "gain": 0.3743,
+     "lift": 19.498,
+     "score": 0.3946
+    },
+    {
+     "id": "hangar-tour",
+     "gain": 0.2534,
+     "lift": 6.904,
+     "score": 0.2963
+    },
+    {
+     "id": "gate-arcade",
+     "gain": 0.1712,
+     "lift": 1.927,
+     "score": 0.3557
+    }
+   ]
+  },
+  "budget": {
+   "little": [
+    {
+     "id": "game-bundle",
+     "gain": 0.3295,
+     "lift": 2.423,
+     "score": 0.5611
+    },
+    {
+     "id": "sibling-seats",
+     "gain": 0.2829,
+     "lift": 1.649,
+     "score": 0.7191
+    },
+    {
+     "id": "bubble-tea-gate",
+     "gain": 0.2448,
+     "lift": 3.658,
+     "score": 0.3369
+    },
+    {
+     "id": "travel-hack",
+     "gain": 0.1464,
+     "lift": 3.212,
+     "score": 0.2125
+    },
+    {
+     "id": "mile-stretcher",
+     "gain": 0.115,
+     "lift": 3.683,
+     "score": 0.1579
+    },
+    {
+     "id": "snack-pack",
+     "gain": 0.1092,
+     "lift": 7.917,
+     "score": 0.125
+    }
+   ],
+   "teen": [
+    {
+     "id": "game-bundle",
+     "gain": 0.3401,
+     "lift": 1.865,
+     "score": 0.7331
+    },
+    {
+     "id": "bubble-tea-gate",
+     "gain": 0.3066,
+     "lift": 3.228,
+     "score": 0.4442
+    },
+    {
+     "id": "sibling-seats",
+     "gain": 0.2586,
+     "lift": 2.224,
+     "score": 0.47
+    },
+    {
+     "id": "snack-pack",
+     "gain": 0.1838,
+     "lift": 7.218,
+     "score": 0.2134
+    },
+    {
+     "id": "travel-hack",
+     "gain": 0.1825,
+     "lift": 3.046,
+     "score": 0.2718
+    },
+    {
+     "id": "mile-stretcher",
+     "gain": 0.1707,
+     "lift": 3.417,
+     "score": 0.2413
+    }
+   ],
+   "campus": [
+    {
+     "id": "off-peak-fare",
+     "gain": 0.4652,
+     "lift": 2.456,
+     "score": 0.7847
+    },
+    {
+     "id": "game-bundle",
+     "gain": 0.3426,
+     "lift": 2.224,
+     "score": 0.6226
+    },
+    {
+     "id": "travel-hack",
+     "gain": 0.322,
+     "lift": 2.002,
+     "score": 0.6434
+    },
+    {
+     "id": "sibling-seats",
+     "gain": 0.2551,
+     "lift": 2.248,
+     "score": 0.4596
+    },
+    {
+     "id": "bubble-tea-gate",
+     "gain": 0.2487,
+     "lift": 3.633,
+     "score": 0.3432
+    },
+    {
+     "id": "street-food-pass",
+     "gain": 0.2453,
+     "lift": 1.769,
+     "score": 0.5641
+    }
+   ]
+  },
+  "with_siblings": {
+   "little": [
+    {
+     "id": "family-lounge-play",
+     "gain": 0.5601,
+     "lift": 4.07,
+     "score": 0.7425
+    },
+    {
+     "id": "pip-sticker-hunt",
+     "gain": 0.4814,
+     "lift": 4.829,
+     "score": 0.6072
+    },
+    {
+     "id": "sibling-seats",
+     "gain": 0.3779,
+     "lift": 1.867,
+     "score": 0.8141
+    },
+    {
+     "id": "puppet-show",
+     "gain": 0.3387,
+     "lift": 4.42,
+     "score": 0.4377
+    },
+    {
+     "id": "kite-day",
+     "gain": 0.3036,
+     "lift": 3.978,
+     "score": 0.4055
+    },
+    {
+     "id": "draw-a-plane",
+     "gain": 0.2831,
+     "lift": 2.027,
+     "score": 0.5588
+    }
+   ],
+   "teen": [
+    {
+     "id": "sibling-seats",
+     "gain": 0.3914,
+     "lift": 2.852,
+     "score": 0.6027
+    },
+    {
+     "id": "dim-sum-class",
+     "gain": 0.2678,
+     "lift": 6.682,
+     "score": 0.315
+    },
+    {
+     "id": "puppet-show",
+     "gain": 0.2162,
+     "lift": 5.474,
+     "score": 0.2645
+    },
+    {
+     "id": "kite-day",
+     "gain": 0.2062,
+     "lift": 4.698,
+     "score": 0.2619
+    },
+    {
+     "id": "pip-sticker-hunt",
+     "gain": 0.1629,
+     "lift": 8.96,
+     "score": 0.1834
+    },
+    {
+     "id": "gate-arcade",
+     "gain": 0.1126,
+     "lift": 1.182,
+     "score": 0.7328
+    }
+   ],
+   "campus": [
+    {
+     "id": "sibling-seats",
+     "gain": 0.3882,
+     "lift": 2.899,
+     "score": 0.5926
+    },
+    {
+     "id": "pip-sticker-hunt",
+     "gain": 0.3348,
+     "lift": 6.935,
+     "score": 0.3912
+    },
+    {
+     "id": "off-peak-fare",
+     "gain": 0.2394,
+     "lift": 1.749,
+     "score": 0.5588
+    },
+    {
+     "id": "street-food-pass",
+     "gain": 0.1532,
+     "lift": 1.481,
+     "score": 0.472
+    },
+    {
+     "id": "grad-trip",
+     "gain": 0.1318,
+     "lift": 2.032,
+     "score": 0.2596
+    },
+    {
+     "id": "career-day",
+     "gain": 0.1301,
+     "lift": 1.49,
+     "score": 0.3957
+    }
+   ]
+  },
+  "first_solo": {
+   "teen": [
+    {
+     "id": "solo-starter",
+     "gain": 0.5358,
+     "lift": 6.534,
+     "score": 0.6327
+    },
+    {
+     "id": "solo-meet-assist",
+     "gain": 0.4043,
+     "lift": 12.874,
+     "score": 0.4383
+    },
+    {
+     "id": "hike-meetup",
+     "gain": 0.3487,
+     "lift": 7.406,
+     "score": 0.4031
+    },
+    {
+     "id": "travel-hack",
+     "gain": 0.3185,
+     "lift": 4.57,
+     "score": 0.4077
+    },
+    {
+     "id": "language-trip",
+     "gain": 0.2987,
+     "lift": 11.794,
+     "score": 0.3263
+    },
+    {
+     "id": "trail-run",
+     "gain": 0.2418,
+     "lift": 2.581,
+     "score": 0.3947
+    }
+   ],
+   "campus": [
+    {
+     "id": "hostel-deal",
+     "gain": 0.5876,
+     "lift": 3.681,
+     "score": 0.8067
+    },
+    {
+     "id": "language-trip",
+     "gain": 0.5686,
+     "lift": 6.14,
+     "score": 0.6792
+    },
+    {
+     "id": "off-peak-fare",
+     "gain": 0.5506,
+     "lift": 2.724,
+     "score": 0.87
+    },
+    {
+     "id": "solo-starter",
+     "gain": 0.5482,
+     "lift": 6.227,
+     "score": 0.653
+    },
+    {
+     "id": "hike-meetup",
+     "gain": 0.5427,
+     "lift": 3.009,
+     "score": 0.8128
+    },
+    {
+     "id": "grad-trip",
+     "gain": 0.5306,
+     "lift": 5.153,
+     "score": 0.6584
+    }
+   ]
+  },
+  "studying": {
+   "campus": [
+    {
+     "id": "lounge-study",
+     "gain": 0.3925,
+     "lift": 1.915,
+     "score": 0.8215
+    },
+    {
+     "id": "grad-trip",
+     "gain": 0.3777,
+     "lift": 3.956,
+     "score": 0.5055
+    },
+    {
+     "id": "trail-run",
+     "gain": 0.3468,
+     "lift": 3.264,
+     "score": 0.5
+    },
+    {
+     "id": "career-day",
+     "gain": 0.3107,
+     "lift": 2.17,
+     "score": 0.5762
+    },
+    {
+     "id": "language-trip",
+     "gain": 0.2523,
+     "lift": 3.281,
+     "score": 0.363
+    },
+    {
+     "id": "hostel-deal",
+     "gain": 0.2065,
+     "lift": 1.942,
+     "score": 0.4257
+    }
+   ]
+  },
+  "studying_abroad": {
+   "campus": [
+    {
+     "id": "campus-storage",
+     "gain": 0.4235,
+     "lift": 2.378,
+     "score": 0.7309
+    },
+    {
+     "id": "extra-bag",
+     "gain": 0.4087,
+     "lift": 1.811,
+     "score": 0.9127
+    },
+    {
+     "id": "language-trip",
+     "gain": 0.4076,
+     "lift": 2.123,
+     "score": 0.7705
+    },
+    {
+     "id": "hostel-deal",
+     "gain": 0.3872,
+     "lift": 1.91,
+     "score": 0.8129
+    },
+    {
+     "id": "term-break-home",
+     "gain": 0.3832,
+     "lift": 1.706,
+     "score": 0.9262
+    },
+    {
+     "id": "move-abroad-bags",
+     "gain": 0.2951,
+     "lift": 1.815,
+     "score": 0.657
+    }
+   ]
+  }
+ },
+ "segments": [
+  {
+   "id": "little|none",
+   "band": "little",
+   "traits": [],
+   "users": 26,
+   "medianAge": 8,
+   "top": [
+    {
+     "id": "sibling-seats",
+     "score": 0.4362,
+     "reason": "Popular at your age"
+    },
+    {
+     "id": "plane-spotting",
+     "score": 0.3782,
+     "reason": "Popular at your age"
+    },
+    {
+     "id": "pilot-qa",
+     "score": 0.2939,
+     "reason": "Popular at your age"
+    },
+    {
+     "id": "gate-arcade",
+     "score": 0.288,
+     "reason": "Popular at your age"
+    },
+    {
+     "id": "draw-a-plane",
+     "score": 0.2757,
+     "reason": "Popular at your age"
+    },
+    {
+     "id": "game-bundle",
+     "score": 0.2315,
+     "reason": "Popular at your age"
+    }
+   ]
+  },
+  {
+   "id": "little|with_siblings",
+   "band": "little",
+   "traits": [
+    "with_siblings"
+   ],
+   "users": 14,
+   "medianAge": 8,
+   "top": [
+    {
+     "id": "sibling-seats",
+     "score": 0.8141,
+     "reason": "Fun with your siblings"
+    },
+    {
+     "id": "family-lounge-play",
+     "score": 0.7425,
+     "reason": "Fun with your siblings"
+    },
+    {
+     "id": "pip-sticker-hunt",
+     "score": 0.6072,
+     "reason": "Fun with your siblings"
+    },
+    {
+     "id": "draw-a-plane",
+     "score": 0.5588,
+     "reason": "Fun with your siblings"
+    },
+    {
+     "id": "puppet-show",
+     "score": 0.4377,
+     "reason": "Fun with your siblings"
+    },
+    {
+     "id": "kite-day",
+     "score": 0.4055,
+     "reason": "Fun with your siblings"
+    }
+   ]
+  },
+  {
+   "id": "teen|gamer",
+   "band": "teen",
+   "traits": [
+    "gamer"
+   ],
+   "users": 13,
+   "medianAge": 13,
+   "top": [
+    {
+     "id": "gate-arcade",
+     "score": 0.9286,
+     "reason": "Because you love games"
+    },
+    {
+     "id": "route-quiz",
+     "score": 0.7802,
+     "reason": "Because you love games"
+    },
+    {
+     "id": "game-bundle",
+     "score": 0.7465,
+     "reason": "Because you love games"
+    },
+    {
+     "id": "esports-night",
+     "score": 0.5878,
+     "reason": "Because you love games"
+    },
+    {
+     "id": "pilot-qa",
+     "score": 0.5827,
+     "reason": "Popular at your age"
+    },
+    {
+     "id": "flight-sim-try",
+     "score": 0.5487,
+     "reason": "Because you love games"
+    }
+   ]
+  },
+  {
+   "id": "teen|foodie",
+   "band": "teen",
+   "traits": [
+    "foodie"
+   ],
+   "users": 11,
+   "medianAge": 14,
+   "top": [
+    {
+     "id": "bubble-tea-gate",
+     "score": 0.6386,
+     "reason": "Because you're a foodie"
+    },
+    {
+     "id": "chef-table",
+     "score": 0.5943,
+     "reason": "Because you're a foodie"
+    },
+    {
+     "id": "gate-arcade",
+     "score": 0.5636,
+     "reason": "Popular at your age"
+    },
+    {
+     "id": "pilot-qa",
+     "score": 0.5116,
+     "reason": "Popular at your age"
+    },
+    {
+     "id": "photo-challenge",
+     "score": 0.4172,
+     "reason": "Popular at your age"
+    },
+    {
+     "id": "game-bundle",
+     "score": 0.413,
+     "reason": "Popular at your age"
+    }
+   ]
+  },
+  {
+   "id": "little|gamer+with_siblings",
+   "band": "little",
+   "traits": [
+    "gamer",
+    "with_siblings"
+   ],
+   "users": 10,
+   "medianAge": 8,
+   "top": [
+    {
+     "id": "pip-sticker-hunt",
+     "score": 0.9589,
+     "reason": "Because you love games"
+    },
+    {
+     "id": "sibling-seats",
+     "score": 0.8467,
+     "reason": "Fun with your siblings"
+    },
+    {
+     "id": "gate-arcade",
+     "score": 0.816,
+     "reason": "Because you love games"
+    },
+    {
+     "id": "family-lounge-play",
+     "score": 0.8019,
+     "reason": "Fun with your siblings"
+    },
+    {
+     "id": "cloud-spotter",
+     "score": 0.7981,
+     "reason": "Because you love games"
+    },
+    {
+     "id": "game-bundle",
+     "score": 0.6676,
+     "reason": "Because you love games"
+    }
+   ]
+  },
+  {
+   "id": "little|creative+with_siblings",
+   "band": "little",
+   "traits": [
+    "creative",
+    "with_siblings"
+   ],
+   "users": 9,
+   "medianAge": 10,
+   "top": [
+    {
+     "id": "puppet-show",
+     "score": 0.9027,
+     "reason": "Because you like making things"
+    },
+    {
+     "id": "sibling-seats",
+     "score": 0.7864,
+     "reason": "Fun with your siblings"
+    },
+    {
+     "id": "kite-day",
+     "score": 0.7847,
+     "reason": "Because you like making things"
+    },
+    {
+     "id": "gate-arcade",
+     "score": 0.7076,
+     "reason": "Popular at your age"
+    },
+    {
+     "id": "pilot-qa",
+     "score": 0.5905,
+     "reason": "Popular at your age"
+    },
+    {
+     "id": "draw-a-plane",
+     "score": 0.5504,
+     "reason": "Because you like making things"
+    }
+   ]
+  },
+  {
+   "id": "teen|none",
+   "band": "teen",
+   "traits": [],
+   "users": 8,
+   "medianAge": 16,
+   "top": [
+    {
+     "id": "gate-arcade",
+     "score": 0.5965,
+     "reason": "Popular at your age"
+    },
+    {
+     "id": "hike-meetup",
+     "score": 0.4207,
+     "reason": "Popular at your age"
+    },
+    {
+     "id": "esports-night",
+     "score": 0.3727,
+     "reason": "Popular at your age"
+    },
+    {
+     "id": "pilot-qa",
+     "score": 0.3375,
+     "reason": "Popular at your age"
+    },
+    {
+     "id": "trail-run",
+     "score": 0.2578,
+     "reason": "Popular at your age"
+    },
+    {
+     "id": "game-bundle",
+     "score": 0.254,
+     "reason": "Popular at your age"
+    }
+   ]
+  },
+  {
+   "id": "little|foodie+with_siblings",
+   "band": "little",
+   "traits": [
+    "foodie",
+    "with_siblings"
+   ],
+   "users": 8,
+   "medianAge": 7,
+   "top": [
+    {
+     "id": "family-lounge-play",
+     "score": 0.8457,
+     "reason": "Fun with your siblings"
+    },
+    {
+     "id": "kids-meal-upgrade",
+     "score": 0.7871,
+     "reason": "Because you're a foodie"
+    },
+    {
+     "id": "sibling-seats",
+     "score": 0.7165,
+     "reason": "Fun with your siblings"
+    },
+    {
+     "id": "dim-sum-class",
+     "score": 0.6979,
+     "reason": "Fun with your siblings"
+    },
+    {
+     "id": "pip-sticker-hunt",
+     "score": 0.5266,
+     "reason": "Fun with your siblings"
+    },
+    {
+     "id": "plane-spotting",
+     "score": 0.4889,
+     "reason": "Popular at your age"
+    }
+   ]
+  },
+  {
+   "id": "campus|budget+foodie+studying",
+   "band": "campus",
+   "traits": [
+    "budget",
+    "foodie",
+    "studying"
+   ],
+   "users": 8,
+   "medianAge": 23,
+   "top": [
+    {
+     "id": "study-cafe-pass",
+     "score": 0.9964,
+     "reason": "Because you're a foodie"
+    },
+    {
+     "id": "student-fare",
+     "score": 0.9442,
+     "reason": "Popular at your age"
+    },
+    {
+     "id": "travel-hack",
+     "score": 0.7898,
+     "reason": "Good value for your miles"
+    },
+    {
+     "id": "off-peak-fare",
+     "score": 0.6823,
+     "reason": "Good value for your miles"
+    },
+    {
+     "id": "snack-pack",
+     "score": 0.5982,
+     "reason": "Because you're a foodie"
+    },
+    {
+     "id": "trail-run",
+     "score": 0.5871,
+     "reason": "For students"
+    }
+   ]
+  },
+  {
+   "id": "little|techie",
+   "band": "little",
+   "traits": [
+    "techie"
+   ],
+   "users": 8,
+   "medianAge": 8,
+   "top": [
+    {
+     "id": "draw-a-plane",
+     "score": 0.8748,
+     "reason": "Because you like planes and tech"
+    },
+    {
+     "id": "pilot-qa",
+     "score": 0.8249,
+     "reason": "Because you like planes and tech"
+    },
+    {
+     "id": "cockpit-colouring",
+     "score": 0.7273,
+     "reason": "Because you like planes and tech"
+    },
+    {
+     "id": "crew-workshop",
+     "score": 0.7247,
+     "reason": "Because you like planes and tech"
+    },
+    {
+     "id": "plane-spotting",
+     "score": 0.6835,
+     "reason": "Because you like planes and tech"
+    },
+    {
+     "id": "hangar-tour",
+     "score": 0.5419,
+     "reason": "Because you like planes and tech"
+    }
+   ]
+  },
+  {
+   "id": "teen|foodie+gamer+with_siblings",
+   "band": "teen",
+   "traits": [
+    "foodie",
+    "gamer",
+    "with_siblings"
+   ],
+   "users": 8,
+   "medianAge": 14,
+   "top": [
+    {
+     "id": "gate-arcade",
+     "score": 0.934,
+     "reason": "Because you love games"
+    },
+    {
+     "id": "dim-sum-class",
+     "score": 0.8494,
+     "reason": "Fun with your siblings"
+    },
+    {
+     "id": "route-quiz",
+     "score": 0.8387,
+     "reason": "Because you love games"
+    },
+    {
+     "id": "chef-table",
+     "score": 0.8361,
+     "reason": "Because you're a foodie"
+    },
+    {
+     "id": "game-bundle",
+     "score": 0.8242,
+     "reason": "Because you love games"
+    },
+    {
+     "id": "flight-sim-try",
+     "score": 0.7848,
+     "reason": "Because you love games"
+    }
+   ]
+  },
+  {
+   "id": "little|foodie",
+   "band": "little",
+   "traits": [
+    "foodie"
+   ],
+   "users": 8,
+   "medianAge": 8,
+   "top": [
+    {
+     "id": "kids-meal-upgrade",
+     "score": 0.654,
+     "reason": "Because you're a foodie"
+    },
+    {
+     "id": "bubble-tea-gate",
+     "score": 0.529,
+     "reason": "Because you're a foodie"
+    },
+    {
+     "id": "plane-spotting",
+     "score": 0.4881,
+     "reason": "Popular at your age"
+    },
+    {
+     "id": "pilot-qa",
+     "score": 0.3107,
+     "reason": "Popular at your age"
+    },
+    {
+     "id": "sibling-seats",
+     "score": 0.3086,
+     "reason": "Popular at your age"
+    },
+    {
+     "id": "family-lounge-play",
+     "score": 0.2978,
+     "reason": "Popular at your age"
+    }
+   ]
+  },
+  {
+   "id": "little|outdoorsy",
+   "band": "little",
+   "traits": [
+    "outdoorsy"
+   ],
+   "users": 7,
+   "medianAge": 5,
+   "top": [
+    {
+     "id": "plane-spotting",
+     "score": 0.6996,
+     "reason": "Because you like the outdoors"
+    },
+    {
+     "id": "cloud-spotter",
+     "score": 0.4317,
+     "reason": "Because you like the outdoors"
+    },
+    {
+     "id": "kite-day",
+     "score": 0.3008,
+     "reason": "Because you like the outdoors"
+    },
+    {
+     "id": "sibling-seats",
+     "score": 0.2258,
+     "reason": "Popular at your age"
+    },
+    {
+     "id": "hike-meetup",
+     "score": 0.2048,
+     "reason": "Because you like the outdoors"
+    },
+    {
+     "id": "draw-a-plane",
+     "score": 0.1622,
+     "reason": "Popular at your age"
+    }
+   ]
+  },
+  {
+   "id": "little|gamer+techie+with_siblings",
+   "band": "little",
+   "traits": [
+    "gamer",
+    "techie",
+    "with_siblings"
+   ],
+   "users": 7,
+   "medianAge": 5,
+   "top": [
+    {
+     "id": "pip-sticker-hunt",
+     "score": 0.955,
+     "reason": "Because you love games"
+    },
+    {
+     "id": "draw-a-plane",
+     "score": 0.8675,
+     "reason": "Because you like planes and tech"
+    },
+    {
+     "id": "gate-arcade",
+     "score": 0.8386,
+     "reason": "Because you love games"
+    },
+    {
+     "id": "sibling-seats",
+     "score": 0.821,
+     "reason": "Fun with your siblings"
+    },
+    {
+     "id": "cockpit-colouring",
+     "score": 0.8189,
+     "reason": "Because you like planes and tech"
+    },
+    {
+     "id": "pilot-qa",
+     "score": 0.8014,
+     "reason": "Because you like planes and tech"
+    }
+   ]
+  },
+  {
+   "id": "little|budget+with_siblings",
+   "band": "little",
+   "traits": [
+    "budget",
+    "with_siblings"
+   ],
+   "users": 7,
+   "medianAge": 5,
+   "top": [
+    {
+     "id": "sibling-seats",
+     "score": 0.9156,
+     "reason": "Fun with your siblings"
+    },
+    {
+     "id": "puppet-show",
+     "score": 0.6763,
+     "reason": "Fun with your siblings"
+    },
+    {
+     "id": "pip-sticker-hunt",
+     "score": 0.5897,
+     "reason": "Fun with your siblings"
+    },
+    {
+     "id": "seatbelt-song",
+     "score": 0.5502,
+     "reason": "Fun with your siblings"
+    },
+    {
+     "id": "game-bundle",
+     "score": 0.4603,
+     "reason": "Good value for your miles"
+    },
+    {
+     "id": "family-lounge-play",
+     "score": 0.4406,
+     "reason": "Fun with your siblings"
+    }
+   ]
+  },
+  {
+   "id": "little|creative+techie+with_siblings",
+   "band": "little",
+   "traits": [
+    "creative",
+    "techie",
+    "with_siblings"
+   ],
+   "users": 6,
+   "medianAge": 9,
+   "top": [
+    {
+     "id": "draw-a-plane",
+     "score": 0.9914,
+     "reason": "Because you like planes and tech"
+    },
+    {
+     "id": "cockpit-colouring",
+     "score": 0.9729,
+     "reason": "Because you like planes and tech"
+    },
+    {
+     "id": "puppet-show",
+     "score": 0.9132,
+     "reason": "Because you like making things"
+    },
+    {
+     "id": "kite-day",
+     "score": 0.8662,
+     "reason": "Because you like making things"
+    },
+    {
+     "id": "pilot-qa",
+     "score": 0.7839,
+     "reason": "Because you like planes and tech"
+    },
+    {
+     "id": "sibling-seats",
+     "score": 0.7594,
+     "reason": "Fun with your siblings"
+    }
+   ]
+  },
+  {
+   "id": "campus|budget+first_solo+studying+studying_abroad",
+   "band": "campus",
+   "traits": [
+    "budget",
+    "first_solo",
+    "studying",
+    "studying_abroad"
+   ],
+   "users": 6,
+   "medianAge": 23,
+   "top": [
+    {
+     "id": "student-fare",
+     "score": 0.9907,
+     "reason": "For studying abroad"
+    },
+    {
+     "id": "language-trip",
+     "score": 0.988,
+     "reason": "For your first trip alone"
+    },
+    {
+     "id": "study-cafe-pass",
+     "score": 0.9843,
+     "reason": "Good value for your miles"
+    },
+    {
+     "id": "off-peak-fare",
+     "score": 0.9631,
+     "reason": "For your first trip alone"
+    },
+    {
+     "id": "term-break-home",
+     "score": 0.921,
+     "reason": "For studying abroad"
+    },
+    {
+     "id": "travel-hack",
+     "score": 0.9003,
+     "reason": "For your first trip alone"
+    }
+   ]
+  },
+  {
+   "id": "little|budget",
+   "band": "little",
+   "traits": [
+    "budget"
+   ],
+   "users": 6,
+   "medianAge": 10,
+   "top": [
+    {
+     "id": "sibling-seats",
+     "score": 0.7679,
+     "reason": "Good value for your miles"
+    },
+    {
+     "id": "gate-arcade",
+     "score": 0.6479,
+     "reason": "Popular at your age"
+    },
+    {
+     "id": "game-bundle",
+     "score": 0.6007,
+     "reason": "Good value for your miles"
+    },
+    {
+     "id": "pilot-qa",
+     "score": 0.5861,
+     "reason": "Popular at your age"
+    },
+    {
+     "id": "bubble-tea-gate",
+     "score": 0.451,
+     "reason": "Good value for your miles"
+    },
+    {
+     "id": "hangar-tour",
+     "score": 0.3713,
+     "reason": "Popular at your age"
+    }
+   ]
+  },
+  {
+   "id": "campus|first_solo+studying+studying_abroad",
+   "band": "campus",
+   "traits": [
+    "first_solo",
+    "studying",
+    "studying_abroad"
+   ],
+   "users": 6,
+   "medianAge": 23,
+   "top": [
+    {
+     "id": "term-break-home",
+     "score": 0.9853,
+     "reason": "For studying abroad"
+    },
+    {
+     "id": "student-fare",
+     "score": 0.9852,
+     "reason": "For studying abroad"
+    },
+    {
+     "id": "language-trip",
+     "score": 0.9718,
+     "reason": "For your first trip alone"
+    },
+    {
+     "id": "hostel-deal",
+     "score": 0.961,
+     "reason": "For your first trip alone"
+    },
+    {
+     "id": "grad-trip",
+     "score": 0.9525,
+     "reason": "For your first trip alone"
+    },
+    {
+     "id": "lounge-study",
+     "score": 0.884,
+     "reason": "For students"
+    }
+   ]
+  },
+  {
+   "id": "campus|studying",
+   "band": "campus",
+   "traits": [
+    "studying"
+   ],
+   "users": 6,
+   "medianAge": 21,
+   "top": [
+    {
+     "id": "student-fare",
+     "score": 0.9511,
+     "reason": "Popular at your age"
+    },
+    {
+     "id": "lounge-study",
+     "score": 0.8215,
+     "reason": "For students"
+    },
+    {
+     "id": "study-cafe-pass",
+     "score": 0.6496,
+     "reason": "Popular at your age"
+    },
+    {
+     "id": "career-day",
+     "score": 0.5762,
+     "reason": "For students"
+    },
+    {
+     "id": "grad-trip",
+     "score": 0.5055,
+     "reason": "For students"
+    },
+    {
+     "id": "extra-bag",
+     "score": 0.504,
+     "reason": "Popular at your age"
+    }
+   ]
+  },
+  {
+   "id": "teen|creative",
+   "band": "teen",
+   "traits": [
+    "creative"
+   ],
+   "users": 6,
+   "medianAge": 13,
+   "top": [
+    {
+     "id": "skyline-sketch",
+     "score": 0.7152,
+     "reason": "Because you like making things"
+    },
+    {
+     "id": "gate-arcade",
+     "score": 0.5289,
+     "reason": "Popular at your age"
+    },
+    {
+     "id": "blind-box-drop",
+     "score": 0.5109,
+     "reason": "Because you like making things"
+    },
+    {
+     "id": "phone-strap",
+     "score": 0.5103,
+     "reason": "Because you like making things"
+    },
+    {
+     "id": "photo-challenge",
+     "score": 0.4856,
+     "reason": "Because you like making things"
+    },
+    {
+     "id": "summer-camp",
+     "score": 0.3758,
+     "reason": "Popular at your age"
+    }
+   ]
+  },
+  {
+   "id": "little|outdoorsy+with_siblings",
+   "band": "little",
+   "traits": [
+    "outdoorsy",
+    "with_siblings"
+   ],
+   "users": 6,
+   "medianAge": 8,
+   "top": [
+    {
+     "id": "plane-spotting",
+     "score": 0.8502,
+     "reason": "Because you like the outdoors"
+    },
+    {
+     "id": "kite-day",
+     "score": 0.7953,
+     "reason": "Fun with your siblings"
+    },
+    {
+     "id": "cloud-spotter",
+     "score": 0.7242,
+     "reason": "Because you like the outdoors"
+    },
+    {
+     "id": "sibling-seats",
+     "score": 0.6879,
+     "reason": "Fun with your siblings"
+    },
+    {
+     "id": "draw-a-plane",
+     "score": 0.5797,
+     "reason": "Fun with your siblings"
+    },
+    {
+     "id": "family-lounge-play",
+     "score": 0.5701,
+     "reason": "Fun with your siblings"
+    }
+   ]
+  },
+  {
+   "id": "little|techie+with_siblings",
+   "band": "little",
+   "traits": [
+    "techie",
+    "with_siblings"
+   ],
+   "users": 6,
+   "medianAge": 6,
+   "top": [
+    {
+     "id": "draw-a-plane",
+     "score": 0.9157,
+     "reason": "Because you like planes and tech"
+    },
+    {
+     "id": "cockpit-colouring",
+     "score": 0.8804,
+     "reason": "Because you like planes and tech"
+    },
+    {
+     "id": "sibling-seats",
+     "score": 0.7842,
+     "reason": "Fun with your siblings"
+    },
+    {
+     "id": "puppet-show",
+     "score": 0.7334,
+     "reason": "Fun with your siblings"
+    },
+    {
+     "id": "pilot-qa",
+     "score": 0.6906,
+     "reason": "Because you like planes and tech"
+    },
+    {
+     "id": "seatbelt-song",
+     "score": 0.5893,
+     "reason": "Fun with your siblings"
+    }
+   ]
+  },
+  {
+   "id": "campus|first_solo+studying",
+   "band": "campus",
+   "traits": [
+    "first_solo",
+    "studying"
+   ],
+   "users": 6,
+   "medianAge": 23,
+   "top": [
+    {
+     "id": "grad-trip",
+     "score": 0.9623,
+     "reason": "For your first trip alone"
+    },
+    {
+     "id": "student-fare",
+     "score": 0.9203,
+     "reason": "Popular at your age"
+    },
+    {
+     "id": "language-trip",
+     "score": 0.8541,
+     "reason": "For your first trip alone"
+    },
+    {
+     "id": "travel-hack",
+     "score": 0.823,
+     "reason": "For your first trip alone"
+    },
+    {
+     "id": "hostel-deal",
+     "score": 0.808,
+     "reason": "For your first trip alone"
+    },
+    {
+     "id": "lounge-study",
+     "score": 0.8,
+     "reason": "For students"
+    }
+   ]
+  },
+  {
+   "id": "teen|creative+foodie+gamer",
+   "band": "teen",
+   "traits": [
+    "creative",
+    "foodie",
+    "gamer"
+   ],
+   "users": 6,
+   "medianAge": 15,
+   "top": [
+    {
+     "id": "photo-challenge",
+     "score": 0.9649,
+     "reason": "Because you love games"
+    },
+    {
+     "id": "gate-arcade",
+     "score": 0.8262,
+     "reason": "Because you love games"
+    },
+    {
+     "id": "game-bundle",
+     "score": 0.8137,
+     "reason": "Because you love games"
+    },
+    {
+     "id": "skyline-sketch",
+     "score": 0.7846,
+     "reason": "Because you like making things"
+    },
+    {
+     "id": "route-quiz",
+     "score": 0.7724,
+     "reason": "Because you love games"
+    },
+    {
+     "id": "chef-table",
+     "score": 0.7361,
+     "reason": "Because you're a foodie"
+    }
+   ]
+  },
+  {
+   "id": "campus|budget+first_solo+studying",
+   "band": "campus",
+   "traits": [
+    "budget",
+    "first_solo",
+    "studying"
+   ],
+   "users": 6,
+   "medianAge": 21,
+   "top": [
+    {
+     "id": "student-fare",
+     "score": 0.9832,
+     "reason": "Popular at your age"
+    },
+    {
+     "id": "off-peak-fare",
+     "score": 0.9829,
+     "reason": "For your first trip alone"
+    },
+    {
+     "id": "study-cafe-pass",
+     "score": 0.9721,
+     "reason": "Good value for your miles"
+    },
+    {
+     "id": "language-trip",
+     "score": 0.9585,
+     "reason": "For your first trip alone"
+    },
+    {
+     "id": "travel-hack",
+     "score": 0.9406,
+     "reason": "For your first trip alone"
+    },
+    {
+     "id": "hike-meetup",
+     "score": 0.8074,
+     "reason": "For your first trip alone"
+    }
+   ]
+  },
+  {
+   "id": "little|foodie+outdoorsy",
+   "band": "little",
+   "traits": [
+    "foodie",
+    "outdoorsy"
+   ],
+   "users": 5,
+   "medianAge": 8,
+   "top": [
+    {
+     "id": "plane-spotting",
+     "score": 0.8986,
+     "reason": "Because you like the outdoors"
+    },
+    {
+     "id": "kids-meal-upgrade",
+     "score": 0.7177,
+     "reason": "Because you're a foodie"
+    },
+    {
+     "id": "bubble-tea-gate",
+     "score": 0.5407,
+     "reason": "Because you're a foodie"
+    },
+    {
+     "id": "cloud-spotter",
+     "score": 0.4989,
+     "reason": "Because you like the outdoors"
+    },
+    {
+     "id": "kite-day",
+     "score": 0.4078,
+     "reason": "Because you like the outdoors"
+    },
+    {
+     "id": "street-food-pass",
+     "score": 0.3025,
+     "reason": "Because you're a foodie"
+    }
+   ]
+  },
+  {
+   "id": "teen|budget+outdoorsy",
+   "band": "teen",
+   "traits": [
+    "budget",
+    "outdoorsy"
+   ],
+   "users": 5,
+   "medianAge": 14,
+   "top": [
+    {
+     "id": "summer-camp",
+     "score": 0.7567,
+     "reason": "Because you like the outdoors"
+    },
+    {
+     "id": "game-bundle",
+     "score": 0.6796,
+     "reason": "Good value for your miles"
+    },
+    {
+     "id": "plane-spotting",
+     "score": 0.6697,
+     "reason": "Because you like the outdoors"
+    },
+    {
+     "id": "trail-run",
+     "score": 0.5747,
+     "reason": "Because you like the outdoors"
+    },
+    {
+     "id": "route-quiz",
+     "score": 0.4927,
+     "reason": "Popular at your age"
+    },
+    {
+     "id": "gate-arcade",
+     "score": 0.4641,
+     "reason": "Popular at your age"
+    }
+   ]
+  },
+  {
+   "id": "campus|budget+first_solo+outdoorsy+studying",
+   "band": "campus",
+   "traits": [
+    "budget",
+    "first_solo",
+    "outdoorsy",
+    "studying"
+   ],
+   "users": 5,
+   "medianAge": 21,
+   "top": [
+    {
+     "id": "hike-meetup",
+     "score": 0.9725,
+     "reason": "For your first trip alone"
+    },
+    {
+     "id": "study-cafe-pass",
+     "score": 0.9704,
+     "reason": "Good value for your miles"
+    },
+    {
+     "id": "trail-run",
+     "score": 0.9643,
+     "reason": "Because you like the outdoors"
+    },
+    {
+     "id": "student-fare",
+     "score": 0.9639,
+     "reason": "Popular at your age"
+    },
+    {
+     "id": "language-trip",
+     "score": 0.9573,
+     "reason": "For your first trip alone"
+    },
+    {
+     "id": "off-peak-fare",
+     "score": 0.9547,
+     "reason": "For your first trip alone"
+    }
+   ]
+  },
+  {
+   "id": "teen|foodie+outdoorsy",
+   "band": "teen",
+   "traits": [
+    "foodie",
+    "outdoorsy"
+   ],
+   "users": 5,
+   "medianAge": 14,
+   "top": [
+    {
+     "id": "plane-spotting",
+     "score": 0.8486,
+     "reason": "Because you like the outdoors"
+    },
+    {
+     "id": "summer-camp",
+     "score": 0.8164,
+     "reason": "Because you like the outdoors"
+    },
+    {
+     "id": "trail-run",
+     "score": 0.7508,
+     "reason": "Because you like the outdoors"
+    },
+    {
+     "id": "sunrise-paddle",
+     "score": 0.7013,
+     "reason": "Because you like the outdoors"
+    },
+    {
+     "id": "chef-table",
+     "score": 0.6567,
+     "reason": "Because you're a foodie"
+    },
+    {
+     "id": "bubble-tea-gate",
+     "score": 0.6494,
+     "reason": "Because you're a foodie"
+    }
+   ]
+  },
+  {
+   "id": "campus|budget+first_solo+outdoorsy+studying+studying_abroad",
+   "band": "campus",
+   "traits": [
+    "budget",
+    "first_solo",
+    "outdoorsy",
+    "studying",
+    "studying_abroad"
+   ],
+   "users": 5,
+   "medianAge": 20,
+   "top": [
+    {
+     "id": "study-cafe-pass",
+     "score": 0.9954,
+     "reason": "Good value for your miles"
+    },
+    {
+     "id": "student-fare",
+     "score": 0.9935,
+     "reason": "For studying abroad"
+    },
+    {
+     "id": "language-trip",
+     "score": 0.9925,
+     "reason": "For your first trip alone"
+    },
+    {
+     "id": "hike-meetup",
+     "score": 0.962,
+     "reason": "For your first trip alone"
+    },
+    {
+     "id": "off-peak-fare",
+     "score": 0.9602,
+     "reason": "For your first trip alone"
+    },
+    {
+     "id": "trail-run",
+     "score": 0.9455,
+     "reason": "Because you like the outdoors"
+    }
+   ]
+  },
+  {
+   "id": "campus|first_solo+foodie+studying+studying_abroad",
+   "band": "campus",
+   "traits": [
+    "first_solo",
+    "foodie",
+    "studying",
+    "studying_abroad"
+   ],
+   "users": 5,
+   "medianAge": 19,
+   "top": [
+    {
+     "id": "study-cafe-pass",
+     "score": 0.9988,
+     "reason": "Because you're a foodie"
+    },
+    {
+     "id": "term-break-home",
+     "score": 0.9962,
+     "reason": "For studying abroad"
+    },
+    {
+     "id": "student-fare",
+     "score": 0.9948,
+     "reason": "For studying abroad"
+    },
+    {
+     "id": "language-trip",
+     "score": 0.9933,
+     "reason": "For your first trip alone"
+    },
+    {
+     "id": "hostel-deal",
+     "score": 0.9699,
+     "reason": "For your first trip alone"
+    },
+    {
+     "id": "extra-bag",
+     "score": 0.8911,
+     "reason": "For studying abroad"
+    }
+   ]
+  },
+  {
+   "id": "teen|creative+with_siblings",
+   "band": "teen",
+   "traits": [
+    "creative",
+    "with_siblings"
+   ],
+   "users": 5,
+   "medianAge": 13,
+   "top": [
+    {
+     "id": "skyline-sketch",
+     "score": 0.6832,
+     "reason": "Because you like making things"
+    },
+    {
+     "id": "puppet-show",
+     "score": 0.68,
+     "reason": "Because you like making things"
+    },
+    {
+     "id": "gate-arcade",
+     "score": 0.6535,
+     "reason": "Popular at your age"
+    },
+    {
+     "id": "sibling-seats",
+     "score": 0.6163,
+     "reason": "Fun with your siblings"
+    },
+    {
+     "id": "kite-day",
+     "score": 0.6151,
+     "reason": "Because you like making things"
+    },
+    {
+     "id": "phone-strap",
+     "score": 0.5936,
+     "reason": "Because you like making things"
+    }
+   ]
+  },
+  {
+   "id": "little|creative+gamer+outdoorsy+techie+with_siblings",
+   "band": "little",
+   "traits": [
+    "creative",
+    "gamer",
+    "outdoorsy",
+    "techie",
+    "with_siblings"
+   ],
+   "users": 5,
+   "medianAge": 10,
+   "top": [
+    {
+     "id": "kite-day",
+     "score": 0.9711,
+     "reason": "Because you like making things"
+    },
+    {
+     "id": "gate-arcade",
+     "score": 0.9659,
+     "reason": "Because you love games"
+    },
+    {
+     "id": "plane-spotting",
+     "score": 0.9479,
+     "reason": "Because you like the outdoors"
+    },
+    {
+     "id": "pilot-qa",
+     "score": 0.9429,
+     "reason": "Because you like planes and tech"
+    },
+    {
+     "id": "cloud-spotter",
+     "score": 0.9391,
+     "reason": "Because you love games"
+    },
+    {
+     "id": "draw-a-plane",
+     "score": 0.9366,
+     "reason": "Because you like planes and tech"
+    }
+   ]
+  },
+  {
+   "id": "little|creative+techie",
+   "band": "little",
+   "traits": [
+    "creative",
+    "techie"
+   ],
+   "users": 5,
+   "medianAge": 8,
+   "top": [
+    {
+     "id": "draw-a-plane",
+     "score": 0.9718,
+     "reason": "Because you like planes and tech"
+    },
+    {
+     "id": "cockpit-colouring",
+     "score": 0.9292,
+     "reason": "Because you like planes and tech"
+    },
+    {
+     "id": "pilot-qa",
+     "score": 0.7721,
+     "reason": "Because you like planes and tech"
+    },
+    {
+     "id": "plane-spotting",
+     "score": 0.6875,
+     "reason": "Because you like planes and tech"
+    },
+    {
+     "id": "crew-workshop",
+     "score": 0.6508,
+     "reason": "Because you like planes and tech"
+    },
+    {
+     "id": "puppet-show",
+     "score": 0.5978,
+     "reason": "Because you like making things"
+    }
+   ]
+  }
+ ],
+ "clusters": [
+  {
+   "id": 2,
+   "size": 158,
+   "label": "Campus (17-25): university student, foodie",
+   "band": "campus",
+   "traits": [
+    "studying",
+    "foodie"
+   ],
+   "medianAge": 20,
+   "top": [
+    "study-cafe-pass",
+    "student-fare",
+    "language-trip",
+    "chef-table",
+    "travel-hack",
+    "trail-run"
+   ]
+  },
+  {
+   "id": 5,
+   "size": 142,
+   "label": "Campus (18-25): university student, first trip alone",
+   "band": "campus",
+   "traits": [
+    "studying",
+    "first_solo"
+   ],
+   "medianAge": 23,
+   "top": [
+    "student-fare",
+    "study-cafe-pass",
+    "language-trip",
+    "travel-hack",
+    "off-peak-fare",
+    "trail-run"
+   ]
+  },
+  {
+   "id": 3,
+   "size": 117,
+   "label": "Teen (12-17): mixed interests",
+   "band": "teen",
+   "traits": [],
+   "medianAge": 15,
+   "top": [
+    "gate-arcade",
+    "game-bundle",
+    "summer-camp",
+    "bubble-tea-gate",
+    "route-quiz",
+    "pilot-qa"
+   ]
+  },
+  {
+   "id": 6,
+   "size": 106,
+   "label": "Teen (10-20): travels with siblings, loves games, arts and photos",
+   "band": "teen",
+   "traits": [
+    "with_siblings",
+    "gamer",
+    "creative"
+   ],
+   "medianAge": 14,
+   "top": [
+    "gate-arcade",
+    "route-quiz",
+    "summer-camp",
+    "game-bundle",
+    "pilot-qa",
+    "flight-sim-try"
+   ]
+  },
+  {
+   "id": 4,
+   "size": 80,
+   "label": "Little (4-25): travels with siblings",
+   "band": "little",
+   "traits": [
+    "with_siblings"
+   ],
+   "medianAge": 6,
+   "top": [
+    "sibling-seats",
+    "puppet-show",
+    "draw-a-plane",
+    "kite-day",
+    "cockpit-colouring",
+    "plane-spotting"
+   ]
+  },
+  {
+   "id": 0,
+   "size": 77,
+   "label": "Little (4-11): planes and tech, travels with siblings, loves games",
+   "band": "little",
+   "traits": [
+    "techie",
+    "with_siblings",
+    "gamer"
+   ],
+   "medianAge": 8,
+   "top": [
+    "draw-a-plane",
+    "sibling-seats",
+    "cockpit-colouring",
+    "pilot-qa",
+    "pip-sticker-hunt",
+    "plane-spotting"
+   ]
+  },
+  {
+   "id": 7,
+   "size": 61,
+   "label": "Little (10-14): mixed interests",
+   "band": "little",
+   "traits": [],
+   "medianAge": 10,
+   "top": [
+    "gate-arcade",
+    "pilot-qa",
+    "sibling-seats",
+    "plane-spotting",
+    "game-bundle",
+    "hangar-tour"
+   ]
+  },
+  {
+   "id": 1,
+   "size": 59,
+   "label": "Little (4-9): mixed interests",
+   "band": "little",
+   "traits": [],
+   "medianAge": 6,
+   "top": [
+    "plane-spotting",
+    "sibling-seats",
+    "draw-a-plane",
+    "cloud-spotter",
+    "game-bundle",
+    "gate-arcade"
+   ]
+  }
+ ]
+}

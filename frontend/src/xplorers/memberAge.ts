@@ -1,5 +1,6 @@
 import { useSyncExternalStore } from 'react'
-import { ageFromQuery, MAX_AGE, MIN_AGE } from './discover'
+import { useSearch } from '../nav'
+import { ageFromQuery, MAX_AGE, MIN_AGE, traitsFromQuery, validTraits } from './discover'
 
 // Member age for Home's "Picked for you".
 // The demo panel's age slider sends `{ type: 'xplorers:set-age', age }` into the phone frame (postMessage, same origin).
@@ -36,4 +37,10 @@ const read = () => override ?? ageFromQuery()
 /** The slider's age if it was moved, else `?age=` (sign-up), else Mei at 7. */
 export function useMemberAge(): number {
   return useSyncExternalStore(subscribe, read)
+}
+
+/** Ticked characteristics (`?traits=`), kept only where they make sense at this age. Re-reads on every navigation. */
+export function useMemberTraits(age: number): string[] {
+  useSearch()
+  return validTraits(age, traitsFromQuery())
 }

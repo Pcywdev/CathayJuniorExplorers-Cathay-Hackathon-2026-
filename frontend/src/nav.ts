@@ -34,11 +34,12 @@ function subscribe(cb: () => void) {
   }
 }
 
-// The mock trip step (`?at=`), member age (`?age=`) and name from sign-up (`?name=`) travel with every navigation; other params are per screen.
+// The mock trip step (`?at=`), member age (`?age=`), name from sign-up (`?name=`) and ticked traits (`?traits=`) travel
+// with every navigation; other params are per screen.
 export function navigate(to: Route, params: Record<string, string> = {}) {
   const query = new URLSearchParams(params)
   const current = new URLSearchParams(window.location.search)
-  for (const key of ['at', 'age', 'name']) {
+  for (const key of ['at', 'age', 'name', 'traits']) {
     const value = current.get(key)
     if (value && !query.has(key)) query.set(key, value)
   }

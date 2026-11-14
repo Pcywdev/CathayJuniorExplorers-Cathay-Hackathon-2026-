@@ -18,6 +18,9 @@ Scope v2 (plan.md). Frontend-only on mock data, about 4.5 hours, for the recorde
 - **For Earth (teammate notes):** (1) `shared/program.json` `xplorers.discover` was added by the teammate side for the grid: please confirm or move it. (2) Exit carried miles use `mocks/graduation.ts` `juniorMiles` 48,000, which isn't in program.json and doesn't follow Mei's 24,000 at 20; the Family screen projects 29,280 at 22. Please add an exit balance to `personas.mei` so screens 9, 10 and Family agree. (3) Sign-up now uses Mei, not Leo (user decision); the tier card's welcome miles read `personas.leo.startingBalance` (200): please rename it to a generic new-member value. (4) The Family chart still treats miles as unusable until graduation (now 22); teen/campus redemptions don't show there yet.
 - [ ] Both: /screen-check on every new screen; record the video
 
+- [x] Toy dual-encoder promotion mapping (`python -m tools.xplorers_mapping`) + "Mei is…" trait tick boxes in the demo panel
+- **For Earth:** `program.json` `xplorers.discover` is now only the generator's seed; the grid reads `frontend/src/xplorers/data/mapping.json`. Also: `mocks/graduation.ts` reads `personas.mei.exitBalance` (commit 4acd960) but `program.json` has no such key, so `npm run build` fails on main until it's added.
+
 ## Now / Next / Blocked
 - **Now:** Xplorers MVP first tonight (section above). Then B: Day 3: score (PR #7) and child missions (PR #8) merged; story with fallback chapters + `/chapters` done on `feat/story` (English only, user decision); next LLM wrapper + safety checks. Open: delay bonus miles (not in program.json); simulated events show the real clock; story voice in chapters 3–4 delayed ("We").
 - **Next:** B: Milestone D (LLM wrapper + safety, fake provider now, live on site). F: swap `mocks/story.ts` for `GET /api/trips/{id}/chapters` (pick version by `branch`, map `key`→art, `unlockOn`→wording); plus the earlier swaps (trip + stream, graduation score, mission complete).

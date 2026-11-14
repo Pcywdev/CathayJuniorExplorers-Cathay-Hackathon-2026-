@@ -12,7 +12,7 @@ import { Pip } from '../components/Pip'
 import { RouteGlobe } from '../components/RouteGlobe'
 import { SpeechLine } from '../components/SpeechLine'
 import { tierForAge } from '../xplorers/discover'
-import { useMemberAge } from '../xplorers/memberAge'
+import { useMemberAge, useMemberTraits } from '../xplorers/memberAge'
 import { DELAY_MINUTES, delayedDeparts } from '../mocks/events'
 import { mockFlight, mockPastStamps, mockSerial } from '../mocks/trip'
 import { navigate, searchParam } from '../nav'
@@ -62,16 +62,17 @@ function RowLink({ icon, title, note, onClick }: { icon: React.ReactNode; title:
   )
 }
 
-// Home. Keyed by member age: when the demo slider sends a new age, Home's own state resets
+// Home. Keyed by member age and ticked traits: when the demo panel changes either, Home's own state resets
 // (a fresh "Picked for you" draw, Pip's line back) without reloading the frame or touching other screens.
 export function ChildScreen() {
   const age = useMemberAge()
-  return <ChildHome key={age} age={age} />
+  const traits = useMemberTraits(age)
+  return <ChildHome key={`${age}|${traits.join(',')}`} age={age} traits={traits} />
 }
 
 // Hero: the boarding pass, held over a Jade sky band with the turnable route globe.
 // Every trip moment changes it: Pip's line and pose, the ticket's status, which mission the ticket carries.
-function ChildHome({ age }: { age: number }) {
+function ChildHome({ age, traits }: { age: number; traits: string[] }) {
   const { trip, step, has, progress, latest } = useTrip()
   // Pip only speaks up for the delay (plan.md: "We have extra time!"); tap the line to put it away.
   const [hush, setHush] = useState(false)
@@ -173,7 +174,7 @@ function ChildHome({ age }: { age: number }) {
           )}
         </section>
 
-        <DiscoverGrid age={age} />
+        <DiscoverGrid age={age} traits={traits} />
 
         {grownUp ? (
           <MemoryPassport age={age} />

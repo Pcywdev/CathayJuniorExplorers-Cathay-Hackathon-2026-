@@ -3,7 +3,7 @@ import { missionById, program } from '../program'
 import { resetLocalMissions } from '../trip/localMissions'
 import type { TripStep } from '../trip/useTrip'
 import { AgeTimeline } from '../components/AgeTimeline'
-import { tierForAge } from '../xplorers/discover'
+import { tierForAge, traitAllowed, TRAITS, validTraits } from '../xplorers/discover'
 
 // Presenter view: the demo video as a fixed script. Each scene sets the child phone's screen, the trip moment,
 // Mei's age (in the URL, read by useMemberAge) and whether the parent phone shows. Next / Back (or the arrow keys)
@@ -69,8 +69,13 @@ const firstOf = (phase: PhaseId) => SCENES.findIndex((s) => s.phase === phase)
 
 const phaseForAge = (age: number): PhaseId => (age >= mei.exitAge ? 'exit' : (tierForAge(age).id as PhaseId))
 
-const query = (s: Scene, params: Record<string, string> = {}) => ({ ...params, at: s.step, age: String(s.age) })
-const url = (path: string, s: Scene, params: Record<string, string> = {}) => `${path}?${new URLSearchParams(query(s, params))}`
+// Ticked traits ride along as `?traits=a,b` (only those valid at the scene's age); Home reads them with useMemberTraits.
+const query = (s: Scene, params: Record<string, string> = {}, traits: string[] = []) => {
+  const valid = validTraits(s.age, traits)
+  return { ...params, at: s.step, age: String(s.age), ...(valid.length ? { traits: valid.join(',') } : { traits: '' }) }
+}
+const url = (path: string, s: Scene, params: Record<string, string> = {}, traits: string[] = []) =>
+  `${path}?${new URLSearchParams(query(s, params, traits))}`
 
 // Moves a loaded phone to a screen in place (nav.ts listens), so the video has the app's slide, not a reload.
 const goTo = (frame: HTMLIFrameElement | null, path: string, params: Record<string, string>) =>
@@ -88,6 +93,43 @@ function Option({ on, onClick, children }: { on: boolean; onClick: () => void; c
     >
       {children}
     </button>
+  )
+}
+
+// "Mei is…": characteristic tick boxes from the dual encoder's mapping (xplorers/data/mapping.json), in two groups.
+// A box is disabled when it can't apply at this age (e.g. "Studying abroad" needs 18+ and "University student").
+function TraitPicker({ age, ticked, onChange }: { age: number; ticked: string[]; onChange: (next: string[]) => void }) {
+  const groups = [
+    { id: 'style', label: 'Style' },
+    { id: 'situation', label: 'Situation' },
+  ] as const
+  const valid = validTraits(age, ticked)
+  const toggle = (id: string, on: boolean) => onChange(on ? [...ticked, id] : ticked.filter((t) => t !== id))
+  return (
+    <div className="flex flex-col gap-2 px-3">
+      {groups.map((g) => (
+        <fieldset key={g.id} className="flex flex-col gap-0.5">
+          <legend className="pb-0.5 text-small text-ink-soft">{g.label}</legend>
+          {TRAITS.filter((t) => t.group === g.id).map((t) => {
+            const allowed = traitAllowed(t, age, valid)
+            const note = age < t.minAge ? `${t.minAge}+` : !allowed ? 'needs student' : undefined
+            return (
+              <label key={t.id} className={`flex min-h-7 items-center gap-2 text-small ${allowed ? 'text-ink' : 'text-ink-soft'}`}>
+                <input
+                  type="checkbox"
+                  className="h-4 w-4 shrink-0 accent-jade"
+                  checked={valid.includes(t.id)}
+                  disabled={!allowed}
+                  onChange={(e) => toggle(t.id, e.target.checked)}
+                />
+                <span className="flex-1">{t.label}</span>
+                {note && <span className="tabular">{note}</span>}
+              </label>
+            )
+          })}
+        </fieldset>
+      ))}
+    </div>
   )
 }
 
@@ -126,7 +168,9 @@ function usePhoneScale(count: number) {
 export function DemoScreen() {
   const [i, setI] = useState(0)
   const [run, setRun] = useState(0)
+  const [traits, setTraits] = useState<string[]>([])
   const scene = SCENES[i]
+  const sentTraits = validTraits(scene.age, traits).join(',')
   const phaseScenes = SCENES.map((s, n) => ({ s, n })).filter(({ s }) => s.phase === scene.phase)
   const scale = usePhoneScale(scene.parent ? 2 : 1)
 
@@ -158,16 +202,18 @@ export function DemoScreen() {
   if (scene.parent) parentScene.current = scene
   const [srcs, setSrcs] = useState(() => ({ child: url(scene.path, scene, scene.params), parent: url(FIRST_PARENT.parent!, FIRST_PARENT) }))
 
+  // A new scene or a changed tick box moves the phones in place; Home remounts with a fresh draw for the new profile.
   useEffect(() => {
-    goTo(childFrame.current, scene.path, query(scene, scene.params))
-    if (scene.parent) goTo(parentFrame.current, scene.parent, query(scene))
-  }, [scene])
+    const t = sentTraits ? sentTraits.split(',') : []
+    goTo(childFrame.current, scene.path, query(scene, scene.params, t))
+    if (scene.parent) goTo(parentFrame.current, scene.parent, query(scene, {}, t))
+  }, [scene, sentTraits])
 
   // Clears missions finished on the phones and reloads both frames at the current scene.
   const reset = () => {
     resetLocalMissions()
     const p = parentScene.current
-    setSrcs({ child: url(scene.path, scene, scene.params), parent: url(p.parent!, p) })
+    setSrcs({ child: url(scene.path, scene, scene.params, traits), parent: url(p.parent!, p, {}, traits) })
     setRun((n) => n + 1)
   }
 
@@ -184,6 +230,11 @@ export function DemoScreen() {
         <section className="flex flex-col gap-1 border-b border-line pb-3">
           <h2 className="px-3 font-display text-body font-bold">Member age</h2>
           <AgeTimeline value={scene.age} onCommit={(a) => go(firstOf(phaseForAge(a)))} />
+        </section>
+
+        <section className="flex flex-col gap-1 border-b border-line pb-3">
+          <h2 className="px-3 font-display text-body font-bold">Mei is…</h2>
+          <TraitPicker age={scene.age} ticked={traits} onChange={setTraits} />
         </section>
 
         <nav className="flex flex-col gap-1" aria-label="Phases">

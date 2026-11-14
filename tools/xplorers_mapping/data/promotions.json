@@ -1,0 +1,840 @@
+[
+ {
+  "id": "cockpit-colouring",
+  "kind": "game",
+  "title": "Cockpit colouring kit",
+  "where": "On board",
+  "minAge": 4,
+  "maxAge": 10,
+  "peakAge": 6,
+  "tags": [
+   "arts",
+   "aviation",
+   "kids"
+  ],
+  "requires": [],
+  "hardMinAge": 4,
+  "hardMaxAge": 25
+ },
+ {
+  "id": "puppet-show",
+  "kind": "event",
+  "title": "Pip puppet show at the gate",
+  "where": "HKG terminal",
+  "minAge": 4,
+  "maxAge": 9,
+  "peakAge": 5,
+  "tags": [
+   "arts",
+   "kids",
+   "family"
+  ],
+  "requires": [],
+  "hardMinAge": 4,
+  "hardMaxAge": 25
+ },
+ {
+  "id": "draw-a-plane",
+  "kind": "game",
+  "title": "Draw your dream plane",
+  "where": "In app",
+  "miles": 50,
+  "minAge": 4,
+  "maxAge": 10,
+  "peakAge": 6,
+  "tags": [
+   "arts",
+   "aviation",
+   "kids"
+  ],
+  "requires": [],
+  "hardMinAge": 4,
+  "hardMaxAge": 25
+ },
+ {
+  "id": "seatbelt-song",
+  "kind": "game",
+  "title": "Seatbelt sing-along",
+  "where": "On board",
+  "miles": 30,
+  "minAge": 4,
+  "maxAge": 8,
+  "peakAge": 5,
+  "tags": [
+   "kids",
+   "family"
+  ],
+  "requires": [],
+  "hardMinAge": 4,
+  "hardMaxAge": 25
+ },
+ {
+  "id": "cloud-spotter",
+  "kind": "game",
+  "title": "Cloud spotter bingo",
+  "where": "On board",
+  "miles": 50,
+  "minAge": 4,
+  "maxAge": 11,
+  "peakAge": 7,
+  "tags": [
+   "games",
+   "outdoors",
+   "kids"
+  ],
+  "requires": [],
+  "hardMinAge": 4,
+  "hardMaxAge": 25
+ },
+ {
+  "id": "pip-sticker-hunt",
+  "kind": "game",
+  "title": "Find Pip stickers at the airport",
+  "where": "HKG terminal",
+  "miles": 80,
+  "minAge": 5,
+  "maxAge": 11,
+  "peakAge": 7,
+  "tags": [
+   "games",
+   "kids",
+   "family"
+  ],
+  "requires": [],
+  "hardMinAge": 4,
+  "hardMaxAge": 25
+ },
+ {
+  "id": "plane-spotting",
+  "kind": "event",
+  "title": "Plane-spotting morning",
+  "where": "Airport viewing deck",
+  "minAge": 6,
+  "maxAge": 14,
+  "peakAge": 9,
+  "tags": [
+   "aviation",
+   "outdoors"
+  ],
+  "requires": [],
+  "hardMinAge": 4,
+  "hardMaxAge": 25
+ },
+ {
+  "id": "crew-workshop",
+  "kind": "activity",
+  "title": "Junior cabin crew workshop",
+  "where": "Cathay City",
+  "minAge": 7,
+  "maxAge": 13,
+  "peakAge": 10,
+  "tags": [
+   "aviation",
+   "kids"
+  ],
+  "requires": [],
+  "hardMinAge": 4,
+  "hardMaxAge": 25
+ },
+ {
+  "id": "kids-meal-upgrade",
+  "kind": "discount",
+  "title": "Dessert with your kids meal",
+  "where": "On board",
+  "miles": 150,
+  "minAge": 4,
+  "maxAge": 11,
+  "peakAge": 8,
+  "tags": [
+   "food",
+   "kids"
+  ],
+  "requires": [],
+  "hardMinAge": 4,
+  "hardMaxAge": 13
+ },
+ {
+  "id": "flight-sim-try",
+  "kind": "activity",
+  "title": "Try a flight simulator",
+  "where": "Partner centre",
+  "miles": 600,
+  "minAge": 10,
+  "maxAge": 17,
+  "peakAge": 13,
+  "tags": [
+   "aviation",
+   "games"
+  ],
+  "requires": [],
+  "hardMinAge": 4,
+  "hardMaxAge": 25
+ },
+ {
+  "id": "blind-box-drop",
+  "kind": "discount",
+  "title": "Travel blind box drop",
+  "where": "Partner shop",
+  "miles": 800,
+  "minAge": 11,
+  "maxAge": 17,
+  "peakAge": 14,
+  "tags": [
+   "arts",
+   "value"
+  ],
+  "requires": [],
+  "hardMinAge": 4,
+  "hardMaxAge": 25
+ },
+ {
+  "id": "bubble-tea-gate",
+  "kind": "discount",
+  "title": "Bubble tea at the gate",
+  "where": "Partner café",
+  "miles": 250,
+  "minAge": 12,
+  "maxAge": 19,
+  "peakAge": 15,
+  "tags": [
+   "food",
+   "value"
+  ],
+  "requires": [],
+  "hardMinAge": 4,
+  "hardMaxAge": 25
+ },
+ {
+  "id": "snack-pack",
+  "kind": "discount",
+  "title": "Pick-your-own snack pack",
+  "where": "Cathay",
+  "miles": 400,
+  "minAge": 11,
+  "maxAge": 18,
+  "peakAge": 14,
+  "tags": [
+   "food",
+   "value"
+  ],
+  "requires": [],
+  "hardMinAge": 4,
+  "hardMaxAge": 25
+ },
+ {
+  "id": "esports-night",
+  "kind": "event",
+  "title": "Esports night in the lounge",
+  "where": "Partner arena",
+  "minAge": 13,
+  "maxAge": 20,
+  "peakAge": 16,
+  "tags": [
+   "games"
+  ],
+  "requires": [],
+  "hardMinAge": 4,
+  "hardMaxAge": 25
+ },
+ {
+  "id": "route-quiz",
+  "kind": "game",
+  "title": "Guess-the-route quiz",
+  "where": "In app",
+  "miles": 120,
+  "minAge": 10,
+  "maxAge": 18,
+  "peakAge": 14,
+  "tags": [
+   "games",
+   "aviation"
+  ],
+  "requires": [],
+  "hardMinAge": 4,
+  "hardMaxAge": 25
+ },
+ {
+  "id": "photo-challenge",
+  "kind": "game",
+  "title": "Window seat photo challenge",
+  "where": "In app",
+  "miles": 100,
+  "minAge": 12,
+  "maxAge": 20,
+  "peakAge": 16,
+  "tags": [
+   "arts",
+   "games"
+  ],
+  "requires": [],
+  "hardMinAge": 4,
+  "hardMaxAge": 25
+ },
+ {
+  "id": "phone-strap",
+  "kind": "discount",
+  "title": "Travel phone strap",
+  "where": "Partner shop",
+  "miles": 1200,
+  "minAge": 12,
+  "maxAge": 18,
+  "peakAge": 15,
+  "tags": [
+   "arts"
+  ],
+  "requires": [],
+  "hardMinAge": 4,
+  "hardMaxAge": 25
+ },
+ {
+  "id": "summer-camp",
+  "kind": "event",
+  "title": "Summer aviation camp",
+  "where": "Cathay City",
+  "minAge": 12,
+  "maxAge": 17,
+  "peakAge": 14,
+  "tags": [
+   "aviation",
+   "outdoors"
+  ],
+  "requires": [],
+  "hardMinAge": 4,
+  "hardMaxAge": 25
+ },
+ {
+  "id": "student-fare",
+  "kind": "discount",
+  "title": "Student fare saver",
+  "where": "Cathay",
+  "miles": 2500,
+  "minAge": 18,
+  "maxAge": 25,
+  "peakAge": 21,
+  "tags": [
+   "study",
+   "campus",
+   "value"
+  ],
+  "requires": [
+   "studying"
+  ],
+  "hardMinAge": 4,
+  "hardMaxAge": 25
+ },
+ {
+  "id": "extra-bag",
+  "kind": "discount",
+  "title": "Extra 10 kg for move-in day",
+  "where": "Cathay",
+  "miles": 3000,
+  "minAge": 17,
+  "maxAge": 25,
+  "peakAge": 19,
+  "tags": [
+   "campus",
+   "abroad"
+  ],
+  "requires": [],
+  "hardMinAge": 4,
+  "hardMaxAge": 25
+ },
+ {
+  "id": "language-trip",
+  "kind": "activity",
+  "title": "Language exchange trip",
+  "where": "Partner school",
+  "minAge": 16,
+  "maxAge": 24,
+  "peakAge": 19,
+  "tags": [
+   "study",
+   "abroad",
+   "solo"
+  ],
+  "requires": [],
+  "hardMinAge": 4,
+  "hardMaxAge": 25
+ },
+ {
+  "id": "hostel-deal",
+  "kind": "discount",
+  "title": "Two nights at a partner hostel",
+  "where": "Partner hotel",
+  "miles": 4000,
+  "minAge": 18,
+  "maxAge": 25,
+  "peakAge": 22,
+  "tags": [
+   "solo",
+   "value",
+   "abroad"
+  ],
+  "requires": [],
+  "hardMinAge": 18,
+  "hardMaxAge": 25
+ },
+ {
+  "id": "lounge-study",
+  "kind": "event",
+  "title": "Exam-week lounge study pass",
+  "where": "HKG lounge",
+  "miles": 6000,
+  "minAge": 18,
+  "maxAge": 25,
+  "peakAge": 21,
+  "tags": [
+   "study",
+   "campus"
+  ],
+  "requires": [
+   "studying"
+  ],
+  "hardMinAge": 4,
+  "hardMaxAge": 25
+ },
+ {
+  "id": "career-day",
+  "kind": "event",
+  "title": "Careers day at Cathay City",
+  "where": "Cathay City",
+  "minAge": 18,
+  "maxAge": 25,
+  "peakAge": 22,
+  "tags": [
+   "aviation",
+   "campus"
+  ],
+  "requires": [],
+  "hardMinAge": 4,
+  "hardMaxAge": 25
+ },
+ {
+  "id": "grad-trip",
+  "kind": "discount",
+  "title": "Graduation trip, flight and hotel",
+  "where": "Cathay",
+  "miles": 15000,
+  "minAge": 20,
+  "maxAge": 25,
+  "peakAge": 23,
+  "tags": [
+   "campus",
+   "solo"
+  ],
+  "requires": [],
+  "hardMinAge": 18,
+  "hardMaxAge": 25
+ },
+ {
+  "id": "hike-meetup",
+  "kind": "activity",
+  "title": "Weekend hike with other Xplorers",
+  "where": "Lantau",
+  "minAge": 15,
+  "maxAge": 25,
+  "peakAge": 20,
+  "tags": [
+   "outdoors",
+   "solo"
+  ],
+  "requires": [],
+  "hardMinAge": 4,
+  "hardMaxAge": 25
+ },
+ {
+  "id": "travel-hack",
+  "kind": "game",
+  "title": "Pack in 7 kg challenge",
+  "where": "In app",
+  "miles": 150,
+  "minAge": 15,
+  "maxAge": 25,
+  "peakAge": 19,
+  "tags": [
+   "games",
+   "value",
+   "solo"
+  ],
+  "requires": [],
+  "hardMinAge": 4,
+  "hardMaxAge": 25
+ },
+ {
+  "id": "gate-arcade",
+  "kind": "event",
+  "title": "Retro arcade corner at the gate",
+  "where": "HKG terminal",
+  "minAge": 8,
+  "maxAge": 18,
+  "peakAge": 13,
+  "tags": [
+   "games",
+   "kids"
+  ],
+  "requires": [],
+  "hardMinAge": 4,
+  "hardMaxAge": 25
+ },
+ {
+  "id": "game-bundle",
+  "kind": "discount",
+  "title": "In-flight game bundle",
+  "where": "On board",
+  "miles": 300,
+  "minAge": 9,
+  "maxAge": 20,
+  "peakAge": 14,
+  "tags": [
+   "games",
+   "value"
+  ],
+  "requires": [],
+  "hardMinAge": 4,
+  "hardMaxAge": 25
+ },
+ {
+  "id": "dim-sum-class",
+  "kind": "activity",
+  "title": "Mini dim sum class",
+  "where": "Partner restaurant",
+  "miles": 500,
+  "minAge": 7,
+  "maxAge": 16,
+  "peakAge": 11,
+  "tags": [
+   "food",
+   "kids",
+   "family"
+  ],
+  "requires": [],
+  "hardMinAge": 4,
+  "hardMaxAge": 25
+ },
+ {
+  "id": "street-food-pass",
+  "kind": "discount",
+  "title": "Street food tasting pass",
+  "where": "Partner food hall",
+  "miles": 900,
+  "minAge": 14,
+  "maxAge": 25,
+  "peakAge": 19,
+  "tags": [
+   "food",
+   "value"
+  ],
+  "requires": [],
+  "hardMinAge": 4,
+  "hardMaxAge": 25
+ },
+ {
+  "id": "chef-table",
+  "kind": "event",
+  "title": "Meet the in-flight chef",
+  "where": "Cathay City",
+  "miles": 1500,
+  "minAge": 12,
+  "maxAge": 25,
+  "peakAge": 18,
+  "tags": [
+   "food",
+   "aviation"
+  ],
+  "requires": [],
+  "hardMinAge": 4,
+  "hardMaxAge": 25
+ },
+ {
+  "id": "sunrise-paddle",
+  "kind": "activity",
+  "title": "Sunrise paddleboard session",
+  "where": "Partner club",
+  "miles": 1100,
+  "minAge": 13,
+  "maxAge": 25,
+  "peakAge": 19,
+  "tags": [
+   "outdoors"
+  ],
+  "requires": [],
+  "hardMinAge": 10,
+  "hardMaxAge": 25
+ },
+ {
+  "id": "trail-run",
+  "kind": "event",
+  "title": "Island trail run for Xplorers",
+  "where": "Partner club",
+  "minAge": 14,
+  "maxAge": 25,
+  "peakAge": 18,
+  "tags": [
+   "outdoors",
+   "solo"
+  ],
+  "requires": [],
+  "hardMinAge": 14,
+  "hardMaxAge": 25
+ },
+ {
+  "id": "kite-day",
+  "kind": "activity",
+  "title": "Kite-making day",
+  "where": "Partner park",
+  "minAge": 5,
+  "maxAge": 12,
+  "peakAge": 8,
+  "tags": [
+   "outdoors",
+   "arts",
+   "kids",
+   "family"
+  ],
+  "requires": [],
+  "hardMinAge": 4,
+  "hardMaxAge": 25
+ },
+ {
+  "id": "skyline-sketch",
+  "kind": "activity",
+  "title": "Sketch the skyline workshop",
+  "where": "Partner studio",
+  "miles": 400,
+  "minAge": 9,
+  "maxAge": 22,
+  "peakAge": 15,
+  "tags": [
+   "arts"
+  ],
+  "requires": [],
+  "hardMinAge": 4,
+  "hardMaxAge": 25
+ },
+ {
+  "id": "film-photo-walk",
+  "kind": "event",
+  "title": "Film photo walk",
+  "where": "Partner studio",
+  "miles": 700,
+  "minAge": 15,
+  "maxAge": 25,
+  "peakAge": 20,
+  "tags": [
+   "arts",
+   "solo"
+  ],
+  "requires": [],
+  "hardMinAge": 4,
+  "hardMaxAge": 25
+ },
+ {
+  "id": "hangar-tour",
+  "kind": "event",
+  "title": "Behind-the-scenes hangar tour",
+  "where": "Cathay City",
+  "miles": 800,
+  "minAge": 8,
+  "maxAge": 25,
+  "peakAge": 14,
+  "tags": [
+   "aviation"
+  ],
+  "requires": [],
+  "hardMinAge": 4,
+  "hardMaxAge": 25
+ },
+ {
+  "id": "pilot-qa",
+  "kind": "event",
+  "title": "Ask a pilot live session",
+  "where": "In app",
+  "minAge": 7,
+  "maxAge": 18,
+  "peakAge": 12,
+  "tags": [
+   "aviation",
+   "kids"
+  ],
+  "requires": [],
+  "hardMinAge": 4,
+  "hardMaxAge": 25
+ },
+ {
+  "id": "sibling-seats",
+  "kind": "discount",
+  "title": "Sit-together seats for siblings",
+  "where": "Cathay",
+  "miles": 200,
+  "minAge": 4,
+  "maxAge": 17,
+  "peakAge": 10,
+  "tags": [
+   "family",
+   "value",
+   "kids"
+  ],
+  "requires": [],
+  "hardMinAge": 4,
+  "hardMaxAge": 25
+ },
+ {
+  "id": "family-lounge-play",
+  "kind": "event",
+  "title": "Lounge play corner pass",
+  "where": "HKG lounge",
+  "miles": 600,
+  "minAge": 4,
+  "maxAge": 12,
+  "peakAge": 7,
+  "tags": [
+   "family",
+   "kids"
+  ],
+  "requires": [],
+  "hardMinAge": 4,
+  "hardMaxAge": 12
+ },
+ {
+  "id": "solo-starter",
+  "kind": "activity",
+  "title": "First solo trip starter guide",
+  "where": "In app",
+  "minAge": 15,
+  "maxAge": 25,
+  "peakAge": 18,
+  "tags": [
+   "solo"
+  ],
+  "requires": [],
+  "hardMinAge": 15,
+  "hardMaxAge": 25
+ },
+ {
+  "id": "solo-meet-assist",
+  "kind": "discount",
+  "title": "Airport meet-and-assist for solo travellers",
+  "where": "Cathay",
+  "miles": 1000,
+  "minAge": 15,
+  "maxAge": 19,
+  "peakAge": 16,
+  "tags": [
+   "solo",
+   "family"
+  ],
+  "requires": [],
+  "hardMinAge": 12,
+  "hardMaxAge": 17
+ },
+ {
+  "id": "mile-stretcher",
+  "kind": "discount",
+  "title": "Mile-stretcher value pack",
+  "where": "Cathay",
+  "miles": 350,
+  "minAge": 12,
+  "maxAge": 25,
+  "peakAge": 18,
+  "tags": [
+   "value"
+  ],
+  "requires": [],
+  "hardMinAge": 4,
+  "hardMaxAge": 25
+ },
+ {
+  "id": "off-peak-fare",
+  "kind": "discount",
+  "title": "Off-peak fare saver",
+  "where": "Cathay",
+  "miles": 2000,
+  "minAge": 16,
+  "maxAge": 25,
+  "peakAge": 21,
+  "tags": [
+   "value",
+   "solo"
+  ],
+  "requires": [],
+  "hardMinAge": 16,
+  "hardMaxAge": 25
+ },
+ {
+  "id": "move-abroad-bags",
+  "kind": "discount",
+  "title": "Move-abroad baggage allowance",
+  "where": "Cathay",
+  "miles": 3500,
+  "minAge": 18,
+  "maxAge": 25,
+  "peakAge": 19,
+  "tags": [
+   "abroad",
+   "campus"
+  ],
+  "requires": [
+   "studying_abroad"
+  ],
+  "hardMinAge": 4,
+  "hardMaxAge": 25
+ },
+ {
+  "id": "term-break-home",
+  "kind": "discount",
+  "title": "Term-break flight home",
+  "where": "Cathay",
+  "miles": 5000,
+  "minAge": 18,
+  "maxAge": 25,
+  "peakAge": 21,
+  "tags": [
+   "abroad",
+   "study"
+  ],
+  "requires": [
+   "studying_abroad"
+  ],
+  "hardMinAge": 4,
+  "hardMaxAge": 25
+ },
+ {
+  "id": "study-cafe-pass",
+  "kind": "discount",
+  "title": "Quiet study café pass",
+  "where": "Partner café",
+  "miles": 900,
+  "minAge": 17,
+  "maxAge": 25,
+  "peakAge": 20,
+  "tags": [
+   "study",
+   "food",
+   "campus"
+  ],
+  "requires": [
+   "studying"
+  ],
+  "hardMinAge": 4,
+  "hardMaxAge": 25
+ },
+ {
+  "id": "campus-storage",
+  "kind": "discount",
+  "title": "Summer dorm storage",
+  "where": "Partner storage",
+  "miles": 2200,
+  "minAge": 18,
+  "maxAge": 25,
+  "peakAge": 20,
+  "tags": [
+   "campus",
+   "abroad"
+  ],
+  "requires": [
+   "studying"
+  ],
+  "hardMinAge": 4,
+  "hardMaxAge": 25
+ }
+]
