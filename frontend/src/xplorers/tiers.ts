@@ -16,4 +16,11 @@ export const xplorerTiers = x.tiers.map((t) => ({ ...t, ages: tierAges(t), line:
 
 export const tierById = (id: string) => xplorerTiers.find((t) => t.id === id)!
 
+/** Mei's miles balance at an age: the persona's latest balance at or before it. */
+export function balanceAt(age: number): number {
+  const byAge = x.personas.mei.balanceByAge as Record<string, number>
+  const ages = Object.keys(byAge).map(Number).sort((a, b) => a - b)
+  return byAge[String(ages.filter((a) => a <= age).pop() ?? ages[0])]
+}
+
 export const exitLine = `At graduation or ${x.exit.maxAge}, you become a full member and keep your miles, years, trips and stamps.`

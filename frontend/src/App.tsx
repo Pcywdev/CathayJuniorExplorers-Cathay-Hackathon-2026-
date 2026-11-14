@@ -10,8 +10,9 @@ import { WelcomeScreen } from './screens/WelcomeScreen'
 import { ExitPreviewScreen, ExitScreen } from './screens/xplorers/exit/ExitScreen'
 import { AppHomeScreen } from './screens/xplorers/home/AppHomeScreen'
 import { IntroScreen } from './screens/xplorers/intro/IntroScreen'
+import { OfferScreen } from './screens/xplorers/offer/OfferScreen'
 import { SignUpScreen } from './screens/xplorers/signup/SignUpScreen'
-import { routeDepth, useRoute, type Route } from './nav'
+import { routeDepth, useRoute, useSearch, type Route } from './nav'
 
 const SCREENS: Record<Exclude<Route, '/demo'>, () => React.JSX.Element> = {
   '/home': AppHomeScreen,
@@ -26,6 +27,7 @@ const SCREENS: Record<Exclude<Route, '/demo'>, () => React.JSX.Element> = {
   '/ahead': ExitPreviewScreen,
   // Old link: graduation moved from 18 to exit (plan.md v2).
   '/graduation': ExitScreen,
+  '/offer': OfferScreen,
   '/parent': ParentScreen,
   '/family': FamilyScreen,
 }
@@ -39,6 +41,8 @@ export function App() {
 }
 
 function PhoneApp({ route }: { route: Exclude<Route, '/demo'> }) {
+  // A query-only change (e.g. the trip moment) re-renders the screen in place, without a slide.
+  useSearch()
   const prev = useRef(route)
   const dir = routeDepth[route] >= routeDepth[prev.current] ? 1 : -1
   prev.current = route

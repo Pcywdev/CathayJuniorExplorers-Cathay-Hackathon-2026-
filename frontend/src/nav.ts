@@ -14,9 +14,10 @@ export type Route =
   | '/graduation'
   | '/parent'
   | '/family'
+  | '/offer'
   | '/demo'
 
-const ROUTES: Route[] = ['/home', '/xplorers', '/signup', '/welcome', '/child', '/story', '/complete', '/exit', '/ahead', '/graduation', '/parent', '/family', '/demo']
+const ROUTES: Route[] = ['/home', '/xplorers', '/signup', '/welcome', '/child', '/story', '/complete', '/exit', '/ahead', '/graduation', '/offer', '/parent', '/family', '/demo']
 const EVENT = 'little-explorers:navigate'
 
 function current(): Route {
@@ -53,7 +54,22 @@ export function useRoute(): Route {
   return useSyncExternalStore(subscribe, current)
 }
 
+/** Re-renders on any navigation, including one that only changes the query (`?at=`, `?age=`). */
+export function useSearch(): string {
+  return useSyncExternalStore(subscribe, () => window.location.search)
+}
+
 export const searchParam = (key: string) => new URLSearchParams(window.location.search).get(key)
+
+// The /demo presenter moves a phone frame without reloading it: `{ type: 'demo:go', path, params }`, same origin only.
+if (typeof window !== 'undefined') {
+  window.addEventListener('message', (e: MessageEvent) => {
+    if (e.origin !== window.location.origin) return
+    const data = e.data as { type?: string; path?: string; params?: Record<string, string> } | null
+    if (data?.type !== 'demo:go' || !ROUTES.includes(data.path as Route)) return
+    navigate(data.path as Route, data.params ?? {})
+  })
+}
 
 // Order used to pick the slide direction between screens.
 export const routeDepth: Record<Route, number> = {
@@ -67,6 +83,7 @@ export const routeDepth: Record<Route, number> = {
   '/exit': 1,
   '/ahead': 1,
   '/graduation': 1,
+  '/offer': 1,
   '/parent': 0,
   '/family': 1,
   '/demo': 0,

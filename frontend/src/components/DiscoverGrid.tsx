@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { pickForAge, tierForAge, type DiscoverItem, type DiscoverKind } from '../xplorers/discover'
+import { DISCOVER_ITEMS, pickForAge, tierForAge, weight, type DiscoverItem, type DiscoverKind } from '../xplorers/discover'
 import { formatNumber } from '../program'
+import { navigate, searchParam } from '../nav'
 
 const ICON_PATHS: Record<DiscoverKind, React.ReactNode> = {
   // Controller
@@ -33,14 +34,14 @@ const ICON_PATHS: Record<DiscoverKind, React.ReactNode> = {
   ),
 }
 
-const KIND_LABEL: Record<DiscoverKind, string> = {
+export const KIND_LABEL: Record<DiscoverKind, string> = {
   game: 'Game',
   event: 'Event',
   discount: 'Discount',
   activity: 'Activity',
 }
 
-function KindIcon({ kind }: { kind: DiscoverKind }) {
+export function KindIcon({ kind }: { kind: DiscoverKind }) {
   return (
     <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="text-jade">
       {ICON_PATHS[kind]}
@@ -61,11 +62,45 @@ function MilesPill({ item }: { item: DiscoverItem }) {
   )
 }
 
+function Tile({ item, opens = false }: { item: DiscoverItem; opens?: boolean }) {
+  return (
+    <div className="flex h-full w-full flex-col gap-2 py-3">
+      <span className="flex items-center justify-between gap-2">
+        <KindIcon kind={item.kind} />
+        <span className="text-small text-ink-soft">{KIND_LABEL[item.kind]}</span>
+      </span>
+      <span className="flex flex-1 flex-col">
+        <span className="text-body font-medium text-ink">{item.title}</span>
+        <span className="text-small text-ink-soft">{item.where}</span>
+      </span>
+      <span className="flex items-center justify-between gap-2">
+        <MilesPill item={item} />
+        {opens && (
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="shrink-0 text-jade">
+            <path d="M9 6l6 6-6 6" />
+          </svg>
+        )}
+      </span>
+    </div>
+  )
+}
+
+// `?pick=<id>` puts that item first when it suits the age (the demo script uses it), then the usual draw.
+function draw(age: number): DiscoverItem[] {
+  const drawn = pickForAge(age)
+  const pinned = DISCOVER_ITEMS.find((item) => item.id === searchParam('pick') && weight(item, age) > 0)
+  if (!pinned) return drawn
+  return [pinned, ...drawn.filter((item) => item.id !== pinned.id)].slice(0, drawn.length)
+}
+
+// 12+ can open offers that cost miles (Teen rewards, Campus deals); games and free items stay as tiles.
+const opens = (item: DiscoverItem, age: number) => tierForAge(age).id !== 'little' && item.miles != null && item.kind !== 'game'
+
 // Replaces "My missions" on Home: a fresh age-weighted draw each time the screen mounts.
 // Tiles, not cards: a two-column grid ruled with Line dividers (DESIGN.md: lists are not containers).
 export function DiscoverGrid({ age }: { age: number }) {
   // Drawn once per mount, so trip moments re-rendering Home don't reshuffle it.
-  const [items] = useState(() => pickForAge(age))
+  const [items] = useState(() => draw(age))
   const tier = tierForAge(age)
 
   return (
@@ -79,17 +114,18 @@ export function DiscoverGrid({ age }: { age: number }) {
       <ul className="grid grid-cols-2 border-t border-line">
         {items.map((item, i) => (
           <li key={item.id} className={`border-b border-line ${i % 2 === 0 ? 'border-r pr-3' : 'pl-3'}`}>
-            <div className="flex h-full w-full flex-col gap-2 py-3">
-              <span className="flex items-center justify-between gap-2">
-                <KindIcon kind={item.kind} />
-                <span className="text-small text-ink-soft">{KIND_LABEL[item.kind]}</span>
-              </span>
-              <span className="flex flex-1 flex-col">
-                <span className="text-body font-medium text-ink">{item.title}</span>
-                <span className="text-small text-ink-soft">{item.where}</span>
-              </span>
-              <MilesPill item={item} />
-            </div>
+            {opens(item, age) ? (
+              <button
+                type="button"
+                onClick={() => navigate('/offer', { id: item.id })}
+                aria-label={`${item.title}, ${formatNumber(item.miles!)} miles`}
+                className="h-full w-full text-left transition-transform duration-100 active:scale-[0.97]"
+              >
+                <Tile item={item} opens />
+              </button>
+            ) : (
+              <Tile item={item} />
+            )}
           </li>
         ))}
       </ul>
