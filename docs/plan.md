@@ -1,334 +1,198 @@
-# Cathay Little Explorers — Build Plan
+# Cathay Xplorers: product and build plan
 
 **Team 2B3E · Cathay Hackathon 2026 final · 14–15 November, Cathay City**
 
-Build the MVP **Tue 10 – Fri 13 Nov**. Polish on site. Submit on site: prototype + repo link, slides (PDF), one-page poster.
-
----
-
-## Scope v2: Cathay Xplorers (14 Nov)
-
-**This section supersedes anything below that contradicts it.** Sections 1–16 still describe the Little Xplorers trip experience, which is unchanged.
-
-### The change
-Little Explorers becomes one tier of a youth membership mode called **Cathay Xplorers**, where young people explore what Cathay offers before adulthood. It is a concept only: no real Cathay integration and no official logos. The demo shows the full member journey from the hackathon challenge: **awareness → acquisition → activation → engagement → retention**.
-
-### Tiers
-
-| Tier | Ages | What it offers |
-|---|---|---|
-| **Little Xplorers** | Under 12 | The existing trip experience (sections 1–5). Only the name on screen changes. |
-| **Teen Xplorers** | 12–17 | Small tangible rewards for few miles, at partners and Cathay: pre-flight drink, snacks, trendy items, blind boxes |
-| **Campus Xplorers** | 18 to university graduation or 25, whichever comes first | Practical travel deals and packages; verified student badge |
-| **Exit** | At graduation or 25 | The member "graduates" into full adult membership |
-
-- **Exit carries over** miles, membership years, trip history and passport stamps. The graduation score and package work as before (section 5), but they happen at exit, not at 18.
-- **Family transfer allowance** (120,000 → 80,000 → 40,000) now starts at exit, not at 18.
-- **No pooling.** Miles stay in the young person's own account.
-- **Sign-up:** 12–17 needs guardian approval; 18+ verifies by university email. In the demo both show as already passed (✓). We don't build the approval or email-code screens.
-- All numbers are in `shared/program.json` under `xplorers` (illustrative, confirm with team).
-
-### Demo screens (for a recorded video)
-
-| # | Screen | Journey stage | Depth |
-|---|---|---|---|
-| 1 | App home with a Cathay Xplorers entry card | Awareness | Light: static, one tap forward |
-| 2 | Xplorers intro: the three tiers, "Join" | Awareness → acquisition | Light: static, one tap forward |
-| 4 | Sign-up: new teen Leo (14), pre-filled form, "Guardian approved ✓", then a tier card "Welcome to Teen Xplorers" | Acquisition + activation | Light: static, one tap forward |
-| 7 | Little Xplorers: the existing screens | Engagement | Existing |
-| 8 | Teen Xplorers rewards: balance, rewards list, one redemption flow ending in a voucher | Engagement (value beyond Cathay) | One complete interaction |
-| 9 | Campus Xplorers deals: verified badge, deals list, one deal detail | Engagement | One complete interaction |
-| 10 | Exit, "You've graduated": carry-over, score count-up, package, passport of all stamps, "Continue as a Cathay member" | Retention | One complete interaction |
-
-- **Persona slider:** switches Mei between 7 → 15 → 20 → exit, moving between screens 7, 8, 9 and 10.
-- Screen numbers follow the journey map; 3, 5 and 6 aren't built.
-- Same polish standard on every screen.
-- **Update (built, 14 Nov):** screens 8, 9 and the persona slider were dropped. Home now changes with age (Picked for you at 12+ and 18+, plain ticket, MemoryPassport), and the Member age timeline in `/demo` moves Mei between ages. Screen 4 uses Mei (15), not Leo. See decisions.md.
-
-### Tonight's build (done)
-- All new screens are **frontend-only on mock data**, so we can record the video.
-- No new backend endpoints for Xplorers. The Little Xplorers backend is unchanged.
-- The temporary ownership exception for Earth has **ended**; normal ownership applies again.
-
-### After the build: submission readiness
-- **Principle:** real where it's hard (the trip, rules engine, two-phone sync and story pipeline run on the backend); mocked where it's catalogue (Xplorers rewards, deals and personas); explained otherwise (`docs/architecture.md` "Production path").
-- **Next:** live trip mode (`/demo?live`, mocks stay the default), then the LLM wrapper + safety, exit score from the real endpoint, deploy + offline, the architecture slide and README. The ordered checklist is in progress.md "Submission readiness".
-
-### Superseded below
-- Section 1 demo line "she graduates at 18" → she graduates at exit (university graduation or 25).
-- Section 5 "Mei at 18" → Mei at exit; transfer allowance starts at exit.
-- Section 13 beat "Mei at 18: the graduation screen" → the exit screen, reached through the Member age timeline.
-- Section 13 beat "Simulate the trip" → runs on `/demo?live`, so both phones move through the real backend.
+This is the source of truth for scope. It describes the prototype as submitted on 15 Nov. The older "junior mode" plan (Little Explorers only, graduation at 18) is replaced; it's still in git history. Decisions and their dates are in `docs/decisions.md`.
 
 ---
 
 ## 1. What we're building
 
-A junior mode inside Cathay's app, shown as **two synced screens (child and parent)** reacting to **one real flight**, with an **AI story that unlocks chapter by chapter** as the trip happens. How the system works is explained on an **architecture slide**, not a third screen.
+**Cathay Xplorers** is a concept youth membership mode in a travel app. Young people explore what Cathay offers before adulthood, in three tiers, and then "graduate" into full adult membership, keeping everything they earned. It's a concept only: no real Cathay integration and no official logos.
 
-**The demo in one line:** Mei's real flight loads → her story begins → check-in, boarding, a delay and landing fire across both phones at once → she graduates at 18 with everything she earned.
+**The demo in one line:** Mei joins at 7 → one real flight drives her phone and her parent's phone, with missions, stamps and a story → at 15 and 20, Home changes with her age and offers are picked for her → at graduation she becomes a full member and keeps her miles, years, trips and stamps.
 
-**How it serves the pitch:** 3 minutes of business, then 2 minutes of tech. The tech segment is this demo. Every rule the business team describes (trip-linked missions, the earn cap, the graduation package) runs live on screen.
+The demo covers the member journey from the hackathon challenge: **awareness → acquisition → activation → engagement → retention**.
 
 ---
 
-## 2. The two screens
+## 2. Tiers
 
-| Screen | Device | Shows |
+| Tier | Ages | What it offers | Sign-up |
+|---|---|---|---|
+| **Little Xplorers** | Under 12 | The trip experience (section 4): two synced phones, missions, passport stamps, an AI story that unlocks with the trip | Through the family account |
+| **Teen Xplorers** | 12–17 | Small tangible rewards for few miles, at partners and Cathay: pre-flight drink, snacks, blind boxes | Guardian approval (shown as passed) |
+| **Campus Xplorers** | 18 to graduation or 25, whichever comes first | Practical travel deals and packages; verified student badge | University email (shown as passed) |
+| **Exit** | At graduation or 25 | Full adult membership | — |
+
+- **Exit carries over** miles, membership years, trip history and passport stamps. The graduation score and package (section 5) happen at exit.
+- **The family transfer allowance** (120,000 → 80,000 → 40,000 over three years) starts at exit.
+- **No pooling.** Miles stay in the young person's own account.
+- Teen and Campus personas are synthetic. Guardian approval and university email verification are shown as passed, never collected.
+
+---
+
+## 3. Demo screens
+
+The demo is a scripted run on `/demo` (`docs/demo-script.md` has the beats and commentary). Mei grows up on screen.
+
+| Journey stage | Screen | Route |
 |---|---|---|
-| **Child** | Phone | Boarding pass, missions, passport stamps, story chapters, graduation screen |
-| **Parent** | Phone | Trip notifications, trip timeline, miles earned, junior mode switch, data used |
+| Awareness | App home with a Cathay Xplorers entry card | `/home` |
+| Awareness → acquisition | Xplorers intro: the three tiers and graduation as a roadmap, "Join" | `/xplorers` |
+| Acquisition + activation | Sign-up: pre-filled form, guardian approval / university email shown as passed, "Welcome to <tier>" | `/signup` |
+| Activation | Mei's welcome: her passport opens | `/welcome` |
+| Engagement (Little) | Home with the boarding pass, mission complete with a stamp, story, parent timeline, family miles | `/child`, `/complete`, `/story`, `/parent`, `/family` |
+| Engagement (Teen, Campus) | The same Home, grown up: plain ticket, no Pip, "Picked for you" offers, an offer and its voucher | `/child?age=15`, `/child?age=20`, `/offer` |
+| Retention | Exit, "You've graduated": carry-over, score count-up, package, all stamps, "Continue as a Cathay member" | `/exit` |
 
-### Child screen
-- Junior mode home: boarding pass filled from real OAG data, missions, miles with the annual cap, passport stamps
-- Story: chapters unlock as the trip progresses; locked chapters visibly waiting
-- Mission complete: stamp animation, miles counter
-- Graduation screen (Mei at 18): score breakdown and package
-
-### Parent screen
-- Junior mode switch for the booking
-- Notifications that matter: **boarded, departed, delayed, landed**
-- **Trip timeline:** each event with time and result, e.g. "10:05 Boarded · +50 miles · 1,330 of 2,000 this year". Useful to a real parent, and it shows the rules working during the demo.
-- Miles earned as a quiet line, not an alert
-- "Data used" panel: age band, destination, flight length, trip events
-
-### Architecture slide (replaces the third screen)
-Owned by Earth. It should let judges trace exactly what they just watched:
-- **One event travelling through the system:** gate scan → rules engine (Boarding Badge ✓, cap 1,330/2,000 ✓, chapter 2 unlocked) → child and parent phones
-- **The story pipeline:** OAG flight data → generation → safety checks → fallback → stored on the phone, locked
-- **The four data fields used**, and what's never collected
-- Source for the wording: the `systemLines` field of each event (section 9)
+- **Home changes with age** (`?age=`). At 12+ it drops the childish parts: no Pip or story, the boarding pass becomes a plain ticket, and the passport becomes a memory page.
+- **"Picked for you"** on Home is ranked by a toy **dual-encoder** recommender (section 6), personalised by age and the "Mei is…" traits ticked in the demo panel.
+- **`/ahead`** is the exit page as a projection for a member who hasn't graduated yet ("See where this leads").
+- Screenshots for slides: `docs/screenshots/`.
 
 ---
 
-## 3. What drives the screens: one trip, six events
+## 4. Little Xplorers: one trip, six events
+
+On the parent's phone, the **junior mode** switch turns Little Xplorers on for a booking (the event is `junior_mode_on`). The child gets her own screen, and both phones react to the same flight.
 
 | Event | Real trigger | Child | Parent |
 |---|---|---|---|
-| **Junior mode on** | Parent switches it on | Welcome from Pip, chapter 1 ready | Confirmation + data used |
+| **Junior mode on** | Parent's switch for the booking | Welcome from Pip, chapter 1 ready | Confirmation + data used |
 | **Checked in** | Check-in system | Check-in Champion +30 | "Mei is checked in for CX 500" |
-| **Boarded** | Gate scan | Boarding Badge stamp, chapter 2 unlocks | **"Mei has boarded"** |
-| **Departed** | OAG status | In-flight chapters, available offline | "Departed 10:42, landing about 14:55" |
-| **Delayed** | OAG status | Pip: "We have extra time!" + bonus mini-mission, delayed chapter version | **"Delayed 40 min, new gate 23"** |
-| **Landed** | OAG status | Arrival Explorer, Tokyo stamp, final chapter | **"Mei has landed in Tokyo"** |
+| **Delayed** | OAG status | Pip: "We have extra time!", delayed chapter versions | "Delayed 40 min", new departure time |
+| **Boarded** | Gate scan | Boarding Badge stamp, chapter 2 unlocks | "Mei has boarded" |
+| **Departed** | OAG status | In-flight chapter | Departure time and landing estimate |
+| **Landed** | OAG status | Arrival Explorer, Tokyo stamp, final chapter | "Mei has landed in Tokyo" |
 
-Behind every event, the backend applies the rules: mission check, cap check, chapter unlock, branch switch. These are logged as `systemLines` and shown on the architecture slide.
+The child can also complete an open mission herself (Window Watcher) by pressing the stamp; that's a `mission_completed` event.
 
-- **Demo control:** a "Simulate trip" control fires these events in sequence, because a real flight won't move during a 2-minute pitch. Simulated events are labelled as such.
-- **Sync:** the backend publishes each event **once** to the trip's channel. Both screens subscribe via SSE and render their own version.
+Behind every event the backend rules engine decides: mission check, annual cap check, chapter unlock, branch switch. The backend publishes the event **once** to the trip's channel, and both phones get it over Server-Sent Events. The wording is in the event's `systemLines`, used for logging and the architecture slide.
 
-```
-Event ──► Backend rules engine (mission, cap, chapter unlock, branch)
-              │
-              ▼ one event, one channel per trip
-          ┌───┴───┐
-        Child   Parent           (each subscribed via SSE)
-```
-
-**Fallback:** if SSE fights us, screens poll every second. Looks identical on stage.
-
----
-
-## 4. Story chapters
-
+### Story
 | Step | What happens |
 |---|---|
-| **Trigger** | Automatic when junior mode is turned on (in production, also when online check-in opens) |
-| **Input** | Real flight data from OAG: destination, flight length, aircraft; plus age band |
-| **Generation** | One AI call writes every chapter for the trip as JSON: check-in, boarding, in-flight, landing |
-| **Branches** | Later chapters in two versions: on time and delayed |
-| **Languages** | English and Traditional Chinese |
-| **Safety checks** | JSON format, length, banned words, moderation pass, readability for the age band |
-| **Fallback** | Any failure → pre-written chapter. The child never sees a failure. |
-| **Delivery** | Saved, downloaded to the phone **locked** |
-| **Unlock** | Trip events unlock chapters. Nothing is generated during the flight. |
+| Trigger | Once per trip, when the parent turns junior mode on (production: when online check-in opens) |
+| Input | Four fields: destination, flight length, aircraft model, age band. Never the child's name: the AI writes `{name}`, filled in when a phone asks |
+| Generation | One AI call writes all chapters as JSON: check-in, boarding, in-flight, landing; chapters 2–4 in an on-time and a delayed version |
+| Safety checks | JSON shape and chapter structure, banned words, reading level per age band, no emoji or markdown, provider moderation |
+| Fallback | Any failure → the pre-written story. A child never sees a failed generation |
+| Unlock | Trip events unlock chapters; the landing chapter unlocks by the scheduled arrival time, no GPS |
+| On stage | `LLM_LIVE=false`: trips use a reviewed story fixture made with `tools/generate_story.py`, or the pre-written story |
 
-**Offline:** the app is a PWA. A service worker stores the chapters on the device. The final chapter unlocks at the **scheduled landing time** (from OAG data downloaded before departure) and confirms when the phone reconnects. **No GPS**, ever.
-
-**Prompting:** a style guide (warm, short sentences, no fear, no real people) plus two or three example chapters. No RAG, no fine-tuning.
-
-**Read-aloud (P1):** browser built-in speech. Test voices on the exact demo devices.
-
-**Demo safety:** pre-generate and cache the chapters for Mei's demo flight.
+English only for the submission.
 
 ---
 
-## 5. Graduation screen
+## 5. Exit: graduation score and package
 
-Inside the child's app. Mei at 18 sees:
-- Her score from the published formula (membership years, family flights, junior miles)
-- Her package: miles carried over, a Status Points head start capped below Silver, a family transfer allowance shrinking over three years
+At exit, the member sees:
+- **A score** from the published formula: 5 points per membership year (max 75), 4 per family flight (max 100), 2 per 5,000 Xplorer miles (max 25). Bands 0–60, 61–130, 131–200.
+- **A package:** miles carried over, a Status Points head start for the top band (150, below Silver at 300), and the family transfer allowance over three years.
+
+`POST /api/graduation/score` computes this on the backend. The exit screen in the demo reads the same numbers from `program.json`.
 
 ---
 
-## 6. Numbers (`shared/program.json`)
+## 6. "Picked for you": the dual-encoder recommender
 
-**Illustrative — business team to confirm. Every screen, slide and the poster must match.**
+A toy version of a hybrid recommender (`tools/xplorers_mapping`, stdlib Python, seeded, synthetic data):
+1. **Rules first:** hard age limits only where real (e.g. a hostel 18+), required traits (student, studying abroad), affordability.
+2. **Two towers:** a user tower (age bucket, age band, ticked traits) and an item tower (promo id, kind, tags, designed-for ages, miles, required traits), trained with binary cross-entropy on ~800 synthetic users and 49 promotions.
+3. **Result:** held-out AUC 0.82 against a 0.74 popularity baseline. Age is learnt, not ruled: a promo's age range is a soft feature.
+4. **Output:** `frontend/src/xplorers/data/mapping.json`. The app runs the user tower on the phone and draws six offers weighted by score, with a reason line from the strongest ticked trait.
+
+Traits are interests and travel situation only (e.g. foodie, travels with siblings, university student), never health or location.
+
+---
+
+## 7. What's real, scripted and mocked
+
+| | |
+|---|---|
+| **Real (backend, tested)** | OAG flight data (cached fixtures), rules engine, trips and events, two-phone sync over SSE, child mission completion, story pipeline with safety and fallback, graduation score. 204 tests. `tools/demo_trip.py` runs it end to end with two live streams |
+| **Real (offline tool)** | The dual-encoder recommender; its output drives "Picked for you" |
+| **Scripted** | The phone screens in the demo video run on events in the API's exact event shape (`?at=`), so the video plays the same every time |
+| **Mocked** | Teen and Campus offers and vouchers, sign-up checks, personas, on illustrative `program.json` numbers |
+| **Production path** | `docs/architecture.md` "Production path": how each demo piece maps to a real system |
+
+---
+
+## 8. Numbers (`shared/program.json`)
+
+**Illustrative, to confirm with the business team. Every screen, slide and the poster must match.**
 
 | Item | Value |
 |---|---|
-| Annual earn cap | 2,000 miles |
+| Annual earn cap (Little Xplorers) | 2,000 miles |
 | Missions | Check-in 30, Boarding 50, Window 30, Arrival 40 |
-| Score | 5 pts per membership year (max 75), 4 per family flight (max 100), 2 per 5,000 junior miles (max 25) |
-| Bands | 0–60, 61–130, 131–200 |
+| Score | See section 5 |
 | Top-band head start | 150 Status Points (Silver = 300) |
-| Transfer allowance | 120,000 → 80,000 → 40,000 over three years |
-| Demo member | Mei, starting balance 1,250 miles |
+| Transfer allowance (from exit) | 120,000 → 80,000 → 40,000 over three years |
+| Mei's balance | 1,250 at 7, 9,800 at 15, 24,000 at 20, 29,280 at exit (22) |
+| Teen and Campus rewards, discover catalogue | `xplorers.teenRewards`, `xplorers.campusDeals`, `xplorers.discover` (the recommender's seed) |
 
 ---
 
-## 7. Priorities
+## 9. Stack
 
-| P0 — must work by Friday | P1 — only if P0 is solid | Cut |
-|---|---|---|
-| OAG boarding pass | Read-aloud | Separate cost dashboard |
-| Six events + Simulate control | Delay branch shown live | Separate time-machine tool |
-| Two synced screens | Graduation screen polish | Retention dashboard |
-| Story chapters, EN/繁, safety, fallback | | RAG, fine-tuning |
-| Offline chapters | | Pooled family balances |
-| Graduation screen (basic) | | "Now and Next", calm mode |
-| Architecture slide | | Live Cathay view screen |
-
----
-
-## 8. Stack
-
-| Layer | Choice | Owner |
-|---|---|---|
-| Backend | Python 3.11, FastAPI, Uvicorn, httpx, SQLModel (SQLite), pydantic-settings, pytest | Earth |
-| Live updates | Server-Sent Events | Earth |
-| Flight data | OAG Flight Info API via backend, cached, demo flights saved as fixtures | Earth |
-| AI | One LLM (Gemini on Google Cloud or Claude on AWS Bedrock, whichever credits we get) behind one wrapper function | Earth |
-| Frontend | Vite + React + TypeScript, Tailwind (DESIGN.md tokens), Framer Motion | Teammate |
-| Offline | PWA service worker | Teammate |
-| Deploy | Docker → Google Cloud Run (backend); Cloud Run or Vercel (frontend) | Earth |
-| Code | One GitHub repo; README is a submission item | Both |
+| Layer | Choice |
+|---|---|
+| Backend | Python 3.11, FastAPI, Uvicorn, httpx, SQLModel (SQLite), pydantic-settings, pytest |
+| Live updates | Server-Sent Events, replay by event id; polling as fallback |
+| Flight data | OAG via the backend only, cached, demo flights as fixtures (quota 1,000 requests / 30 days) |
+| AI | The openai SDK behind one wrapper (`services/llm.py`): OpenAI, or a compatible provider via `LLM_BASE_URL` |
+| Recommender | `tools/xplorers_mapping`, stdlib Python |
+| Frontend | Vite, React, TypeScript, Tailwind (DESIGN.md tokens), Framer Motion, three.js |
+| Run | Locally for the submission; Docker image ready, Cloud Run runbook in `docs/deploy.md` |
 
 ---
 
-## 9. API contract (`docs/api.md`)
+## 10. API (`docs/api.md`)
 
 ```
 GET  /api/health
 GET  /api/flights/lookup?carrier=CX&number=500&date=2026-11-14
-POST /api/trips                    junior mode on → creates trip, generates chapters
-GET  /api/trips/{id}               trip, missions, miles, chapter lock states
-GET  /api/trips/{id}/chapters      chapters for offline storage
-POST /api/trips/{id}/events        { type: checkin | boarded | departed | delayed | landed }
-GET  /api/trips/{id}/stream        SSE: both screens subscribe here
-POST /api/graduation/score         history → score, breakdown, package
+POST /api/trips                                   junior mode on → trip + story
+GET  /api/trips/current
+GET  /api/trips/{id}                              trip, missions, miles, chapter states
+GET  /api/trips/{id}/chapters                     the story, for offline storage
+POST /api/trips/{id}/events                       checkin | delayed | boarded | departed | landed
+POST /api/trips/{id}/missions/{missionId}/complete  the child presses the stamp
+GET  /api/trips/{id}/stream                       SSE: both phones subscribe
+POST /api/graduation/score                        history → score, breakdown, package
 ```
-
-**One event shape for both screens:**
-```json
-{
-  "type": "boarded",
-  "at": "2026-11-14T10:05:00+08:00",
-  "source": "simulated",
-  "mission": { "id": "boarding", "title": "Boarding Badge", "miles": 50 },
-  "cap": { "used": 1330, "limit": 2000 },
-  "chapterUnlocked": 2,
-  "branch": "on_time",
-  "childMessage": "Boarding Badge collected!",
-  "parentMessage": "Mei has boarded CX 500",
-  "systemLines": ["Mission rule passed: Boarding Badge", "Cap check 1,330 / 2,000 ✓", "Chapter 2 unlocked"]
-}
-```
-`systemLines` isn't displayed on the phones. It's kept for logging, debugging and the architecture slide wording.
-
-**Rule:** any change to the contract is agreed by both of us first and updated in `api.md` in the same commit.
-
-Frontend builds against mock data in `src/mocks/` until each endpoint is live.
+There are no backend endpoints for Teen and Campus rewards, deals, tiers, sign-up or verification: those stay frontend mocks (decisions.md 2026-11-14). Any API change is agreed first and updated in `api.md` in the same commit.
 
 ---
 
-## 10. Repo structure
+## 11. Repo and ownership
 
 ```
-little-explorers/
-├── CLAUDE.md                  shared rules (short)
-├── backend/   CLAUDE.md, app/ (routers, logic, services), tests/, Dockerfile
-├── frontend/  CLAUDE.md, src/ (components, screens, api, mocks)
-├── shared/    program.json
-├── docs/      api.md, architecture.md, progress.md, decisions.md, DESIGN.md
-├── tools/     shoot.py (screenshots)
-└── .claude/skills/screen-check/SKILL.md
+backend/   FastAPI app (routers, logic, services, models), tests/, fixtures/, Dockerfile   Earth
+frontend/  React app (screens, components, xplorers/, trip/, mocks/)                     Teammate
+shared/    program.json, fonts                                                           Earth
+tools/     demo_trip.py, generate_story.py, shoot.py, xplorers_mapping/
+docs/      shared: plan, api, architecture, DESIGN, progress, decisions, demo script, screenshots
 ```
 
-| File | Purpose |
-|---|---|
-| `docs/api.md` | The contract between us. Most important file. |
-| `docs/progress.md` | What's done, next, blocked + one-line session log. Read at the start of every session. |
-| `docs/decisions.md` | One line per decision so we don't re-argue |
-| `docs/architecture.md` | Diagram + components. Becomes the README section and tech slide. |
-| `shared/program.json` | Every displayed number |
+---
+
+## 12. Submission (15 Nov)
+
+- **Prototype + repo link:** runs locally (README); backup video recorded.
+- **Slides (PDF):** architecture slide from `docs/architecture-visual.png` and `docs/architecture-slide.md`; screens from `docs/screenshots/`.
+- **One-page poster.**
+- **Not in the submission** (parked, plans kept): live trip mode on `/demo?live` (`docs/live-trip.md`), Cloud Run deploy (`docs/deploy.md`), the exit screen calling the score endpoint, PWA offline storage, Traditional Chinese stories.
 
 ---
 
-## 11. Who does what
-
-| | Earth (backend) | Teammate (frontend) |
-|---|---|---|
-| Owns | `backend/`, `shared/`, deployment | `frontend/` |
-| Builds | OAG service + cache + fixtures, rules engine, events + SSE, story generation + safety, scoring, deploy, **architecture slide** | Child and parent screens, animations, PWA offline, Simulate control, graduation screen |
-| Shared | `docs/` | `docs/` |
-
----
-
-## 12. Timeline
-
-| Day | Earth | Teammate | Done when |
-|---|---|---|---|
-| **Tue 10** | Setup (master prompt), backend skeleton, **deploy hello world to Cloud Run**, OAG queries, save fixtures | Pull repo, frontend skeleton, port DESIGN.md tokens, static child screens | Both run locally; backend deployed; one real OAG response saved |
-| **Wed 11** | Flight lookup + cache, rules engine with tests, events endpoint, SSE stream | Child screens on API, parent screen with notifications and trip timeline | Simulating "boarded" updates both phones |
-| **Thu 12** | Story generation, safety checks, fallback, branches, both languages; scoring endpoint | Story screen with lock states, mission complete animation, graduation screen, PWA offline | Full trip flow end to end |
-| **Fri 13** | Deploy everything, offline fixtures mode, README + architecture, architecture slide | Polish, delay branch, two-phone demo setup, P1 only if P0 done | **Demo runs with Wi-Fi off. Feature freeze.** |
-| **Sat–Sun** | Fixes, backup demo video | Polish, screenshots for slides and poster | Submitted |
-
----
-
-## 13. Demo script (tech segment, 2 minutes)
-
-| Time | Beat |
-|---|---|
-| 0:00–0:20 | Architecture slide: one event through the system, OAG → rules engine → AI with safety checks → two phones. "Rules now, AI later." |
-| 0:20–0:50 | Parent turns on junior mode → Mei's real flight loads → chapter 1 appears, in English then Chinese |
-| 0:50–1:30 | Simulate the trip: check-in, boarding, **delay**, landing — both phones react together; the story branch switches on the delay |
-| 1:30–1:50 | Mei at 18: the graduation screen |
-| 1:50–2:00 | "Four data fields, every rule visible, built on Cathay's existing systems." |
-
-**Setup:** two phones side by side, both mirrored onto the presentation screen so judges see them react together.
-
----
-
-## 14. Risks
-
-| Risk | Mitigation |
-|---|---|
-| OAG quota: 1,000 requests / 30 days, shared | Backend-only calls, cache everything, fixtures by default, "live" for the demo moment |
-| OAG fields missing (gate, seat) | Check on day 1; fill gaps with synthetic data, labelled |
-| Venue Wi-Fi | Offline mode with fixtures + pre-generated chapters |
-| LLM slow or bad output on stage | Pre-generated demo chapters, safety checks, fallback |
-| SSE trouble | Polling fallback |
-| Two people, four days | P0 only until Thursday evening |
-
----
-
-## 15. Rules we don't break
+## 13. Rules we don't break
 
 - Synthetic data except OAG flight data. Never imply real Cathay integration. No official logos.
 - No pooling of miles.
 - Children's data: age band, destination, flight length, trip events. Never photos, location or health data.
+- Teen and Campus personas are synthetic; approval and verification are shown as passed, never collected.
 - API keys only in `.env` (gitignored). Never in code, commits or screenshots.
 - Every displayed number comes from `shared/program.json`.
-- Something runs end to end at the end of every day.
-
----
-
-## 16. Setup checklist
-
-**Accounts:** OAG portal key · LLM credentials · Google Cloud project (Cloud Run + Artifact Registry enabled) · private GitHub repo with both of us
-
-**Each machine:** Node.js LTS · Python 3.11 env · Docker Desktop · `gcloud` CLI · Claude Code
-
-**Before Wednesday:** business team confirms `shared/program.json`

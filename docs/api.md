@@ -2,10 +2,12 @@
 
 The contract between backend and frontend. **Any change is agreed by both of us first and updated here in the same commit.**
 
+**Scope:** these endpoints serve the **Little Xplorers** trip (junior mode, the parent's switch for a booking) and the **exit** graduation score. Teen and Campus screens, sign-up and verification have no endpoints: they're frontend screens on `shared/program.json`, and "Picked for you" is ranked from the recommender's `mapping.json` on the phone (plan.md sections 6–7). Field names such as `juniorMiles` and the service name `little-explorers-api` predate the Cathay Xplorers name and are kept so the contract doesn't change.
+
 - Base URL: `http://localhost:8000` locally, the Cloud Run URL when deployed (frontend reads `VITE_API_BASE_URL`).
 - JSON everywhere, **camelCase** keys. Times are ISO 8601 with offset (`2026-11-14T10:05:00+08:00`).
 - Errors: `{ "detail": "human-readable message" }` with a 4xx/5xx status (FastAPI default).
-- Status legend: **live** = implemented; **draft** = shape proposed from plan.md section 9, confirm before building.
+- Status legend: **live** = implemented; **draft** = shape proposed in plan.md section 10, confirm before building.
 
 | Method | Path | Purpose | Status |
 |---|---|---|---|

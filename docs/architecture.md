@@ -14,14 +14,16 @@ The finished prototype, as submitted on 15 Nov. Solid lines run in the prototype
  │ boarded, departed,│ /events   ├──────────────────────────────────────────────┤ event│ alerts, timeline,  │
  │ landed (simulated)│           │ Event broker     one SSE channel per trip,   │      │ miles, data used   │
  └───────────────────┘           │                  replay by event id          │      └────────────────────┘
- ┌ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┐           ├──────────────────────────────────────────────┤       Xplorers tiers: Teen,
-   Production: DCS     ─ ─ ─ ─ ▶ │ Story service    4-field prompt ─▶ LLM ─▶    │       Campus, Exit screens
- │ check-in, gate    │           │ (services/)      safety checks ─▶ fallback   │       (catalogue on
-   scan, OAG alerts              ├──────────────────────────────────────────────┤        program.json)
+ ┌ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┐           ├──────────────────────────────────────────────┤       Teen, Campus: Home with
+   Production: DCS     ─ ─ ─ ─ ▶ │ Story service    4-field prompt ─▶ LLM ─▶    │       Picked for you, ranked
+ │ check-in, gate    │           │ (services/)      safety checks ─▶ fallback   │       on the phone by the
+   scan, OAG alerts              ├──────────────────────────────────────────────┤        dual encoder
  └ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┘           │ SQLite           trips, events, stories,     │
                                  │                  OAG cache                   │
                                  └──────────────────────────────────────────────┘
                                    shared/program.json: every number, read by backend and frontend
+
+  OFFLINE  tools/xplorers_mapping: dual encoder trained on synthetic users ─▶ mapping.json ─▶ Picked for you
 ```
 
 ## Components
@@ -34,6 +36,7 @@ The finished prototype, as submitted on 15 Nov. Solid lines run in the prototype
 - **SQLite (SQLModel):** trips, events, stories and the OAG response cache.
 - **SSE stream:** one channel per trip; both phones subscribe; replay via `?after` / `Last-Event-ID`; polling `GET /api/trips/{id}` is the fallback.
 - **`shared/program.json`:** every displayed number, read by backend and frontend.
+- **Picked for you recommender (`tools/xplorers_mapping`):** a toy dual encoder (stdlib Python, seeded). Rules come first: hard age limits where real, required traits, affordability. Then a user tower (age bucket, age band, ticked traits) and an item tower (promo id, kind, tags, designed-for ages, miles) are trained with binary cross-entropy on ~800 synthetic users and 49 promotions: held-out AUC 0.82 against a 0.74 popularity baseline. It writes `frontend/src/xplorers/data/mapping.json`; the app runs the user tower on the phone with the age and the "Mei is…" traits from the demo panel, and draws six offers weighted by score. Production: the same two-tower shape, item vectors in an approximate nearest-neighbour index.
 
 ## One event through the system (architecture slide)
 gate scan → `POST /events {type: boarded}` → rules engine (Boarding Badge ✓, cap 1,330 / 2,000 ✓, chapter 2 unlocked) → event published once → child and parent phones. Wording comes from the event's `systemLines`.
@@ -59,12 +62,12 @@ The design point is **events in, decisions out**: we swap the event source, not 
 | Story: one LLM call per trip | Batch job when online check-in opens; one call per booking, cached; nothing generated in flight | "One call per trip, before the flight." |
 | Prompt gets age band, destination, flight length, aircraft; `{name}` filled after | Same | "The AI never sees who the child is." |
 | Safety: JSON shape, banned words, reading level, emoji/markdown, provider moderation (OpenAI); fallback | Plus a human-reviewed fallback library, and rejection-rate monitoring | "A child never sees a failed generation." |
-| Chapters stored on the phone, landing unlock by schedule, no GPS | Same (PWA, later the native app cache) | "Works in airplane mode, no location data." |
+| `GET /chapters` serves every chapter at once, with the landing chapter's `unlockAt` from the schedule, no GPS | The phone stores them (PWA, later the native app cache) and opens chapter 4 offline at `unlockAt` | "Works in airplane mode, no location data." |
 | Child data: four fields | Child is a sub-account under a guardian, with consent at sign-up (HK PDPO; COPPA/GDPR-style standards for minors) | "Minimisation enforced in code." |
 | Teen guardian approval shown ✓ | Guardian approves in their own app with one tap; miles stay in the teen's name | "Approval is a parent action." |
 | Campus verification shown ✓ | University email domain code or a student-verification service, re-checked yearly | "Eligibility is a flag on the account." |
-| Picked for you discounts (mock) | Partner catalogue with one-time QR voucher codes that expire; partner scans at the till and is settled per redemption | "Low-mile rewards build the habit; partners pay for footfall." |
+| Picked for you: toy dual encoder on synthetic users; offers and vouchers mocked | Partner catalogue with one-time QR voucher codes that expire; partner scans at the till and is settled per redemption | "Low-mile rewards build the habit; partners pay for footfall." |
 | Student deals (mock) | Fares filed with a verified-student eligibility rule; packages from existing holiday products | "Deals are fare rules, not new systems." |
 | Exit (mock, score from the real endpoint) | Scheduled at graduation confirmation or 25; the same member ID changes tier, so history stays; package applied; transfer allowance year 1 starts | "Nothing migrates: it's the same account, growing up." |
 
-**What's real in the prototype:** the OAG flight (fixture), the rules engine, two-phone sync over SSE, the story pipeline with safety and fallback, and the graduation score, all in the backend and covered by tests. `tools/demo_trip.py` runs them end to end with two live streams. **Scripted:** the phone screens in the demo video run on events that mirror the API's event shape, so the video plays the same every time. **Mocked:** Xplorers screens (rewards, deals, sign-up checks) on illustrative program.json numbers. Concept only: no real Cathay integration. Stories are English only.
+**What's real in the prototype:** the OAG flight (fixture), the rules engine, two-phone sync over SSE, the story pipeline with safety and fallback, and the graduation score, all in the backend and covered by tests. `tools/demo_trip.py` runs them end to end with two live streams. **Scripted:** the phone screens in the demo video run on events that mirror the API's event shape, so the video plays the same every time. **Real, offline:** the dual-encoder recommender behind Picked for you (trained on synthetic users). **Mocked:** Teen and Campus offers and vouchers, sign-up checks and personas, on illustrative program.json numbers. Concept only: no real Cathay integration. Stories are English only.

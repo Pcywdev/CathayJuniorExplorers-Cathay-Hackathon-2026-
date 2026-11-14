@@ -15,8 +15,11 @@ One take on `/demo`, driven by the right arrow key. Mei grows up on screen: she 
 | Left arrow (or Back) | Previous beat, if you need to redo one |
 | Phase name in the panel | Jumps to the start of that phase |
 | Click **Press the stamp** in the phone | The stamp animation, at beat 6 only |
+| **Mei is…** tick boxes in the panel | Re-rank Picked for you on Home (dual-encoder recommender). The scripted beats pin the Teen and Campus offers first either way |
 
 The phones never reload: each beat slides in like the real app. The arrow keys still work after you click inside a phone. In Teen and Campus, you can click the offer tile and **Redeem** yourself instead of using the arrow key.
+
+Ticking a trait (e.g. Foodie at 15, University student at 20) before a Teen or Campus beat shows the recommender at work: the other tiles change and name the trait that lifted them. If you mention it, one line is enough: "Offers are ranked by a small recommender trained on synthetic members, from her age and interests."
 
 ## Beats and commentary
 About 230 words. Speak at an easy pace, and start each line as the screen lands.
