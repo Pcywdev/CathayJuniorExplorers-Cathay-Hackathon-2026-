@@ -59,7 +59,7 @@
       { "id": "grad-trip", "title": "Graduation trip package, flight and hotel", "miles": 15000 }
     ],
     "personas": {
-      "mei": { "name": "Mei", "balanceByAge": { "7": 1250, "15": 9800, "20": 24000 }, "exitAge": 22 },
+      "mei": { "name": "Mei", "balanceByAge": { "7": 1250, "15": 9800, "20": 24000 }, "exitAge": 22, "exitBalance": 29280 },
       "leo": { "name": "Leo", "age": 14, "startingBalance": 200 }
     },
     "discover": {

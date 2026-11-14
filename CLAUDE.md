@@ -5,7 +5,7 @@ Concept demo of a youth membership mode for a travel app: young people explore w
 ## Ownership
 - Backend owner: `backend/`, `shared/`, deployment. Frontend owner: `frontend/`. `docs/` is shared.
 - Stay inside your area; propose changes to the other side via docs/api.md.
-- **Temporary exception, tonight only (14 Nov):** Earth (backend owner) may also edit `frontend/src/screens/xplorers/teen/`, `frontend/src/screens/xplorers/campus/`, `frontend/src/screens/xplorers/slider/` and `frontend/src/data/`. Nothing else in `frontend/`.
+- The 14 Nov tonight-only exception for Earth in `frontend/` has ended. Cross-area work (e.g. live trip mode, `docs/live-trip.md`) needs the owner's OK first.
 
 ## Rules we don't break
 - Synthetic data only, except OAG flight data. Never imply real Cathay integration. No official logos.

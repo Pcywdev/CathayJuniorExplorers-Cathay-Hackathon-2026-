@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:"RH Display";src:url("../shared/fonts/RedHatDisplay-latin.woff2") format("woff2");font-weight:300 900}
+@font-face{font-family:"RH Text";src:url("../shared/fonts/RedHatText-latin.woff2") format("woff2");font-weight:300 700}
+@font-face{font-family:"RH Mono";src:url("../shared/fonts/RedHatMono-latin.woff2") format("woff2");font-weight:300 700}
+:root{--sky:#EAF1F3;--paper:#FBFCFA;--jade:#0E5E4E;--ink:#1D2B33;--soft:#56666D;--miles:#F2A033;--line:#D3DEE1;
+--shadow:0 1px 2px rgba(29,43,51,.08),0 8px 24px rgba(29,43,51,.08)}
+*{box-sizing:border-box;margin:0}
+body{width:1920px;height:1080px;background:var(--sky);font-family:"RH Text";color:var(--ink);position:relative;overflow:hidden}
+.abs{position:absolute}
+h1{font-family:"RH Display";font-weight:800;font-size:52px;line-height:60px}
+.sub{font-size:24px;line-height:32px;color:var(--soft);margin-top:6px}
+.sec{position:absolute;display:flex;align-items:center;gap:12px;font-family:"RH Display";font-weight:700;font-size:24px}
+.sec .tag{width:34px;height:34px;border-radius:999px;background:var(--jade);color:var(--paper);display:grid;place-items:center;font-size:18px;font-weight:800}
+.sec .hint{font-family:"RH Text";font-weight:500;font-size:17px;color:var(--soft)}
+.box{position:absolute;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:18px 22px}
+.box h3{font-family:"RH Display";font-weight:700;font-size:21px;line-height:28px}
+.box p{font-size:16px;line-height:23px;color:var(--soft);margin-top:4px}
+.mono{font-family:"RH Mono";font-weight:500;letter-spacing:.04em;color:var(--ink)}
+.dashed{background:transparent;border:2px dashed #B9C8CC}
+.dashed h3,.dashed p{color:var(--soft)}
+.hero{border:2px solid var(--jade);box-shadow:var(--shadow);padding:22px 26px}
+.hero h3{font-size:28px;line-height:34px}
+.chips{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.chip{border-radius:999px;padding:7px 13px;font-size:16px;font-weight:500;border:1px solid var(--line);background:var(--sky)}
+.chip.m{background:rgba(242,160,51,.18);border-color:rgba(242,160,51,.5)}
+.chip.m b{color:#8A5300}
+.group{position:absolute;border:1.5px solid var(--line);border-radius:16px}
+.num{position:absolute;width:30px;height:30px;border-radius:999px;background:var(--paper);border:2px solid var(--jade);color:var(--jade);font-family:"RH Display";font-weight:800;font-size:15px;display:grid;place-items:center;z-index:3}
+.lbl{position:absolute;font-size:15px;font-weight:500;color:var(--jade);background:var(--sky);padding:0 6px;z-index:2}
+.step{position:absolute;top:0;height:112px;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
+.step h4{font-family:"RH Display";font-weight:700;font-size:19px;line-height:24px}
+.step p{font-size:14.5px;line-height:20px;color:var(--soft);margin-top:4px}
+.ok{border-left:5px solid var(--jade)}
+.list{font-size:16px;line-height:25px;color:var(--soft);margin-top:6px;padding-left:0;list-style:none}
+.list b{color:var(--ink);font-weight:500}
+svg{position:absolute;left:0;top:0;z-index:1}
+</style></head><body>
+
+<!-- Header -->
+<div class="abs" style="left:64px;top:44px">
+  <h1>How Cathay Xplorers works</h1>
+  <div class="sub">Events in, decisions out. One trip event travels from the source, through the rules, to both phones at once.</div>
+</div>
+<div class="abs" style="right:64px;top:60px;display:flex;gap:28px;align-items:center;font-size:16px;color:var(--soft)">
+  <span style="display:flex;align-items:center;gap:10px"><svg width="44" height="10" style="position:static"><line x1="0" y1="5" x2="44" y2="5" stroke="#0E5E4E" stroke-width="3"/></svg>Runs in the prototype</span>
+  <span style="display:flex;align-items:center;gap:10px"><svg width="44" height="10" style="position:static"><line x1="0" y1="5" x2="44" y2="5" stroke="#9FB2B7" stroke-width="3" stroke-dasharray="7 6"/></svg>Production path</span>
+  <span style="display:flex;align-items:center;gap:10px"><span class="num" style="position:static;width:24px;height:24px;font-size:12px">1</span>One event, step by step</span>
+</div>
+
+<!-- Section labels -->
+<div class="sec" style="left:64px;top:186px"><span class="tag">A</span>Sources</div>
+<div class="sec" style="left:560px;top:186px"><span class="tag">B</span>Backend <span class="hint">FastAPI, Python, one container</span></div>
+<div class="sec" style="left:1416px;top:186px"><span class="tag">C</span>Phones <span class="hint">React, one app</span></div>
+
+<!-- A: Sources -->
+<div class="box" style="left:64px;top:240px;width:380px;height:136px">
+  <h3>OAG flight data</h3>
+  <p><span class="mono">CX 500  HKG → NRT</span><br>Schedule, status, gate. Real responses, cached as fixtures, so it runs offline.</p>
+</div>
+<div class="box" style="left:64px;top:396px;width:380px;height:178px">
+  <h3>Trip events</h3>
+  <p><span class="mono">checkin  delayed  boarded<br>departed  landed</span><br>Plus the child's own <span class="mono">mission_completed</span>. Labelled simulated in the demo.</p>
+</div>
+<div class="box dashed" style="left:64px;top:596px;width:380px;height:124px">
+  <h3>Production sources</h3>
+  <p>Check-in system, gate scan, OAG flight alerts, as webhooks onto a queue.</p>
+</div>
+
+<!-- B: Backend -->
+<div class="group" style="left:540px;top:228px;width:800px;height:504px"></div>
+<div class="box" style="left:564px;top:248px;width:752px;height:86px;display:flex;gap:18px;align-items:center">
+  <div style="width:220px"><h3>Flight service</h3></div>
+  <p style="margin:0">The only part that calls OAG. Fixture-first, every response cached (quota 1,000 / 30 days).</p>
+</div>
+<div class="box hero" style="left:564px;top:352px;width:752px;height:212px">
+  <h3>Rules engine</h3>
+  <p style="font-size:17px">Pure functions, tested first: missions, annual cap, chapter unlock, delay branch, graduation score. A repeated event awards nothing.</p>
+  <div class="chips">
+    <span class="chip">Boarding Badge ✓</span>
+    <span class="chip m"><b>+50 miles</b></span>
+    <span class="chip m">Cap <b>1,330 / 2,000</b> ✓</span>
+    <span class="chip">Chapter 2 unlocked</span>
+  </div>
+</div>
+<div class="box" style="left:896px;top:582px;width:420px;height:88px">
+  <h3>Event broker</h3>
+  <p>One SSE channel per trip, replay after reconnect</p>
+</div>
+<div class="box" style="left:564px;top:582px;width:314px;height:88px">
+  <h3>SQLite</h3>
+  <p>Trips, events, stories, OAG cache</p>
+</div>
+<div class="abs" style="left:564px;top:684px;width:752px;height:32px;display:flex;align-items:center;gap:10px;font-size:15.5px;color:var(--soft)">
+  <span class="mono" style="font-size:14px">shared/program.json</span> every number on screen, read by backend and app. 204 automated tests.
+</div>
+
+<!-- C: Phones -->
+<div class="box" style="left:1416px;top:240px;width:440px;height:190px">
+  <h3>Child phone</h3>
+  <p>Boarding pass, missions, passport stamps, a story that unlocks chapter by chapter.</p>
+  <div class="chips" style="margin-top:12px"><span class="chip">"Boarding Badge collected!"</span></div>
+</div>
+<div class="box" style="left:1416px;top:450px;width:440px;height:190px">
+  <h3>Parent phone</h3>
+  <p>Boarded, delayed, departed and landed alerts, a trip timeline with miles, the data used.</p>
+  <div class="chips" style="margin-top:12px"><span class="chip">"Mei has boarded <span class="mono" style="font-size:15px">CX 500</span>"</span></div>
+</div>
+<div class="abs" style="left:1420px;top:660px;width:436px;font-size:15.5px;line-height:22px;color:var(--soft)">
+  Teen, Campus and Exit screens: catalogue on illustrative <span class="mono" style="font-size:14px">program.json</span> numbers.
+</div>
+
+<!-- D: Story pipeline -->
+<div class="sec" style="left:64px;top:770px"><span class="tag">D</span>Story pipeline <span class="hint">once per trip, before the flight</span></div>
+<div class="abs" style="left:64px;top:822px;width:1290px;height:112px">
+  <div class="step" style="left:0;width:210px"><h4>4 fields</h4><p>Destination, flight length, aircraft model, age band</p></div>
+  <div class="step" style="left:256px;width:190px"><h4>Prompt</h4><p>No name: the AI writes <span class="mono" style="font-size:13.5px">{name}</span></p></div>
+  <div class="step" style="left:492px;width:180px"><h4>LLM</h4><p>One call, JSON reply</p></div>
+  <div class="step" style="left:718px;width:270px"><h4>Safety checks</h4><p>JSON shape, banned words, reading level, no emoji, moderation</p></div>
+  <div class="step ok" style="left:1034px;width:256px;height:52px;padding:12px 16px"><h4 style="font-size:17px">Pass: stored with the trip</h4></div>
+  <div class="step" style="left:1034px;top:60px;width:256px;height:52px;padding:12px 16px"><h4 style="font-size:17px">Fail: pre-written story</h4></div>
+</div>
+<div class="abs" style="left:64px;top:948px;width:1290px;font-size:15.5px;line-height:22px;color:var(--soft)">
+  Rejected (test case): banned words 'scary' and 'danger', a 27-word sentence (max 14 for ages 6–8). The child got the fallback. A child never sees a failed generation.
+</div>
+
+<!-- E: Data -->
+<div class="sec" style="left:1416px;top:770px"><span class="tag">E</span>Data and privacy</div>
+<div class="box" style="left:1416px;top:822px;width:440px;height:112px;padding-top:12px">
+  <ul class="list">
+    <li><b>Used:</b> age band, destination, flight length, trip events</li>
+    <li><b>Never collected:</b> photos, location, health data</li>
+    <li><b>No pooling:</b> miles stay in the child's own account</li>
+  </ul>
+</div>
+
+<!-- Footer -->
+<div class="abs" style="left:64px;top:1030px;font-size:14px;color:var(--soft)">Concept prototype, synthetic data except OAG flight data. Not an airline integration.</div>
+
+<!-- Arrows -->
+<svg width="1920" height="1080">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#0E5E4E"/></marker>
+    <marker id="g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#9FB2B7"/></marker>
+  </defs>
+  <g fill="none" stroke="#0E5E4E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <!-- OAG -> flight service -->
+    <path d="M444 291 H556" marker-end="url(#a)"/>
+    <!-- events -> rules -->
+    <path d="M444 470 H556" marker-end="url(#a)"/>
+    <!-- flight service -> rules -->
+    <path d="M940 334 V346" marker-end="url(#a)"/>
+    <!-- rules -> broker -->
+    <path d="M1106 564 V576" marker-end="url(#a)"/>
+    <!-- broker -> phones -->
+    <path d="M1316 626 H1384 V335 H1410" marker-end="url(#a)"/>
+    <path d="M1384 545 H1410" marker-end="url(#a)"/>
+    <!-- story steps -->
+    <path d="M274 878 H314" marker-end="url(#a)"/>
+    <path d="M510 878 H550" marker-end="url(#a)"/>
+    <path d="M736 878 H776" marker-end="url(#a)"/>
+    <path d="M1052 878 H1072 V848 H1092" marker-end="url(#a)"/>
+    <path d="M1072 878 V908 H1092" marker-end="url(#a)"/>
+  </g>
+  <path d="M444 658 H500 V540 H556" fill="none" stroke="#9FB2B7" stroke-width="3" stroke-dasharray="8 7" marker-end="url(#g)"/>
+</svg>
+
+<!-- Labels on arrows -->
+<div class="lbl mono" style="left:446px;top:480px;font-size:13px;color:var(--jade);padding:0 2px">POST /events</div>
+<div class="lbl" style="left:1298px;top:470px;transform:rotate(-90deg);white-space:nowrap;padding:0 8px">SSE, same event to both</div>
+
+<!-- Numbered event path -->
+<div class="num" style="left:46px;top:452px">1</div>
+<div class="num" style="left:486px;top:428px">2</div>
+<div class="num" style="left:1292px;top:336px">3</div>
+<div class="num" style="left:1369px;top:611px">4</div>
+<div class="num" style="left:1840px;top:224px">5</div>
+<div class="num" style="left:1840px;top:434px">5</div>
+</body></html>
