@@ -33,18 +33,17 @@ const PHASES: { id: PhaseId; label: string }[] = [
   { id: 'exit', label: 'Exit' },
 ]
 
-const stamp = (id: string) => `Stamp: ${missionById(id).title}`
+const DISCOVER = program.xplorers.discover.items
+const titleOf = (id: string) => DISCOVER.find((d) => d.id === id)!.title
 
-// Teen and Campus: no missions or story, so the trip moments show on the plain ticket, then where it leads.
-const grownUp = (phase: PhaseId, age: number): Scene[] => [
-  { phase, age, label: 'Checked in', path: '/child', step: 'checkin' },
-  { phase, age, label: 'Delayed', path: '/child', step: 'delayed' },
-  { phase, age, label: 'Boarded', path: '/child', step: 'boarded' },
-  { phase, age, label: 'Departed', path: '/child', step: 'departed' },
-  { phase, age, label: 'Landed', path: '/child', step: 'landed' },
-  { phase, age, label: 'Where this leads', path: '/ahead', step: 'landed' },
+// Teen and Campus: Home with the tier's offer pinned first, then the offer, then redeemed (arrow key or a tap).
+const offer = (phase: PhaseId, age: number, step: TripStep, id: string, home: string): Scene[] => [
+  { phase, age, step, label: home, path: '/child', params: { pick: id } },
+  { phase, age, step, label: titleOf(id), path: '/offer', params: { id } },
+  { phase, age, step, label: 'Redeemed', path: '/offer', params: { id, redeemed: '1' } },
 ]
 
+// The 1:45 video, one beat per line (docs/demo-script.md has the commentary).
 const SCENES: Scene[] = [
   { phase: 'join', age: LITTLE_AGE, label: 'App home', path: '/home', step: 'welcome' },
   { phase: 'join', age: LITTLE_AGE, label: 'Xplorers intro', path: '/xplorers', step: 'welcome' },
@@ -52,28 +51,30 @@ const SCENES: Scene[] = [
   { phase: 'join', age: LITTLE_AGE, label: "Mei's welcome", path: '/welcome', step: 'welcome' },
 
   { phase: 'little', age: LITTLE_AGE, label: 'Checked in', path: '/child', step: 'checkin', parent: '/parent' },
-  { phase: 'little', age: LITTLE_AGE, label: stamp('checkin'), path: '/complete', params: { m: 'checkin' }, step: 'checkin', parent: '/parent' },
+  { phase: 'little', age: LITTLE_AGE, label: `Stamp: ${missionById('checkin').title}`, path: '/complete', params: { m: 'checkin' }, step: 'checkin', parent: '/parent' },
   { phase: 'little', age: LITTLE_AGE, label: 'Delayed', path: '/child', step: 'delayed', parent: '/parent' },
-  { phase: 'little', age: LITTLE_AGE, label: 'Boarded', path: '/child', step: 'boarded', parent: '/parent' },
-  { phase: 'little', age: LITTLE_AGE, label: stamp('boarding'), path: '/complete', params: { m: 'boarding' }, step: 'boarded', parent: '/parent' },
-  { phase: 'little', age: LITTLE_AGE, label: 'Departed', path: '/child', step: 'departed', parent: '/parent' },
-  { phase: 'little', age: LITTLE_AGE, label: 'Story', path: '/story', step: 'departed', parent: '/parent' },
+  { phase: 'little', age: LITTLE_AGE, label: 'Story', path: '/story', step: 'delayed', parent: '/parent' },
   { phase: 'little', age: LITTLE_AGE, label: 'Landed', path: '/child', step: 'landed', parent: '/parent' },
-  { phase: 'little', age: LITTLE_AGE, label: stamp('arrival'), path: '/complete', params: { m: 'arrival' }, step: 'landed', parent: '/parent' },
   { phase: 'little', age: LITTLE_AGE, label: 'Family miles', path: '/child', step: 'landed', parent: '/family' },
 
-  ...grownUp('teen', TEEN_AGE),
-  ...grownUp('campus', CAMPUS_AGE),
+  ...offer('teen', TEEN_AGE, 'delayed', 'bubble-tea-gate', 'Home, delayed'),
+  ...offer('campus', CAMPUS_AGE, 'landed', 'hostel-deal', 'Home, landed'),
 
   { phase: 'exit', age: mei.exitAge, label: 'Graduated', path: '/exit', step: 'landed' },
 ]
+
+const FIRST_PARENT = SCENES.find((s) => s.parent)!
 
 const firstOf = (phase: PhaseId) => SCENES.findIndex((s) => s.phase === phase)
 
 const phaseForAge = (age: number): PhaseId => (age >= mei.exitAge ? 'exit' : (tierForAge(age).id as PhaseId))
 
-const url = (path: string, s: Scene, params: Record<string, string> = {}) =>
-  `${path}?${new URLSearchParams({ ...params, at: s.step, age: String(s.age) })}`
+const query = (s: Scene, params: Record<string, string> = {}) => ({ ...params, at: s.step, age: String(s.age) })
+const url = (path: string, s: Scene, params: Record<string, string> = {}) => `${path}?${new URLSearchParams(query(s, params))}`
+
+// Moves a loaded phone to a screen in place (nav.ts listens), so the video has the app's slide, not a reload.
+const goTo = (frame: HTMLIFrameElement | null, path: string, params: Record<string, string>) =>
+  frame?.contentWindow?.postMessage({ type: 'demo:go', path, params }, window.location.origin)
 
 function Option({ on, onClick, children }: { on: boolean; onClick: () => void; children: React.ReactNode }) {
   return (
@@ -149,15 +150,30 @@ export function DemoScreen() {
     return () => window.removeEventListener('keydown', onKey)
   }, [onKey])
 
-  // Clears missions finished on the phones and reloads both frames.
+  // Both phones stay loaded for the whole run. Their src is only the starting screen; each scene after that
+  // is sent in with goTo. The parent phone keeps its last screen while hidden.
+  const childFrame = useRef<HTMLIFrameElement>(null)
+  const parentFrame = useRef<HTMLIFrameElement>(null)
+  const parentScene = useRef(FIRST_PARENT)
+  if (scene.parent) parentScene.current = scene
+  const [srcs, setSrcs] = useState(() => ({ child: url(scene.path, scene, scene.params), parent: url(FIRST_PARENT.parent!, FIRST_PARENT) }))
+
+  useEffect(() => {
+    goTo(childFrame.current, scene.path, query(scene, scene.params))
+    if (scene.parent) goTo(parentFrame.current, scene.parent, query(scene))
+  }, [scene])
+
+  // Clears missions finished on the phones and reloads both frames at the current scene.
   const reset = () => {
     resetLocalMissions()
+    const p = parentScene.current
+    setSrcs({ child: url(scene.path, scene, scene.params), parent: url(p.parent!, p) })
     setRun((n) => n + 1)
   }
 
   const phones = [
-    { src: url(scene.path, scene, scene.params), label: 'Child phone' },
-    ...(scene.parent ? [{ src: url(scene.parent, scene), label: 'Parent phone' }] : []),
+    { id: 'child', ref: childFrame, src: srcs.child, label: 'Child phone', path: scene.path, shown: true },
+    { id: 'parent', ref: parentFrame, src: srcs.parent, label: 'Parent phone', path: parentScene.current.parent!, shown: !!scene.parent },
   ]
   const phaseLabel = PHASES.find((p) => p.id === scene.phase)!.label
   const stepInPhase = phaseScenes.findIndex(({ n }) => n === i) + 1
@@ -230,11 +246,12 @@ export function DemoScreen() {
       </aside>
 
       {phones.map((p) => (
-        <figure key={p.label} className="flex shrink-0 flex-col gap-2" style={{ width: PHONE.w * scale }}>
+        <figure key={p.id} className={`shrink-0 flex-col gap-2 ${p.shown ? 'flex' : 'hidden'}`} style={{ width: PHONE.w * scale }}>
           {/* The phone renders at its real 393x852 and is scaled as a picture, so its layout is unchanged. */}
           <div style={{ width: PHONE.w * scale, height: PHONE.h * scale }}>
             <iframe
-              key={`${p.src}#${run}`}
+              key={`${p.id}#${run}`}
+              ref={p.ref}
               onLoad={(e) => e.currentTarget.contentWindow?.addEventListener('keydown', onKey)}
               src={p.src}
               title={p.label}
@@ -246,7 +263,7 @@ export function DemoScreen() {
           </div>
           <figcaption className="flex justify-between gap-2 text-small text-ink-soft">
             <span>{p.label}</span>
-            <span>{p.src.split('?')[0]}</span>
+            <span>{p.path}</span>
           </figcaption>
         </figure>
       ))}
