@@ -4,15 +4,18 @@ import { BoardingPass } from '../components/BoardingPass'
 import { ConceptLabel } from '../components/ConceptLabel'
 import { HarbourSilhouette } from '../components/HarbourSilhouette'
 import { HealthCard } from '../components/HealthCard'
+import { MemoryPassport } from '../components/MemoryPassport'
 import { MilesProgress } from '../components/MilesProgress'
-import { MissionList } from '../components/MissionList'
+import { DiscoverGrid } from '../components/DiscoverGrid'
 import { PassportPage } from '../components/PassportPage'
 import { Pip } from '../components/Pip'
 import { RouteGlobe } from '../components/RouteGlobe'
 import { SpeechLine } from '../components/SpeechLine'
+import { tierForAge } from '../xplorers/discover'
+import { useMemberAge } from '../xplorers/memberAge'
 import { DELAY_MINUTES, delayedDeparts } from '../mocks/events'
 import { mockFlight, mockPastStamps, mockSerial } from '../mocks/trip'
-import { navigate } from '../nav'
+import { navigate, searchParam } from '../nav'
 import { useTrip } from '../trip/useTrip'
 
 function BookIcon() {
@@ -59,12 +62,24 @@ function RowLink({ icon, title, note, onClick }: { icon: React.ReactNode; title:
   )
 }
 
-// Home. Hero: the boarding pass, held over a Jade sky band with the turnable route globe.
-// Every trip moment changes it: Pip's line and pose, the ticket's status, which mission the ticket carries.
+// Home. Keyed by member age: when the demo slider sends a new age, Home's own state resets
+// (a fresh "Picked for you" draw, Pip's line back) without reloading the frame or touching other screens.
 export function ChildScreen() {
+  const age = useMemberAge()
+  return <ChildHome key={age} age={age} />
+}
+
+// Hero: the boarding pass, held over a Jade sky band with the turnable route globe.
+// Every trip moment changes it: Pip's line and pose, the ticket's status, which mission the ticket carries.
+function ChildHome({ age }: { age: number }) {
   const { trip, step, has, progress, latest } = useTrip()
   // Pip only speaks up for the delay (plan.md: "We have extra time!"); tap the line to put it away.
   const [hush, setHush] = useState(false)
+  // Name typed at sign-up (?name=); the mock trip's child (Mei) otherwise.
+  const childName = searchParam('name')?.trim() || trip.childName
+  // Teen and Campus (12+): no Pip, missions or story. A plain ticket and a passport of memories (DESIGN.md Tiers).
+  const grownUp = tierForAge(age).id !== 'little'
+  const tripMiles = trip.missions.reduce((sum, m) => sum + m.miles, 0)
   const flight = mockFlight
   const landed = has('landed')
   const delayed = trip.branch === 'delayed'
@@ -96,17 +111,19 @@ export function ChildScreen() {
         <RouteGlobe from={flight.from} to={flight.to} progress={progress} />
         <header className="pointer-events-none relative flex flex-col gap-2.5 px-5 pt-8">
           <div className="flex items-center gap-3">
-            <span className="rounded-pill bg-paper p-1">
-              <Pip pose={step === 'delayed' ? 'extraTime' : 'wave'} size={44} />
-            </span>
+            {!grownUp && (
+              <span className="rounded-pill bg-paper p-1">
+                <Pip pose={step === 'delayed' ? 'extraTime' : 'wave'} size={44} />
+              </span>
+            )}
             <div className="flex flex-1 flex-col">
-              <h1 className="font-display text-title text-paper">{trip.childName}'s trip</h1>
+              <h1 className="font-display text-title text-paper">{childName}'s trip</h1>
               <p className="font-mono text-flight text-paper/80">
                 {flight.carrier} {flight.number}
               </p>
             </div>
           </div>
-          {step === 'delayed' && !hush && (
+          {!grownUp && step === 'delayed' && !hush && (
             <button type="button" onClick={() => setHush(true)} className="pointer-events-auto self-start" aria-label="Dismiss Pip's message">
               <SpeechLine>{latest.childMessage}</SpeechLine>
             </button>
@@ -116,10 +133,11 @@ export function ChildScreen() {
 
       <div className="relative z-10 -mt-[96px] px-5">
         <BoardingPass
-          key={hero.id}
-          missionTitle={hero.title}
-          miles={hero.miles}
-          passenger={trip.childName}
+          key={grownUp ? 'ticket' : hero.id}
+          missionTitle={grownUp ? `Trip to ${flight.toCity}` : hero.title}
+          miles={grownUp ? tripMiles : hero.miles}
+          milesLabel={grownUp ? 'miles this trip' : undefined}
+          passenger={childName}
           flight={`${flight.carrier} ${flight.number}`}
           from={flight.from}
           to={flight.to}
@@ -132,7 +150,9 @@ export function ChildScreen() {
           serial={mockSerial}
           status={status}
           action={
-            ready
+            grownUp
+              ? { kind: 'none' }
+              : ready
               ? { kind: 'hold', label: landed ? 'Collect my stamp' : 'Start mission', onDone: () => navigate('/complete', { m: hero.id }) }
               : { kind: 'waiting', text: OPENS_WHEN[hero.id] }
           }
@@ -140,22 +160,30 @@ export function ChildScreen() {
       </div>
 
       <div className="relative z-10 flex flex-1 flex-col gap-8 px-5 pt-8">
-        <MilesProgress used={trip.cap.used} limit={trip.cap.limit} pending={hero.state === 'available' ? hero.miles : 0} />
+        <MilesProgress used={trip.cap.used} limit={trip.cap.limit} pending={!grownUp && hero.state === 'available' ? hero.miles : 0} />
 
         <section className="flex flex-col">
-          <RowLink icon={<BookIcon />} title="Read my trip story" note={chapterNote} onClick={() => navigate('/story')} />
-          {landed && (
-            <RowLink icon={<CapIcon />} title="See me at 18" note="What your trips add up to" onClick={() => navigate('/graduation')} />
+          {grownUp ? (
+            <RowLink icon={<CapIcon />} title="See where this leads" note="What your trips add up to at graduation" onClick={() => navigate('/ahead')} />
+          ) : (
+            <RowLink icon={<BookIcon />} title="Read my trip story" note={chapterNote} onClick={() => navigate('/story')} />
+          )}
+          {!grownUp && landed && (
+            <RowLink icon={<CapIcon />} title="See me at graduation" note="What your trips add up to" onClick={() => navigate('/ahead')} />
           )}
         </section>
 
-        <MissionList missions={trip.missions} doneOrder={trip.doneOrder} bonus={delayed && !boarded ? 'Count the planes at the gate' : undefined} />
+        <DiscoverGrid age={age} />
 
-        <PassportPage
-          past={mockPastStamps}
-          current={landed ? { city: flight.toCity, date: flight.date, shape: 'circle', rotate: 7, opacity: 0.92 } : undefined}
-          nextCity={flight.toCity}
-        />
+        {grownUp ? (
+          <MemoryPassport age={age} />
+        ) : (
+          <PassportPage
+            past={mockPastStamps}
+            current={landed ? { city: flight.toCity, date: flight.date, shape: 'circle', rotate: 7, opacity: 0.92 } : undefined}
+            nextCity={flight.toCity}
+          />
+        )}
 
         <HealthCard />
       </div>

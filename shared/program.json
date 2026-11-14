@@ -62,6 +62,43 @@
       "mei": { "name": "Mei", "balanceByAge": { "7": 1250, "15": 9800, "20": 24000 }, "exitAge": 22 },
       "leo": { "name": "Leo", "age": 14, "startingBalance": 200 }
     },
+    "discover": {
+      "note": "illustrative, confirm with team",
+      "count": 6,
+      "defaultSpread": 4,
+      "defaultAge": 7,
+      "minAge": 4,
+      "maxAge": 25,
+      "items": [
+        { "id": "cockpit-colouring", "kind": "game", "title": "Cockpit colouring kit", "where": "On board", "minAge": 4, "maxAge": 10, "peakAge": 6 },
+        { "id": "puppet-show", "kind": "event", "title": "Pip puppet show at the gate", "where": "HKG terminal", "minAge": 4, "maxAge": 9, "peakAge": 5 },
+        { "id": "draw-a-plane", "kind": "game", "title": "Draw your dream plane", "where": "In app", "miles": 50, "minAge": 4, "maxAge": 10, "peakAge": 6 },
+        { "id": "seatbelt-song", "kind": "game", "title": "Seatbelt sing-along", "where": "On board", "miles": 30, "minAge": 4, "maxAge": 8, "peakAge": 5 },
+        { "id": "cloud-spotter", "kind": "game", "title": "Cloud spotter bingo", "where": "On board", "miles": 50, "minAge": 4, "maxAge": 11, "peakAge": 7 },
+        { "id": "pip-sticker-hunt", "kind": "game", "title": "Find Pip stickers at the airport", "where": "HKG terminal", "miles": 80, "minAge": 5, "maxAge": 11, "peakAge": 7 },
+        { "id": "plane-spotting", "kind": "event", "title": "Plane-spotting morning", "where": "Airport viewing deck", "minAge": 6, "maxAge": 14, "peakAge": 9 },
+        { "id": "crew-workshop", "kind": "activity", "title": "Junior cabin crew workshop", "where": "Cathay City", "minAge": 7, "maxAge": 13, "peakAge": 10 },
+        { "id": "kids-meal-upgrade", "kind": "discount", "title": "Dessert with your kids meal", "where": "On board", "miles": 150, "minAge": 4, "maxAge": 11, "peakAge": 8 },
+        { "id": "flight-sim-try", "kind": "activity", "title": "Try a flight simulator", "where": "Partner centre", "miles": 600, "minAge": 10, "maxAge": 17, "peakAge": 13 },
+        { "id": "blind-box-drop", "kind": "discount", "title": "Travel blind box drop", "where": "Partner shop", "miles": 800, "minAge": 11, "maxAge": 17, "peakAge": 14 },
+        { "id": "bubble-tea-gate", "kind": "discount", "title": "Bubble tea at the gate", "where": "Partner café", "miles": 250, "minAge": 12, "maxAge": 19, "peakAge": 15 },
+        { "id": "snack-pack", "kind": "discount", "title": "Pick-your-own snack pack", "where": "Cathay", "miles": 400, "minAge": 11, "maxAge": 18, "peakAge": 14 },
+        { "id": "esports-night", "kind": "event", "title": "Esports night in the lounge", "where": "Partner arena", "minAge": 13, "maxAge": 20, "peakAge": 16 },
+        { "id": "route-quiz", "kind": "game", "title": "Guess-the-route quiz", "where": "In app", "miles": 120, "minAge": 10, "maxAge": 18, "peakAge": 14 },
+        { "id": "photo-challenge", "kind": "game", "title": "Window seat photo challenge", "where": "In app", "miles": 100, "minAge": 12, "maxAge": 20, "peakAge": 16 },
+        { "id": "phone-strap", "kind": "discount", "title": "Travel phone strap", "where": "Partner shop", "miles": 1200, "minAge": 12, "maxAge": 18, "peakAge": 15 },
+        { "id": "summer-camp", "kind": "event", "title": "Summer aviation camp", "where": "Cathay City", "minAge": 12, "maxAge": 17, "peakAge": 14 },
+        { "id": "student-fare", "kind": "discount", "title": "Student fare saver", "where": "Cathay", "miles": 2500, "minAge": 18, "maxAge": 25, "peakAge": 21 },
+        { "id": "extra-bag", "kind": "discount", "title": "Extra 10 kg for move-in day", "where": "Cathay", "miles": 3000, "minAge": 17, "maxAge": 25, "peakAge": 19 },
+        { "id": "language-trip", "kind": "activity", "title": "Language exchange trip", "where": "Partner school", "minAge": 16, "maxAge": 24, "peakAge": 19 },
+        { "id": "hostel-deal", "kind": "discount", "title": "Two nights at a partner hostel", "where": "Partner hotel", "miles": 4000, "minAge": 18, "maxAge": 25, "peakAge": 22 },
+        { "id": "lounge-study", "kind": "event", "title": "Exam-week lounge study pass", "where": "HKG lounge", "miles": 6000, "minAge": 18, "maxAge": 25, "peakAge": 21 },
+        { "id": "career-day", "kind": "event", "title": "Careers day at Cathay City", "where": "Cathay City", "minAge": 18, "maxAge": 25, "peakAge": 22 },
+        { "id": "grad-trip", "kind": "discount", "title": "Graduation trip, flight and hotel", "where": "Cathay", "miles": 15000, "minAge": 20, "maxAge": 25, "peakAge": 23 },
+        { "id": "hike-meetup", "kind": "activity", "title": "Weekend hike with other Xplorers", "where": "Lantau", "minAge": 15, "maxAge": 25, "peakAge": 20 },
+        { "id": "travel-hack", "kind": "game", "title": "Pack in 7 kg challenge", "where": "In app", "miles": 150, "minAge": 15, "maxAge": 25, "peakAge": 19 }
+      ]
+    },
     "transferAllowanceStartsAt": "exit"
   }
 }

@@ -87,7 +87,7 @@ export function ParentScreen() {
         <AppIcon />
         <div className="flex min-w-0 flex-1 flex-col">
           <div className="flex items-baseline justify-between gap-2 text-[13px] leading-[18px] text-ink-soft">
-            <span>Little Explorers</span>
+            <span>Little Xplorers</span>
             <span>{latest.source === 'simulated' ? 'Simulated, now' : 'now'}</span>
           </div>
           <p className="text-[15px] leading-[20px] font-semibold text-ink">{latest.parentMessage}</p>
@@ -154,7 +154,7 @@ export function ParentScreen() {
       >
         <span className="flex flex-1 flex-col">
           <span className="font-display text-heading">Family miles</span>
-          <span className="text-small text-ink-soft">Your balance, and how {trip.childName}'s miles grow to 18</span>
+          <span className="text-small text-ink-soft">Your balance, and how {trip.childName}'s miles grow to graduation</span>
         </span>
         <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           <path d="M9 6l6 6-6 6" />

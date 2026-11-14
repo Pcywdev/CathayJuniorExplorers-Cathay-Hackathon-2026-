@@ -3,19 +3,29 @@ import { useRef } from 'react'
 import { ChildScreen } from './screens/ChildScreen'
 import { DemoScreen } from './screens/DemoScreen'
 import { FamilyScreen } from './screens/FamilyScreen'
-import { GraduationScreen } from './screens/GraduationScreen'
 import { MissionCompleteScreen } from './screens/MissionCompleteScreen'
 import { ParentScreen } from './screens/ParentScreen'
 import { StoryScreen } from './screens/StoryScreen'
 import { WelcomeScreen } from './screens/WelcomeScreen'
+import { ExitPreviewScreen, ExitScreen } from './screens/xplorers/exit/ExitScreen'
+import { AppHomeScreen } from './screens/xplorers/home/AppHomeScreen'
+import { IntroScreen } from './screens/xplorers/intro/IntroScreen'
+import { SignUpScreen } from './screens/xplorers/signup/SignUpScreen'
 import { routeDepth, useRoute, type Route } from './nav'
 
 const SCREENS: Record<Exclude<Route, '/demo'>, () => React.JSX.Element> = {
+  '/home': AppHomeScreen,
+  '/xplorers': IntroScreen,
+  '/signup': SignUpScreen,
   '/welcome': WelcomeScreen,
   '/child': ChildScreen,
   '/story': StoryScreen,
   '/complete': MissionCompleteScreen,
-  '/graduation': GraduationScreen,
+  '/exit': ExitScreen,
+  // Home's "See where this leads": the exit page as a projection, for members who haven't graduated.
+  '/ahead': ExitPreviewScreen,
+  // Old link: graduation moved from 18 to exit (plan.md v2).
+  '/graduation': ExitScreen,
   '/parent': ParentScreen,
   '/family': FamilyScreen,
 }

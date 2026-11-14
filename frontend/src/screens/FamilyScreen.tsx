@@ -29,15 +29,15 @@ function Icon({ d }: { d: string }) {
 }
 
 // Parent: family miles, in money. Hero: what the family can use by each age if the child's miles move to the
-// parent every year (a little now, then it stops) vs kept in the child's name (usable at 18, then member
+// parent every year (a little now, then it stops) vs kept in the child's name (counted from graduation, then member
 // discounts keep adding). HK$ per mile is cited; the discount and spend are illustrative (mocks/family.ts).
 export function FamilyScreen() {
   const { trip } = useTrip()
   const name = trip.childName
   const g = program.graduation
 
-  // The child's own miles at 18: this year's balance, then the annual cap every year until then.
-  const childAt18 = trip.cap.used + (GRADUATION_AGE - 1 - mockChildAge) * program.annualEarnCap
+  // The child's own miles at graduation (exit): this year's balance, then the annual cap every year until then.
+  const childAtExit = trip.cap.used + (GRADUATION_AGE - 1 - mockChildAge) * program.annualEarnCap
   const [why, setWhy] = useState<number | null>(null)
 
   // Miles the child has by each age (annual cap from program.json), and what they're worth.
@@ -48,12 +48,12 @@ export function FamilyScreen() {
     return {
       age,
       move: milesAt(age) * money.hkdPerMile,
-      keep: age < GRADUATION_AGE ? 0 : childAt18 * money.hkdPerMile + (age - GRADUATION_AGE + 1) * discountPerYear,
+      keep: age < GRADUATION_AGE ? 0 : childAtExit * money.hkdPerMile + (age - GRADUATION_AGE + 1) * discountPerYear,
     }
   })
 
   const atEighteen = [
-    { icon: ICON.wallet, text: `${formatNumber(childAt18)} miles stay with ${name}` },
+    { icon: ICON.wallet, text: `${formatNumber(childAtExit)} miles stay with ${name}` },
     { icon: ICON.star, text: `${g.topBandStatusPointsHeadStart} Status Points head start` },
     { icon: ICON.tag, text: `${Math.round(money.memberDiscount * 100)}% off family fares every year (illustrative)` },
   ]

@@ -11,7 +11,7 @@ interface Props {
   className?: string
 }
 
-const SIZE: Record<StampShape, { w: number; h: number }> = {
+export const STAMP_SIZE: Record<StampShape, { w: number; h: number }> = {
   circle: { w: 116, h: 116 },
   rect: { w: 136, h: 92 },
   oval: { w: 148, h: 96 },
@@ -27,7 +27,7 @@ function Outline({ shape, w, h, inset }: { shape: StampShape; w: number; h: numb
 }
 
 export function Stamp({ city, date, shape, rotate, opacity, className = '' }: Props) {
-  const { w, h } = SIZE[shape]
+  const { w, h } = STAMP_SIZE[shape]
   const id = `ink-${city.toLowerCase().replace(/\W/g, '')}`
   return (
     <svg

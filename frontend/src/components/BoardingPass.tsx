@@ -24,8 +24,8 @@ interface Props {
   status?: string
   /** Label under the stub's number. */
   milesLabel?: string
-  /** Hold to tear and go; or a sealed line saying when the next mission opens. */
-  action: { kind: 'hold'; label: string; onDone: () => void } | { kind: 'waiting'; text: string }
+  /** Hold to tear and go; a sealed line saying when the next mission opens; or none (a plain ticket, Teen and Campus). */
+  action: { kind: 'hold'; label: string; onDone: () => void } | { kind: 'waiting'; text: string } | { kind: 'none' }
 }
 
 function LockIcon() {
@@ -136,12 +136,12 @@ export function BoardingPass(p: Props) {
             </HoldButton>
             <p className="text-small text-ink-soft">Press and hold to tear your ticket</p>
           </div>
-        ) : (
+        ) : p.action.kind === 'waiting' ? (
           <p className="flex h-12 items-center justify-center gap-2 rounded-pill border-2 border-dashed border-line text-body font-medium text-ink-soft">
             <LockIcon />
             {p.action.text}
           </p>
-        )}
+        ) : null}
       </div>
 
       </div>

@@ -27,3 +27,16 @@ export const mockPastStamps = [
   { city: 'Singapore', date: '2026-04-03', shape: 'circle', rotate: -8, opacity: 0.9 },
   { city: 'Taipei', date: '2025-12-21', shape: 'rect', rotate: 6, opacity: 0.86 },
 ] as const
+
+// Every stamp Mei collects from Little Xplorers to exit (synthetic), for the exit passport.
+// Years follow Mei at 7 in 2026; Tokyo is this demo trip.
+export const mockAllStamps = [
+  { city: 'Taipei', date: '2025-12-21', shape: 'rect', rotate: 6, opacity: 0.86 },
+  { city: 'Singapore', date: '2026-04-03', shape: 'circle', rotate: -8, opacity: 0.9 },
+  { city: 'Tokyo', date: '2026-11-14', shape: 'circle', rotate: 7, opacity: 0.92 },
+  { city: 'Bangkok', date: '2029-07-18', shape: 'oval', rotate: -4, opacity: 0.88 },
+  { city: 'Seoul', date: '2033-08-02', shape: 'rect', rotate: -9, opacity: 0.9 },
+  { city: 'Osaka', date: '2035-03-27', shape: 'circle', rotate: 5, opacity: 0.87 },
+  { city: 'London', date: '2039-09-14', shape: 'oval', rotate: 8, opacity: 0.91 },
+  { city: 'Sydney', date: '2041-06-30', shape: 'rect', rotate: -6, opacity: 0.89 },
+] as const

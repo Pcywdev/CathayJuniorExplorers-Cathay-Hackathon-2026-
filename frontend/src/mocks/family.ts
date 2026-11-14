@@ -1,10 +1,13 @@
+import { program } from '../program'
+
 // Family miles screen data.
 // - Parent balance and child age are synthetic (age sits inside the trip's age band, 6-8).
 // - Research figures are public, cited findings (searched 2026-11-13). They are not program numbers,
 //   so they live here with their sources rather than in shared/program.json.
 export const mockParentBalance = 86400
 export const mockChildAge = 7
-export const GRADUATION_AGE = 18
+// Exit from Cathay Xplorers (plan.md v2): graduation moved from 18 to exit; the transfer allowance starts here.
+export const GRADUATION_AGE = program.xplorers.personas.mei.exitAge
 
 // Money view (illustrative, frontend only until the business team confirms; not program numbers).
 export const moneyAssumptions = {

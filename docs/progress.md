@@ -6,14 +6,16 @@ Read this at the start of every session. Tags: **P0** must work by Friday · **P
 Scope v2 (plan.md). Frontend-only on mock data, about 4.5 hours, for the recorded video. Done when: the filmed path runs end to end and every new screen passes /screen-check.
 - [x] Docs and data: plan.md Scope v2, CLAUDE.md, decisions, DESIGN.md tiers, `shared/program.json` `xplorers` section
 - [ ] Earth: Xplorers mock data in `frontend/src/data/`, read from `program.json` `xplorers`
-- [ ] Teammate: 1 App home with a Cathay Xplorers entry card (awareness)
-- [ ] Teammate: 2 Xplorers intro: three tiers, "Join" (awareness → acquisition)
-- [ ] Teammate: 4 Sign-up: Leo (14), pre-filled form, "Guardian approved ✓", "Welcome to Teen Xplorers" tier card (acquisition + activation)
-- [ ] Teammate: 7 Little Xplorers: existing screens, renamed on screen (engagement)
+- [x] Teammate: 1 App home with a Cathay Xplorers entry card (awareness)
+- [x] Teammate: 2 Xplorers intro: three tiers, "Join" (awareness → acquisition)
+- [x] Teammate: 4 Sign-up: Leo (14), pre-filled form, "Guardian approved ✓", "Welcome to Teen Xplorers" tier card (acquisition + activation)
+- [x] Teammate: 7 Little Xplorers: existing screens, renamed on screen (engagement)
 - [ ] Earth: 8 Teen Xplorers rewards: balance, rewards list, one redemption ending in a voucher (engagement)
 - [ ] Earth: 9 Campus Xplorers deals: verified badge, deals list, one deal detail (engagement)
-- [ ] Teammate: 10 Exit "You've graduated": carry-over, score count-up, package, all stamps, "Continue as a Cathay member" (retention)
+- [x] Teammate: 10 Exit "You've graduated": carry-over, score count-up, package, all stamps, "Continue as a Cathay member" (retention)
 - [ ] Earth: persona slider, Mei 7 → 15 → 20 → exit, moving between screens 7, 8, 9, 10
+- [x] Picked for you grid on the child home (replaces My missions), age-weighted random draw from `xplorers.discover`; Member age timeline in the demo panel (`?age=`). Files: `src/xplorers/discover.ts`, `src/components/{DiscoverGrid,AgeTimeline}.tsx`
+- **For Earth (teammate notes):** (1) `shared/program.json` `xplorers.discover` was added by the teammate side for the grid: please confirm or move it. (2) Exit carried miles use `mocks/graduation.ts` `juniorMiles` 48,000, which isn't in program.json and doesn't follow Mei's 24,000 at 20; the Family screen projects 29,280 at 22. Please add an exit balance to `personas.mei` so screens 9, 10 and Family agree. (3) Sign-up now uses Mei, not Leo (user decision); the tier card's welcome miles read `personas.leo.startingBalance` (200): please rename it to a generic new-member value. (4) The Family chart still treats miles as unusable until graduation (now 22); teen/campus redemptions don't show there yet.
 - [ ] Both: /screen-check on every new screen; record the video
 
 ## Now / Next / Blocked
