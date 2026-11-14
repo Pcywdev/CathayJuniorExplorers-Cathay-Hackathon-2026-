@@ -5,7 +5,7 @@ export interface ValuePoint {
   age: number
   /** HK$ the family can use by this age if the child's miles move to the parent each year. */
   move: number
-  /** ...if the child keeps them (miles usable from 18, plus member discounts after). */
+  /** ...if the child keeps them (counted from graduation, plus member discounts after). */
   keep: number
 }
 
@@ -61,7 +61,7 @@ export function ValueOverTime({ points, splitAge, moveLabel, keepLabel }: { poin
         aria-hidden="true"
       >
         <line x1={PAD.left} x2={W - PAD.right} y1={H - PAD.bottom} y2={H - PAD.bottom} className="stroke-line" strokeWidth="1" />
-        {/* 18th birthday */}
+        {/* graduation (exit from Cathay Xplorers) */}
         <line x1={x(splitI)} x2={x(splitI)} y1={PAD.top} y2={H - PAD.bottom} className="stroke-ink-soft" strokeWidth="1.5" strokeDasharray="3 4" />
         <path d={path('move')} fill="none" className="stroke-miles" strokeWidth="2" strokeLinejoin="round" />
         <path d={path('keep')} fill="none" className="stroke-jade" strokeWidth="2" strokeLinejoin="round" />

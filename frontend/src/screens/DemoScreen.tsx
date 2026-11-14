@@ -1,7 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { DEFAULT_AGE } from '../xplorers/discover'
 import { missionById } from '../program'
 import { resetLocalMissions } from '../trip/localMissions'
 import { currentStep, TRIP_STEPS, type TripStep } from '../trip/useTrip'
+import { AgeTimeline } from '../components/AgeTimeline'
+import { sendMemberAge } from '../xplorers/memberAge'
 
 // Presenter view: a control panel plus both phones side by side. Each frame is the real route,
 // so once the screens use the live API they sync through the backend stream.
@@ -17,14 +20,19 @@ interface ChildView {
 }
 
 const CHILD_VIEWS: ChildView[] = [
+  { id: 'app-home', label: 'App home', path: '/home' },
+  { id: 'intro', label: 'Xplorers intro', path: '/xplorers' },
+  { id: 'signup', label: 'Sign-up: Leo', path: '/signup' },
   { id: 'welcome', label: 'Welcome', path: '/welcome', step: 'welcome' },
   { id: 'home', label: 'Home', path: '/child' },
   { id: 'story', label: 'Story', path: '/story' },
   { id: 'complete-checkin', label: `Stamp: ${missionById('checkin').title}`, path: '/complete', params: { m: 'checkin' }, step: 'checkin' },
   { id: 'complete-boarding', label: `Stamp: ${missionById('boarding').title}`, path: '/complete', params: { m: 'boarding' }, step: 'boarded' },
   { id: 'complete-arrival', label: `Stamp: ${missionById('arrival').title}`, path: '/complete', params: { m: 'arrival' }, step: 'landed' },
-  { id: 'graduation', label: 'Graduation at 18', path: '/graduation', step: 'landed' },
+  { id: 'exit', label: 'Exit: graduated', path: '/exit', step: 'landed' },
 ]
+
+const HOME_VIEW = CHILD_VIEWS.find((v) => v.id === 'home')!
 
 const PARENT_VIEWS = [
   { id: 'trip', label: 'Trip', path: '/parent' },
@@ -80,10 +88,20 @@ function usePhoneScale() {
 }
 
 export function DemoScreen() {
-  const [view, setView] = useState<ChildView>(CHILD_VIEWS[1])
+  const [view, setView] = useState<ChildView>(HOME_VIEW)
   const [step, setStep] = useState<TripStep>(currentStep())
   const [parent, setParent] = useState(PARENT_VIEWS[0])
   const [run, setRun] = useState(0)
+  // Member age: sent into the child frame (no reload). Only Home reacts, and it wins over the age typed at sign-up.
+  // Until the slider is moved, the phone keeps its own age (sign-up's, or Mei at 7).
+  const [age, setAge] = useState(DEFAULT_AGE)
+  const ageTouched = useRef(false)
+  const childFrame = useRef<HTMLIFrameElement>(null)
+  const commitAge = (a: number) => {
+    ageTouched.current = true
+    setAge(a)
+    sendMemberAge(childFrame.current, a)
+  }
   const scale = usePhoneScale()
 
   const pickView = (v: ChildView) => {
@@ -95,7 +113,7 @@ export function DemoScreen() {
   // hand the child phone back to Home, so the passport cover doesn't reopen at every step.
   const pickStep = (s: TripStep) => {
     setStep(s)
-    if (view.step && view.step !== s) setView(CHILD_VIEWS[1])
+    if (view.step && view.step !== s) setView(HOME_VIEW)
   }
 
   // Clears missions finished on the phones and reloads both frames.
@@ -110,6 +128,11 @@ export function DemoScreen() {
   return (
     <main className="flex min-h-dvh items-start justify-center bg-sky p-4" style={{ gap: GAP }}>
       <aside className="flex w-[20vw] max-w-[200px] min-w-[140px] shrink-0 flex-col gap-3" aria-label="Demo controls">
+        <section className="flex flex-col gap-1 border-b border-line pb-3">
+          <h2 className="px-3 font-display text-body font-bold">Member age</h2>
+          <AgeTimeline value={age} onCommit={commitAge} />
+        </section>
+
         <section className="flex flex-col gap-1">
           <h2 className="px-3 font-display text-body font-bold">Child screen</h2>
           {CHILD_VIEWS.map((v) => (
@@ -153,7 +176,7 @@ export function DemoScreen() {
       </aside>
 
       {[
-        { src: childSrc, label: 'Child phone' },
+        { src: childSrc, label: 'Child phone', child: true },
         { src: parentSrc, label: 'Parent phone' },
       ].map((p) => (
         <figure key={p.label} className="flex shrink-0 flex-col gap-2" style={{ width: PHONE.w * scale }}>
@@ -161,6 +184,9 @@ export function DemoScreen() {
           <div style={{ width: PHONE.w * scale, height: PHONE.h * scale }}>
             <iframe
               key={`${p.src}#${run}`}
+              ref={'child' in p ? childFrame : undefined}
+              // A reloaded child frame (new view, reset) gets the slider's age again once it has loaded.
+              onLoad={'child' in p ? () => ageTouched.current && sendMemberAge(childFrame.current, age) : undefined}
               src={p.src}
               title={p.label}
               width={PHONE.w}

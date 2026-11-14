@@ -96,7 +96,7 @@ export function WelcomeScreen() {
           aria-label={`${name}'s junior passport. Open it`}
         >
           <span className="flex flex-col gap-1">
-            <span className="font-display text-display">Little Explorers</span>
+            <span className="font-display text-display">Little Xplorers</span>
             <span className="text-body text-paper/85">Junior passport</span>
           </span>
           <span className="self-center text-paper/90">

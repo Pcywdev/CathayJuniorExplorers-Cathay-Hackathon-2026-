@@ -124,6 +124,7 @@ Cathay Xplorers has three tiers. Every tier uses the same tokens, type scale, ra
 - **Little Xplorers (under 12): playful.** Everything above as it stands: Pip, inked stamps, the boarding pass, celebration motion.
 - **Teen Xplorers (12–17): bolder and more grown-up.** Bigger Display numbers (the miles balance is the hero), shorter copy, Pip at most as a small mark and never posed. Rewards sit in rows with a pale Miles tint behind the price. The redeemed voucher is a document (Paper, 16px radius, the shadow), set like a ticket stub.
 - **Campus Xplorers (18 to graduation or 25): calmest and most independent, closest to adult membership.** No Pip. Plain list rows with Line dividers, more breathing room (still within the 30% rule), quiet tone. The verified student badge is a Jade pill.
+- **Teen and Campus Home:** no missions, story or Pip; the boarding pass is a plain ticket. The passport becomes a memory page: one featured stamp with "N years ago · You were N", stamps grouped by the tier they were collected in, older stamps fainter (Stamp ink opacity only, never below ~0.65) and childhood stamps keep their tilt.
 - **Exit:** the one celebration moment outside Little Xplorers. It follows the mission-complete rules (one orchestrated moment, centre alignment allowed, counter lands exactly).
 
 ### Persona slider
