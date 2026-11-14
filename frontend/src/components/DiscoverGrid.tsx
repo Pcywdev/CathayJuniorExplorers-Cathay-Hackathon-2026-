@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { DISCOVER_ITEMS, pickForAge, tierForAge, weight, type DiscoverItem, type DiscoverKind } from '../xplorers/discover'
+import { DISCOVER_ITEMS, eligible, pickForAge, reasonFor, tierForAge, type DiscoverItem, type DiscoverKind } from '../xplorers/discover'
 import { formatNumber } from '../program'
 import { navigate, searchParam } from '../nav'
 
@@ -62,7 +62,7 @@ function MilesPill({ item }: { item: DiscoverItem }) {
   )
 }
 
-function Tile({ item, opens = false }: { item: DiscoverItem; opens?: boolean }) {
+function Tile({ item, opens = false, reason }: { item: DiscoverItem; opens?: boolean; reason?: string }) {
   return (
     <div className="flex h-full w-full flex-col gap-2 py-3">
       <span className="flex items-center justify-between gap-2">
@@ -72,6 +72,7 @@ function Tile({ item, opens = false }: { item: DiscoverItem; opens?: boolean }) 
       <span className="flex flex-1 flex-col">
         <span className="text-body font-medium text-ink">{item.title}</span>
         <span className="text-small text-ink-soft">{item.where}</span>
+        {reason && <span className="pt-1 text-small text-jade">{reason}</span>}
       </span>
       <span className="flex items-center justify-between gap-2">
         <MilesPill item={item} />
@@ -85,10 +86,10 @@ function Tile({ item, opens = false }: { item: DiscoverItem; opens?: boolean }) 
   )
 }
 
-// `?pick=<id>` puts that item first when it suits the age (the demo script uses it), then the usual draw.
-function draw(age: number): DiscoverItem[] {
-  const drawn = pickForAge(age)
-  const pinned = DISCOVER_ITEMS.find((item) => item.id === searchParam('pick') && weight(item, age) > 0)
+// `?pick=<id>` puts that item first when it suits the member (the demo script uses it), then the usual draw.
+function draw(age: number, traits: string[]): DiscoverItem[] {
+  const drawn = pickForAge(age, traits)
+  const pinned = DISCOVER_ITEMS.find((item) => item.id === searchParam('pick') && eligible(item, age, traits))
   if (!pinned) return drawn
   return [pinned, ...drawn.filter((item) => item.id !== pinned.id)].slice(0, drawn.length)
 }
@@ -96,11 +97,12 @@ function draw(age: number): DiscoverItem[] {
 // 12+ can open offers that cost miles (Teen rewards, Campus deals); games and free items stay as tiles.
 const opens = (item: DiscoverItem, age: number) => tierForAge(age).id !== 'little' && item.miles != null && item.kind !== 'game'
 
-// Replaces "My missions" on Home: a fresh age-weighted draw each time the screen mounts.
+// Replaces "My missions" on Home: a fresh draw each time the screen mounts, weighted by the dual encoder's score
+// for the member's age and ticked traits (xplorers/discover.ts). A tile names the trait behind it when one clearly is.
 // Tiles, not cards: a two-column grid ruled with Line dividers (DESIGN.md: lists are not containers).
-export function DiscoverGrid({ age }: { age: number }) {
+export function DiscoverGrid({ age, traits = [] }: { age: number; traits?: string[] }) {
   // Drawn once per mount, so trip moments re-rendering Home don't reshuffle it.
-  const [items] = useState(() => draw(age))
+  const [items] = useState(() => draw(age, traits))
   const tier = tierForAge(age)
 
   return (
@@ -109,6 +111,7 @@ export function DiscoverGrid({ age }: { age: number }) {
         <h2 className="font-display text-heading">Picked for you</h2>
         <span className="text-small text-ink-soft">
           Age {age} · {tier.name}
+          {traits.length > 0 && ` · ${traits.length} about you`}
         </span>
       </div>
       <ul className="grid grid-cols-2 border-t border-line">
@@ -121,10 +124,10 @@ export function DiscoverGrid({ age }: { age: number }) {
                 aria-label={`${item.title}, ${formatNumber(item.miles!)} miles`}
                 className="h-full w-full text-left transition-transform duration-100 active:scale-[0.97]"
               >
-                <Tile item={item} opens />
+                <Tile item={item} opens reason={reasonFor(item, traits)} />
               </button>
             ) : (
-              <Tile item={item} />
+              <Tile item={item} reason={reasonFor(item, traits)} />
             )}
           </li>
         ))}
