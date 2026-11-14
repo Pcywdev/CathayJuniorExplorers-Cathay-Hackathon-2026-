@@ -3,7 +3,7 @@ import { program } from '../program'
 // Stand-in for POST /api/graduation/score (docs/api.md) until the backend ships it.
 // Inputs are synthetic (the api.md example); every rule and limit comes from program.json, so the
 // result matches the documented response. Swap for the API call; no screen computes a score itself.
-export const graduationInputs = { membershipYears: 12, familyFlights: 20, juniorMiles: 48000 }
+export const graduationInputs = { membershipYears: 12, familyFlights: 20, juniorMiles: program.xplorers.personas.mei.exitBalance }
 
 const LABELS = { membershipYears: 'Membership years', familyFlights: 'Family flights', juniorMiles: 'Junior miles' } as const
 type Key = keyof typeof LABELS
