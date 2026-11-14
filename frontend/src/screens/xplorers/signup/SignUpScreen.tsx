@@ -3,7 +3,7 @@ import { useId, useState } from 'react'
 import { BackLink } from '../../../components/BackLink'
 import { ConceptLabel } from '../../../components/ConceptLabel'
 import { PrimaryButton } from '../../../components/PrimaryButton'
-import { navigate } from '../../../nav'
+import { navigate, searchParam } from '../../../nav'
 import { formatNumber, program } from '../../../program'
 import { MAX_AGE, MIN_AGE } from '../../../xplorers/discover'
 import { tierAges } from '../../../xplorers/tiers'
@@ -81,7 +81,8 @@ export function SignUpScreen() {
   const id = useId()
   const [joined, setJoined] = useState(false)
   const [name, setName] = useState(mei.name)
-  const [ageText, setAgeText] = useState(String(DEFAULT_AGE))
+  // The demo script opens sign-up with `?age=` (Mei at 7); standalone, Mei at 15.
+  const [ageText, setAgeText] = useState(searchParam('age') ?? String(DEFAULT_AGE))
 
   const age = Number(ageText)
   const ageOk = Number.isInteger(age) && age >= MIN_AGE && age <= MAX_AGE
@@ -96,7 +97,8 @@ export function SignUpScreen() {
     { title: 'Keep the rest', note: 'Everything comes with you when you graduate' },
   ]
 
-  const startExploring = () => navigate('/child', { name: shownName, age: String(age) })
+  // Little Xplorers open their passport cover first; older tiers go straight to Home.
+  const startExploring = () => navigate(tier.id === 'little' ? '/welcome' : '/child', { name: shownName, age: String(age) })
 
   return (
     <main className="guilloche-sky mx-auto flex min-h-dvh max-w-[393px] flex-col gap-6 overflow-x-clip px-5 pt-6">

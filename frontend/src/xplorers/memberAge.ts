@@ -37,8 +37,3 @@ const read = () => override ?? ageFromQuery()
 export function useMemberAge(): number {
   return useSyncExternalStore(subscribe, read)
 }
-
-/** Demo panel side: tell a phone frame the member's age. */
-export function sendMemberAge(frame: HTMLIFrameElement | null, age: number) {
-  frame?.contentWindow?.postMessage({ type: MESSAGE, age }, window.location.origin)
-}
