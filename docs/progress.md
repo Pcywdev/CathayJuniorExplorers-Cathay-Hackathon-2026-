@@ -2,8 +2,22 @@
 
 Read this at the start of every session. Tags: **P0** must work by Friday · **P1** only if P0 is solid. B = backend, F = frontend.
 
+## Xplorers MVP (tonight, 14 Nov)
+Scope v2 (plan.md). Frontend-only on mock data, about 4.5 hours, for the recorded video. Done when: the filmed path runs end to end and every new screen passes /screen-check.
+- [x] Docs and data: plan.md Scope v2, CLAUDE.md, decisions, DESIGN.md tiers, `shared/program.json` `xplorers` section
+- [ ] Earth: Xplorers mock data in `frontend/src/data/`, read from `program.json` `xplorers`
+- [ ] Teammate: 1 App home with a Cathay Xplorers entry card (awareness)
+- [ ] Teammate: 2 Xplorers intro: three tiers, "Join" (awareness → acquisition)
+- [ ] Teammate: 4 Sign-up: Leo (14), pre-filled form, "Guardian approved ✓", "Welcome to Teen Xplorers" tier card (acquisition + activation)
+- [ ] Teammate: 7 Little Xplorers: existing screens, renamed on screen (engagement)
+- [ ] Earth: 8 Teen Xplorers rewards: balance, rewards list, one redemption ending in a voucher (engagement)
+- [ ] Earth: 9 Campus Xplorers deals: verified badge, deals list, one deal detail (engagement)
+- [ ] Teammate: 10 Exit "You've graduated": carry-over, score count-up, package, all stamps, "Continue as a Cathay member" (retention)
+- [ ] Earth: persona slider, Mei 7 → 15 → 20 → exit, moving between screens 7, 8, 9, 10
+- [ ] Both: /screen-check on every new screen; record the video
+
 ## Now / Next / Blocked
-- **Now:** B: Day 3: score (PR #7) and child missions (PR #8) merged; story with fallback chapters + `/chapters` done on `feat/story` (English only, user decision); next LLM wrapper + safety checks. Open: delay bonus miles (not in program.json); simulated events show the real clock; story voice in chapters 3–4 delayed ("We").
+- **Now:** Xplorers MVP first tonight (section above). Then B: Day 3: score (PR #7) and child missions (PR #8) merged; story with fallback chapters + `/chapters` done on `feat/story` (English only, user decision); next LLM wrapper + safety checks. Open: delay bonus miles (not in program.json); simulated events show the real clock; story voice in chapters 3–4 delayed ("We").
 - **Next:** B: Milestone D (LLM wrapper + safety, fake provider now, live on site). F: swap `mocks/story.ts` for `GET /api/trips/{id}/chapters` (pick version by `branch`, map `key`→art, `unlockOn`→wording); plus the earlier swaps (trip + stream, graduation score, mission complete).
 - **On-site only (hackathon day):** Cloud Run deploy (runbook in `docs/deploy.md`), LLM credentials.
 - **Blocked:** `gcloud`, GCP project and LLM credentials are provided on the hackathon day (OAG key is available now) · `shared/program.json` awaiting business-team sign-off · Setup ran Wed 11, a day behind the plan's Tue 10 start.
@@ -72,3 +86,4 @@ Done when: demo runs with Wi-Fi off.
 - 2026-11-13 · Backend owner + Claude · Day 3 re-planned after PR #6 (score → child missions → fallback story + /chapters → LLM + safety). POST /api/graduation/score live: pure logic tested first, top-band-only head start, `maxScore` added; 15 new tests (106 pass); real requests checked · Next: child-completed missions endpoint.
 - 2026-11-13 · Backend owner + Claude · Child-completed missions: POST /api/trips/{id}/missions/{missionId}/complete (any available mission, whichever comes first pays, same cap, published on the stream); mission-opening rule moved into rules.mission_unlocked, shared cap helper; 20 new tests (126 pass); real run with two streams checked (201, repeat 200, locked 409) · Next: fallback story + `/chapters`.
 - 2026-11-13 · Backend owner + Claude · Story without an LLM: fallback story (7 versions, English, 1 page each, {name}/{city}/{gate}), stories table, fixture-first story source, POST /trips stores it, GET /api/trips/{id}/chapters live (filled on read, landing unlockAt = arrival + delay); pure logic tested first; 19 new tests (145 pass); real run checked incl. old trips and UTF-8 quotes · Next: LLM wrapper + safety checks.
+- 2026-11-14 · Backend owner + Claude · Scope v2 (Cathay Xplorers) docs and data only: plan.md Scope v2 section, CLAUDE.md summary + tonight's ownership exception, 8 decisions, DESIGN.md Tiers, program.json `xplorers` section (illustrative) · Next: Xplorers MVP screens on mock data.
