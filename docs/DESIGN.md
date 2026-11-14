@@ -1,11 +1,13 @@
-# Little Explorers — Design System
+# Cathay Xplorers — Design System
 
 ## Direction
 
-Clean, modern, friendly travel documents. The app feels like a child's own boarding pass and passport: crisp paper surfaces on a light sky background, flight details set like a real ticket, and stamps that look inked. Approachable, not luxury. Playful only in celebration moments.
+Clean, modern, friendly travel documents, for a youth membership with three tiers (see Tiers below). The app feels like a young member's own boarding pass and passport: crisp paper surfaces on a light sky background, flight details set like a real ticket, and stamps that look inked. Approachable, not luxury. Playful only in celebration moments.
 
-**Audience:** children aged 6–12, with a parent beside them.
-**Primary job:** make a family trip feel like an adventure the child earns from.
+**Audience:** young members from childhood to graduation. Little Xplorers (6–12) use it with a parent beside them; Teen (12–17) and Campus (18 to graduation or 25) members use it on their own.
+**Primary job:** make every trip feel like something the member earns from, and let the app grow up with them until they graduate into full membership.
+
+Everything up to Tiers describes Little Xplorers, the most playful tier. The Tiers section says how Teen, Campus and Exit differ.
 
 ---
 

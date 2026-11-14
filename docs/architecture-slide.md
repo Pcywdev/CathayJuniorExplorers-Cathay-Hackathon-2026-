@@ -12,7 +12,7 @@ For the team to build in Canva. One main slide; an optional second one follows. 
 |---|---|---|
 | **A** Sources | OAG flight data, Trip events, Production sources (dashed) | "Sources" |
 | **B** Backend | Flight service, Rules engine (hero), SQLite, Event broker, `program.json` line | "Backend" |
-| **C** Phones | Child phone, Parent phone, Xplorers note | "Phones" |
+| **C** Phones | Child phone, Parent phone, the Teen and Campus recommender note | "Phones" |
 | **D** Story pipeline | 4 fields → Prompt → LLM → Safety checks → Pass / Fail, rejection line | "Story pipeline strip" |
 | **E** Data and privacy | Used, never collected, no pooling | "Data panel" |
 | **1–5** | One `boarded` event: source → `POST /events` → rules → SSE → both phones | "Hero callout" |
@@ -47,9 +47,9 @@ Presenter line, tracing the numbers: "A gate scan arrives (1) as one event (2). 
 │ │ delayed      │/events ├────────────────────────────────────┤     │  CX 500", trip   │ │
 │ │ boarded ...  │        │ Event broker: one channel per trip │     │ timeline, data   │ │
 │ └──────────────┘        ├────────────────────────────────────┤     └──────────────────┘ │
-│ ┌ ─ ─ ─ ─ ─ ─ ┐         │ SQLite: trips, events, stories,    │      Teen, Campus, Exit │
-│  Production:    ─ ─ ─ ▶ │ OAG cache                          │      screens: catalogue │
-│ │ check-in,   │         └────────────────────────────────────┘      on program.json    │
+│ ┌ ─ ─ ─ ─ ─ ─ ┐         │ SQLite: trips, events, stories,    │      Teen, Campus:      │
+│  Production:    ─ ─ ─ ▶ │ OAG cache                          │      Picked for you by  │
+│ │ check-in,   │         └────────────────────────────────────┘      a dual encoder     │
 │   gate scan,             shared/program.json: every number                             │
 │ │ OAG alerts  │                                                                         │
 │  ─ ─ ─ ─ ─ ─ ─                                                                           │
@@ -85,7 +85,8 @@ Put the data panel in the right margin under the phones, or as a footer band:
 - **Child phone.** Boarding pass, missions, passport stamps, and a story that unlocks chapter by chapter.
 - **Parent phone.** Boarded, departed, delayed and landed alerts, a trip timeline with miles, and the data used.
 - Both get **the same event**, and each shows its own version.
-- Quieter note: *Teen, Campus and Exit screens: catalogue on illustrative program.json numbers.*
+- Quieter note: *Teen and Campus: "Picked for you" ranked on the phone by a toy dual-encoder model (age and interests), trained offline on synthetic users.*
+- If a judge asks about it: rules first (hard age limits, student-only offers, affordability), then a user tower and an item tower trained on ~800 synthetic users and 49 promotions. Held-out AUC 0.82 against a 0.74 popularity baseline. Age is learnt, not ruled, so a 20-year-old foodie still sometimes sees bubble tea.
 
 **Hero callout: one event through the system.** Number the steps along the Jade arrows:
 1. Gate scan

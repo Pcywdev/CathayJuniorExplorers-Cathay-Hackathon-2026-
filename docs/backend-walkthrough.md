@@ -1,12 +1,14 @@
-# How Little Explorers works: the demo, start to end
+# How the Cathay Xplorers backend works: the trip, start to end
 
-A plain-language guide to the whole system as it stands on 14 Nov. It covers what each part does, how the parts talk to each other, and what happens on both phones at each moment of the demo. Technical details are kept to one short **Important technical bit** box per section, which points at the file to open if you want to go deeper.
+**Where this fits.** Cathay Xplorers is a youth membership with three tiers: Little Xplorers (under 12), Teen Xplorers (12–17) and Campus Xplorers (18 to graduation or 25), then an exit into full membership. The backend powers the deep part, the **Little Xplorers trip**, plus the exit **graduation score**. Teen and Campus screens and "Picked for you" (a toy dual-encoder recommender, `tools/xplorers_mapping`) run in the app without backend calls; see `docs/plan.md`.
+
+A plain-language guide to the backend as submitted on 15 Nov. It covers what each part does, how the parts talk to each other, and what happens on both phones at each moment of the demo. Technical details are kept to one short **Important technical bit** box per section, which points at the file to open if you want to go deeper.
 
 ---
 
 ## 1. The 30-second version
 
-1. A parent flying with their child turns on **Junior Mode** in the Cathay app.
+1. A parent flying with their child turns on **Junior Mode** (the switch that turns Little Xplorers on for a booking) in the app.
 2. The server looks up the flight (CX 500, Hong Kong → Tokyo) and starts a **trip** for the child, Mei.
 3. As the trip happens (check-in, delay, boarding, take-off, landing), each moment is sent to the server as an **event**.
 4. For each event the server works out what Mei earns (miles, a stamp, a new story chapter) and saves it.
@@ -151,7 +153,7 @@ Real flight feeds sometimes repeat themselves, so the demo sends "boarded" a sec
 ### Moment 9: Landing
 - **Call:** `POST /api/trips/{id}/events` with `{"type": "landed"}`
 - **Backend does:** Arrival Explorer +40 (cap **1,400 / 2,000**) and unlocks **Chapter 4**. The event's time is shown in Tokyo time (+09:00), because that's where Mei now is.
-- **Phones then:** Mei: "Arrival Explorer collected! Welcome to Tokyo.", plus a Tokyo stamp on her `PassportPage` and a new "See me at 18" link. Parent: "Mei has landed in Tokyo".
+- **Phones then:** Mei: "Arrival Explorer collected! Welcome to Tokyo.", plus a Tokyo stamp on her `PassportPage` and a "See me at graduation" link. Parent: "Mei has landed in Tokyo".
 
 ### Moment 10: Reading the story
 - **On screen:** Mei taps "Read my trip story", which opens `StoryScreen` with the `ChapterMap`.
@@ -167,8 +169,9 @@ Real flight feeds sometimes repeat themselves, so the demo sends "boarded" a sec
 
 > **Important technical bit:** the child's name is filled in only at this moment. It's never stored inside the story and never sent to an AI. See `prepare()` in `logic/story.py`.
 
-### Moment 11: "See me at 18" (graduation)
-- **On screen:** Mei taps "See me at 18", which opens `GraduationScreen`.
+### Moment 11: Exit (graduation)
+- **On screen:** at exit (university graduation or 25; Mei at 22), `ExitScreen` shows "You've graduated": the miles carried over, the score count-up and the package. "See me at graduation" opens the same page as a projection (`/ahead`).
+- **Today:** the demo's exit screen reads these numbers from `program.json` (29,280 miles). Calling the endpoint below from the screen is parked; the endpoint itself is live and tested.
 - **Call:** `POST /api/graduation/score`
   ```json
   sends:   { "membershipYears": 12, "familyFlights": 20, "juniorMiles": 48000 }
@@ -198,7 +201,7 @@ Real flight feeds sometimes repeat themselves, so the demo sends "boarded" a sec
 | `POST /api/trips/{id}/events` | Something happened on the trip | Simulate control / real flight status | event type (+ delay, gate) | the new event |
 | `POST /api/trips/{id}/missions/{missionId}/complete` | Child did a mission | `Stamp` on `MissionCompleteScreen` | nothing | the event (201 new, 200 already done) |
 | `GET /api/trips/{id}/stream` | Live updates | Both phones, kept open | last event id seen | events, as they happen |
-| `POST /api/graduation/score` | "See me at 18" score | `GraduationScreen` | years, flights, miles | score, band, package |
+| `POST /api/graduation/score` | Exit score | `ExitScreen` (planned; reads program.json today) | years, flights, miles | score, band, package |
 
 **The two shapes to know.** Almost everything returns one of two things:
 - A **Trip**: who, which flight, missions with states, cap, branch, chapter locks, every event so far, and `lastEventId`.
@@ -269,7 +272,9 @@ In the browser, one line opens the call: `new EventSource(".../stream?after=" + 
 
 ## 8. Frontend: what's wired today, and the to-do list
 
-**Today:** the screens look finished, but they read from `frontend/src/mocks/`. `useTrip()` in `src/trip/useTrip.ts` builds a pretend trip from mock events, and the `?at=checkin` / `?at=landed` part of the URL picks how far through the trip to be. The demo page (`/demo`, `DemoScreen`) shows both phones side by side, and its **Trip moment** buttons only change that `?at=`; they don't call the server yet. A stamp press is saved in the browser tab (`trip/localMissions.ts`), not on the server. The only real server call is `HealthCard` → `/api/health`.
+**Status (15 Nov):** the wiring below is **parked** for the submission (`docs/live-trip.md` has the plan). The demo video runs on the mock events, which use the API's exact event shape, and `tools/demo_trip.py` shows the backend doing the same run.
+
+**Today:** the screens read from `frontend/src/mocks/`. `useTrip()` in `src/trip/useTrip.ts` builds a pretend trip from mock events, and the `?at=checkin` / `?at=landed` part of the URL picks how far through the trip to be. The demo page (`/demo`, `DemoScreen`) shows both phones side by side, and its **Trip moment** buttons only change that `?at=`; they don't call the server yet. A stamp press is saved in the browser tab (`trip/localMissions.ts`), not on the server. The only real server call is `HealthCard` → `/api/health`.
 
 **Rule from `frontend/CLAUDE.md`:** every server call lives in `frontend/src/api/` (`client.ts` has the base address). Screens never call `fetch` themselves.
 
@@ -282,7 +287,7 @@ In the browser, one line opens the call: `new EventSource(".../stream?after=" + 
 | `DemoScreen` → Trip moment buttons | `POST /api/trips/{id}/events` (this becomes the real **Simulate** control) |
 | `MissionCompleteScreen` → `Stamp` | `POST /api/trips/{id}/missions/{id}/complete`, replacing `markDone()` |
 | `StoryScreen` | `GET /api/trips/{id}/chapters` (replacing `mocks/story.ts`), saved for offline use |
-| `GraduationScreen` | `POST /api/graduation/score` (replacing `mocks/graduation.ts`) |
+| `ExitScreen` | `POST /api/graduation/score` (replacing the program.json numbers in `mocks/graduation.ts`) |
 | `src/api/types.ts` | add `mission_completed` to `EventType` and `'child'` to `source`, to match the backend |
 
 Once `useTrip()` uses the stream, the two phones on `/demo` will stay in sync through the server, with no extra work.
@@ -304,7 +309,7 @@ Once `useTrip()` uses the stream, the two phones on `/demo` will stay in sync th
 ## 10. Still open
 - **Simulated times use the real clock**, so the demo can show "Departed 01:30" at night instead of the scheduled 15:25. Should simulated events show scheduled flight times?
 - **Delay bonus:** the delay currently awards no miles. Should there be a mission for it (the "Count the planes at the gate" bonus shown on `ChildScreen`)?
-- **AI-written stories:** today every trip gets a saved reviewed story or the fallback. Generating one live (with safety checks) is the next milestone in `services/stories.py`.
+- **AI-written stories:** built. With `LLM_LIVE=true`, a trip without a reviewed story makes one AI call (`services/llm.py`), then the safety checks; any failure gives the fallback. On stage `LLM_LIVE` stays off and trips use a reviewed fixture made with `tools/generate_story.py`. The first real runs were rejected (malformed chapters), see `docs/story-rejections.md`.
 - **Chinese:** `language: "zh-Hant"` is accepted, but only English story text exists, so it falls back to English.
 
 ---

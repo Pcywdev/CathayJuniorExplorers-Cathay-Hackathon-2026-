@@ -1,10 +1,10 @@
 # Progress
 
-Read this at the start of every session. Tags: **P0** must work by Friday · **P1** only if P0 is solid. B = backend, F = frontend.
+Read this at the start of every session. Scope is in `docs/plan.md` (Cathay Xplorers, as submitted 15 Nov). B = backend, F = frontend.
 
 ## Xplorers MVP (tonight, 14 Nov)
-Scope v2 (plan.md). Frontend-only on mock data, about 4.5 hours, for the recorded video. Done when: the filmed path runs end to end and every new screen passes /screen-check.
-- [x] Docs and data: plan.md Scope v2, CLAUDE.md, decisions, DESIGN.md tiers, `shared/program.json` `xplorers` section
+Cathay Xplorers screens (plan.md section 3). Frontend-only on mock data, about 4.5 hours, for the recorded video. Done when: the filmed path runs end to end and every new screen passes /screen-check.
+- [x] Docs and data: plan.md (Cathay Xplorers), CLAUDE.md, decisions, DESIGN.md tiers, `shared/program.json` `xplorers` section
 - [~] Dropped: Earth: Xplorers mock data in `frontend/src/data/` · the teammate's `src/xplorers/` (discover, tiers, memberAge) covers it
 - [x] Teammate: 1 App home with a Cathay Xplorers entry card (awareness)
 - [x] Teammate: 2 Xplorers intro: three tiers, "Join" (awareness → acquisition)
@@ -16,10 +16,11 @@ Scope v2 (plan.md). Frontend-only on mock data, about 4.5 hours, for the recorde
 - [~] Dropped: Earth: persona slider · covered by the Member age timeline in `/demo`
 - [x] Picked for you grid on the child home (replaces My missions), age-weighted random draw from `xplorers.discover`; Member age timeline in the demo panel (`?age=`). Files: `src/xplorers/discover.ts`, `src/components/{DiscoverGrid,AgeTimeline}.tsx`
 - **For Earth (teammate notes), with answers:**
-  1. `xplorers.discover` in program.json: **confirmed**, it stays there.
+  1. `xplorers.discover` in program.json: **confirmed**; since 15 Nov it is only the dual-encoder generator's seed, and the grid reads `frontend/src/xplorers/data/mapping.json`.
   2. Exit balance: **added** `personas.mei.exitBalance` 29,280 (matches the Family projection at 22). ExitScreen still reads `mocks/graduation.ts` 48,000; switching it is the teammate's change (see Submission readiness item 3).
   3. Renaming `personas.leo.startingBalance` to a generic new-member value: **agreed, not done yet**, because it breaks `SignUpScreen`. Do it together with the teammate's one-line change.
   4. Family chart vs teen/campus redemptions: teammate's call.
+- [x] Toy dual-encoder promotion mapping (`python -m tools.xplorers_mapping`) + "Mei is…" trait tick boxes in the demo panel
 - [ ] Both: /screen-check on every new screen; record the video
 
 ## Submission readiness (Sat 14 – Sun 15)
@@ -36,15 +37,21 @@ Principle: real where it's hard (trip, rules engine, sync, story pipeline), mock
 3. [~] Dropped for submission: B+F: Exit score from `POST /api/graduation/score` and `exitBalance` (ExitScreen is the teammate's)
 4. [~] Dropped for submission (no GCP): B: Cloud Run deploy (`docs/deploy.md`), `ALLOWED_ORIGINS` for the deployed frontend, demo runs with Wi-Fi off, backup video
 5. [x] B: architecture slide spec (`docs/architecture-slide.md`, built in Canva by the team) + README + architecture.md updated to the finished prototype
-6. [ ] Both: rehearse the judge Q&A (`docs/architecture.md` "Production path"); record the video
+6. [ ] Both: rehearse the judge Q&A (`docs/architecture.md` "Production path") · [x] backup video recorded
+7. [x] Docs aligned with Cathay Xplorers (plan.md rewritten; README, architecture, slide visual, briefing and design docs); dual encoder documented; slide screenshots in `docs/screenshots/`
+8. [ ] Submit: prototype + repo link (judges can open it), slides (PDF), one-page poster
 
 ## Now / Next / Blocked
-- **Now:** Build the architecture slide in Canva from `docs/architecture-slide.md`; generate the reviewed demo story with the real key; rehearse the Q&A. Open: delay bonus miles (not in program.json); story voice in chapters 3–4 delayed ("We").
-- **Next:** B: LLM wrapper + safety (item 2), then deploy (item 4). F: later swaps after live mode: `trip.flight` instead of `mockFlight`, then `GET /chapters` instead of `mocks/story.ts` (pick version by `branch`, map `key`→art, `unlockOn`→wording).
-- **On-site only (hackathon day):** Cloud Run deploy (runbook in `docs/deploy.md`), LLM credentials.
-- **Blocked:** `gcloud`, GCP project and LLM credentials are provided on the hackathon day (OAG key is available now) · `shared/program.json` awaiting business-team sign-off · Setup ran Wed 11, a day behind the plan's Tue 10 start.
+- **Now:** Slides in Canva (architecture visual + `docs/screenshots/`), poster, submit (item 8).
+- **Next (optional):** a reviewed AI story fixture (`tools/generate_story.py --save`; the first real runs were rejected for malformed chapters, see `docs/story-rejections.md`); Q&A rehearsal.
+- **Open questions:** delay bonus miles (not in program.json); story voice in chapters 3–4 delayed ("We"); the parent screen still labels its switch "Junior mode" (fine: it's the Little Xplorers switch for a booking).
+- **Parked after submission:** live trip mode (`docs/live-trip.md`), Cloud Run deploy (`docs/deploy.md`), the exit screen calling the score endpoint, PWA offline storage, Traditional Chinese stories.
+- **Blocked:** `shared/program.json` numbers still illustrative, awaiting business-team sign-off.
 
-## Day 1 · Tue 10 (setup)
+## Earlier build checklist (Tue 10 – Sun 15, junior-mode plan)
+Kept as a record. Unticked items here are superseded by the scope above and the "Parked" list, not open work.
+
+### Day 1 · Tue 10 (setup)
 Done when: both run locally; backend deployed; one real OAG response saved.
 - [x] P0 Repo structure, CLAUDE.md files, shared docs
 - [x] P0 `shared/program.json` from plan.md section 6
@@ -57,7 +64,7 @@ Done when: both run locally; backend deployed; one real OAG response saved.
 - [x] P0 B: OAG queries for the demo flight; save fixtures; check which fields are missing (gate, seat) · `backend/fixtures/oag/`, gate present once operating, seat absent
 - [x] P0 F: static child screens (home, story, mission complete) · redesign on `feat/frontend-redesign`: Jade band with 3D route globe, tilting boarding pass with press-and-hold tear, story pages with lock states, 3D stamp press + miles counter
 
-## Day 2 · Wed 11
+### Day 2 · Wed 11
 Done when: simulating "boarded" updates both phones.
 - [x] P0 B: flight lookup + fixture-first cache (OAG boarding pass) · `GET /api/flights/lookup`, 33 tests
 - [x] P0 B: rules engine with tests first (missions, annual cap, chapter unlock, branch) · `app/logic/rules.py`, 16 tests
@@ -67,7 +74,7 @@ Done when: simulating "boarded" updates both phones.
 - [ ] P0 F: parent screen: notifications, trip timeline, miles line, junior mode switch, data used
 - [ ] P0 F: Simulate trip control (events labelled simulated)
 
-## Day 3 · Thu 12
+### Day 3 · Thu 12
 Done when: full trip flow end to end.
 - [ ] P0 B: story generation via one LLM wrapper, EN + 繁中, on-time and delayed branches
 - [ ] P0 B: safety checks (JSON, length, banned words, moderation, readability) + pre-written fallback · fallback story done (`fixtures/stories/fallback.json`, English); safety checks in Milestone D
@@ -79,7 +86,7 @@ Done when: full trip flow end to end.
 - [x] P0 F: graduation screen (basic) (on a program.json-based mock until `POST /api/graduation/score` exists)
 - [ ] P0 F: PWA offline chapters (service worker, unlock at scheduled landing)
 
-## Day 4 · Fri 13 (feature freeze)
+### Day 4 · Fri 13 (feature freeze)
 Done when: demo runs with Wi-Fi off.
 - [ ] P0 B: deploy everything (backend Cloud Run, frontend Cloud Run or Vercel)
 - [ ] P0 B: offline fixtures mode
@@ -89,7 +96,7 @@ Done when: demo runs with Wi-Fi off.
 - [ ] P1 F: graduation screen polish
 - [ ] P1 F: read-aloud (browser speech, tested on demo devices)
 
-## Sat 14 – Sun 15 (on site)
+### Sat 14 – Sun 15 (on site)
 - [ ] P0 B: fixes, backup demo video
 - [ ] P0 F: polish, screenshots for slides and poster
 - [ ] P0 Submit: prototype + repo link, slides (PDF), one-page poster
@@ -112,3 +119,4 @@ Done when: demo runs with Wi-Fi off.
 - 2026-11-14 · Backend owner + Claude · After the teammate's PR #11: screens 8, 9 and the persona slider dropped; teammate notes answered (`exitBalance` 29,280 added); "Submission readiness" checklist; architecture.md "Production path" (demo → production table for judges); live trip mode planned in `docs/live-trip.md` (opt-in `?live`, demo clock) · Next: agree live mode with the teammate, then the backend demo clock.
 - 2026-11-15 · Earth + Claude · Exit miles read from program.json (29,280, was hardcoded 48,000); `/demo` rewritten as a scripted run (27 scenes, phase jumps, arrow keys, one phone when the parent isn't needed); sign-up at 7 leads to Mei's welcome · Next: record the demo video.
 - 2026-11-15 · Earth + Claude · Minimum scope for submission: live mode, exit score and deploy dropped. LLM wrapper (`services/llm.py`, openai SDK, fake provider, moderation) and story generation with safety checks and fallback (`services/stories.generate`); 23 new tests (204 pass); `tools/generate_story.py`; rejection example; README, architecture.md (final diagram, honest real/scripted line) and `docs/architecture-slide.md` · Next: slide in Canva, real story fixture, Q&A rehearsal.
+- 2026-11-15 · Earth + Claude · Docs aligned with Cathay Xplorers: plan.md rewritten around tiers, journey, Little Xplorers trip, exit and the dual encoder; README, CLAUDE.md, architecture.md, api.md intro, context-brief, backend-walkthrough, demo-script, DESIGN.md intro, PRODUCT.md and frontend/CLAUDE.md updated; architecture visual's Teen/Campus line now names the dual encoder; slide screenshots in `docs/screenshots/` (intro, Little 7, Teen 15, Campus 20) · Next: slides, poster, submit.

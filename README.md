@@ -17,7 +17,8 @@ Built by Team 2B3E for the Cathay Hackathon 2026 final.
 | Two-phone sync: one event to both phones over Server-Sent Events, replay after reconnect | Real backend; shown end to end by `tools/demo_trip.py` |
 | Story pipeline: four-field prompt, AI call, JSON + content + reading-level checks, moderation, pre-written fallback | Real backend |
 | Phone screens in the demo video | React app driven by scripted events that mirror the API's event shape |
-| Teen and Campus offers, sign-up checks, exit screen | Frontend catalogue screens on illustrative numbers in `shared/program.json` |
+| "Picked for you" offers on Home | Ranked by a toy **dual-encoder** recommender (`tools/xplorers_mapping`): rules first, then user and item towers trained on ~800 synthetic users and 49 promotions (held-out AUC 0.82 vs 0.74 popularity baseline). Its output `mapping.json` is scored on the phone from Mei's age and the "Mei is…" traits in the demo panel |
+| Teen and Campus offers and vouchers, sign-up checks, exit screen | Frontend screens on illustrative numbers in `shared/program.json` |
 
 Every displayed number comes from [`shared/program.json`](shared/program.json). How each demo piece maps to production is in [docs/architecture.md](docs/architecture.md), under "Production path".
 
@@ -58,6 +59,15 @@ Generate and review the demo story once with `python tools/generate_story.py`. R
 
 The AI sees only destination, flight length, aircraft model and age band. The child's name is never sent. The model writes `{name}`, and the backend fills it in when a phone asks.
 
+## Picked for you recommender (optional)
+
+The app ships with a trained `frontend/src/xplorers/data/mapping.json`. To regenerate it (about 20 s, stdlib Python, seeded) and run its tests, from the repo root:
+```
+python -m tools.xplorers_mapping
+python -m unittest tools.xplorers_mapping.test_xplorers_mapping
+```
+Details: [tools/xplorers_mapping/README.md](tools/xplorers_mapping/README.md).
+
 ## Docker (from the repo root)
 ```
 docker build -f backend/Dockerfile -t little-explorers-api .
@@ -68,14 +78,15 @@ docker run --rm -p 8080:8080 --env-file backend/.env little-explorers-api
 - `backend/`: FastAPI, SQLite (SQLModel), the OAG and LLM services, rules in `app/logic/`
 - `frontend/`: Vite, React, TypeScript, Tailwind, Framer Motion, three.js
 - `shared/`: `program.json` (every number) and the Red Hat fonts
-- `tools/`: `demo_trip.py`, `generate_story.py`, `shoot.py` (screenshots)
+- `tools/`: `demo_trip.py`, `generate_story.py`, `shoot.py` (screenshots), `xplorers_mapping/` (the recommender)
 
 ## Docs
-- [docs/plan.md](docs/plan.md): scope and plan (read "Scope v2" first)
+- [docs/plan.md](docs/plan.md): product and scope (source of truth)
 - [docs/architecture.md](docs/architecture.md): system diagram and production path
 - [docs/architecture-slide.md](docs/architecture-slide.md): content and layout of the architecture slide
 - [docs/api.md](docs/api.md): API contract
 - [docs/DESIGN.md](docs/DESIGN.md): design system
 - [docs/demo-script.md](docs/demo-script.md): demo video script
+- [docs/screenshots/](docs/screenshots/): phone screens for the slides (Xplorers intro, Little, Teen and Campus Home)
 - [docs/progress.md](docs/progress.md), [docs/decisions.md](docs/decisions.md): progress and decision log
 - [docs/deploy.md](docs/deploy.md): Cloud Run runbook (not used for the submission)
