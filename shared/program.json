@@ -26,5 +26,42 @@
   "demoMember": {
     "name": "Mei",
     "startingBalance": 1250
+  },
+  "xplorers": {
+    "note": "illustrative, confirm with team",
+    "modeName": "Cathay Xplorers",
+    "tiers": [
+      { "id": "little", "name": "Little Xplorers", "minAge": 0, "maxAge": 11 },
+      { "id": "teen", "name": "Teen Xplorers", "minAge": 12, "maxAge": 17, "signUp": "guardianApproval" },
+      { "id": "campus", "name": "Campus Xplorers", "minAge": 18, "maxAge": 25, "signUp": "universityEmail" }
+    ],
+    "exit": {
+      "rule": "universityGraduationOrMaxAge",
+      "maxAge": 25,
+      "carriesOver": ["miles", "membershipYears", "tripHistory", "passportStamps"]
+    },
+    "signUp": {
+      "guardianApprovalRequiredForTier": "teen",
+      "guardianApprovalShownAsPassed": true,
+      "verificationMethod": "universityEmail",
+      "verificationShownAsPassed": true
+    },
+    "teenRewards": [
+      { "id": "preflight-drink", "title": "Pre-flight drink", "where": "Partner café at the airport", "miles": 300 },
+      { "id": "snack-box", "title": "Snack box for the flight", "where": "Cathay", "miles": 400 },
+      { "id": "blind-box", "title": "Travel blind box", "where": "Partner shop", "miles": 800 },
+      { "id": "phone-strap", "title": "Travel phone strap", "where": "Partner shop", "miles": 1200 }
+    ],
+    "campusDeals": [
+      { "id": "student-fare", "title": "Student fare saver", "miles": 2500 },
+      { "id": "extra-bag", "title": "Extra 10 kg baggage", "miles": 3000 },
+      { "id": "lounge-pass", "title": "Lounge pass", "miles": 6000 },
+      { "id": "grad-trip", "title": "Graduation trip package, flight and hotel", "miles": 15000 }
+    ],
+    "personas": {
+      "mei": { "name": "Mei", "balanceByAge": { "7": 1250, "15": 9800, "20": 24000 }, "exitAge": 22 },
+      "leo": { "name": "Leo", "age": 14, "startingBalance": 200 }
+    },
+    "transferAllowanceStartsAt": "exit"
   }
 }

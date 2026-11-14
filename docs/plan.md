@@ -6,6 +6,57 @@ Build the MVP **Tue 10 – Fri 13 Nov**. Polish on site. Submit on site: prototy
 
 ---
 
+## Scope v2: Cathay Xplorers (14 Nov)
+
+**This section supersedes anything below that contradicts it.** Sections 1–16 still describe the Little Xplorers trip experience, which is unchanged.
+
+### The change
+Little Explorers becomes one tier of a youth membership mode called **Cathay Xplorers**, where young people explore what Cathay offers before adulthood. It is a concept only: no real Cathay integration and no official logos. The demo shows the full member journey from the hackathon challenge: **awareness → acquisition → activation → engagement → retention**.
+
+### Tiers
+
+| Tier | Ages | What it offers |
+|---|---|---|
+| **Little Xplorers** | Under 12 | The existing trip experience (sections 1–5). Only the name on screen changes. |
+| **Teen Xplorers** | 12–17 | Small tangible rewards for few miles, at partners and Cathay: pre-flight drink, snacks, trendy items, blind boxes |
+| **Campus Xplorers** | 18 to university graduation or 25, whichever comes first | Practical travel deals and packages; verified student badge |
+| **Exit** | At graduation or 25 | The member "graduates" into full adult membership |
+
+- **Exit carries over** miles, membership years, trip history and passport stamps. The graduation score and package work as before (section 5), but they happen at exit, not at 18.
+- **Family transfer allowance** (120,000 → 80,000 → 40,000) now starts at exit, not at 18.
+- **No pooling.** Miles stay in the young person's own account.
+- **Sign-up:** 12–17 needs guardian approval; 18+ verifies by university email. In the demo both show as already passed (✓). We don't build the approval or email-code screens.
+- All numbers are in `shared/program.json` under `xplorers` (illustrative, confirm with team).
+
+### Demo screens (for a recorded video)
+
+| # | Screen | Journey stage | Depth |
+|---|---|---|---|
+| 1 | App home with a Cathay Xplorers entry card | Awareness | Light: static, one tap forward |
+| 2 | Xplorers intro: the three tiers, "Join" | Awareness → acquisition | Light: static, one tap forward |
+| 4 | Sign-up: new teen Leo (14), pre-filled form, "Guardian approved ✓", then a tier card "Welcome to Teen Xplorers" | Acquisition + activation | Light: static, one tap forward |
+| 7 | Little Xplorers: the existing screens | Engagement | Existing |
+| 8 | Teen Xplorers rewards: balance, rewards list, one redemption flow ending in a voucher | Engagement (value beyond Cathay) | One complete interaction |
+| 9 | Campus Xplorers deals: verified badge, deals list, one deal detail | Engagement | One complete interaction |
+| 10 | Exit, "You've graduated": carry-over, score count-up, package, passport of all stamps, "Continue as a Cathay member" | Retention | One complete interaction |
+
+- **Persona slider:** switches Mei between 7 → 15 → 20 → exit, moving between screens 7, 8, 9 and 10.
+- Screen numbers follow the journey map; 3, 5 and 6 aren't built.
+- Same polish standard on every screen.
+
+### Tonight's build
+- All new screens are **frontend-only on mock data**, about 4.5 hours, so we can record the video.
+- No new backend endpoints. The Little Xplorers backend is unchanged.
+- **Temporary ownership exception (tonight only):** Earth (backend owner) may also edit `frontend/src/screens/xplorers/teen/`, `frontend/src/screens/xplorers/campus/`, `frontend/src/screens/xplorers/slider/` and `frontend/src/data/`.
+- Owners: teammate builds screens 1, 2, 4 and 10; Earth builds the mock data and screens 8, 9 and the slider.
+
+### Superseded below
+- Section 1 demo line "she graduates at 18" → she graduates at exit (university graduation or 25).
+- Section 5 "Mei at 18" → Mei at exit; transfer allowance starts at exit.
+- Section 13 beat "Mei at 18: the graduation screen" → the exit screen, reached through the persona slider.
+
+---
+
 ## 1. What we're building
 
 A junior mode inside Cathay's app, shown as **two synced screens (child and parent)** reacting to **one real flight**, with an **AI story that unlocks chapter by chapter** as the trip happens. How the system works is explained on an **architecture slide**, not a third screen.

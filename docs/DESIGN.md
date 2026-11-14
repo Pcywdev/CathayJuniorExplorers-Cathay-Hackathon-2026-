@@ -117,6 +117,25 @@ The Red Hat superfamily, self-hosted from `shared/fonts/` (SIL Open Font License
 
 ---
 
+## Tiers
+
+Cathay Xplorers has three tiers. Every tier uses the same tokens, type scale, radii, shadow and rules in this file. Tiers differ only in tone and density, growing up with the member.
+
+- **Little Xplorers (under 12): playful.** Everything above as it stands: Pip, inked stamps, the boarding pass, celebration motion.
+- **Teen Xplorers (12–17): bolder and more grown-up.** Bigger Display numbers (the miles balance is the hero), shorter copy, Pip at most as a small mark and never posed. Rewards sit in rows with a pale Miles tint behind the price. The redeemed voucher is a document (Paper, 16px radius, the shadow), set like a ticket stub.
+- **Campus Xplorers (18 to graduation or 25): calmest and most independent, closest to adult membership.** No Pip. Plain list rows with Line dividers, more breathing room (still within the 30% rule), quiet tone. The verified student badge is a Jade pill.
+- **Exit:** the one celebration moment outside Little Xplorers. It follows the mission-complete rules (one orchestrated moment, centre alignment allowed, counter lands exactly).
+
+### Persona slider
+
+- It should look like a deliberate timeline, not a debug control.
+- A horizontal track in Line with labelled stops: Mei at 7, 15, 20 and Exit. Each stop names its tier underneath in Small.
+- The current stop is a Jade dot with its label in Ink; other stops are Line outlines with Ink soft labels.
+- Labels use Red Hat Text or Display, never Mono. Moving between stops uses the 200ms horizontal slide.
+- No raw range input, numeric readout or debug styling.
+
+---
+
 ## Motion
 
 - **One orchestrated moment per screen, at most.** Mission complete: the stamp thumps in (scale 1.3 → 1, rotation −14° → −8°, 220ms ease-out), then the miles counter runs for about 1 second and lands **exactly** on the final value. Home and story: no load animation.
