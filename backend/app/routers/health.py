@@ -11,7 +11,7 @@ class HealthResponse(CamelModel):
     service: str
     program_note: str
 
-
+# Is the server up?
 @router.get("/health", response_model=HealthResponse, response_model_by_alias=True)
 def health() -> HealthResponse:
     return HealthResponse(status="ok", service="little-explorers-api", program_note=get_program().note)

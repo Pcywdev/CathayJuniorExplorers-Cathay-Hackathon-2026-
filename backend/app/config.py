@@ -24,8 +24,16 @@ class Settings(BaseSettings):
     # triggers one live OAG call and the response is saved as a new fixture.
     oag_live: bool = False
     fixtures_dir: Path = FIXTURES_DIR
-    llm_provider: str = ""  # "gemini" or "bedrock", whichever credits we get
+    # Story AI (services/llm.py). "" = no AI (pre-written fallback only), "fake" = canned output
+    # for tests and dev, "openai" = the openai SDK (OpenAI, or Gemini via LLM_BASE_URL).
+    llm_provider: str = ""
     llm_api_key: str = ""
+    llm_base_url: str = ""  # empty = OpenAI itself; set for an OpenAI-compatible provider
+    llm_model: str = ""  # required for "openai"; never guessed
+    # Off by default so no trip waits on the AI on stage. When true, a trip with no reviewed
+    # story fixture makes one live AI call; any failure falls back to the pre-written story.
+    llm_live: bool = False
+    llm_timeout_seconds: float = 30
     # Comma-separated list, e.g. "http://localhost:5173,https://demo.example.app"
     allowed_origins: str = "http://localhost:5173"
     program_path: Path = REPO_ROOT / "shared" / "program.json"

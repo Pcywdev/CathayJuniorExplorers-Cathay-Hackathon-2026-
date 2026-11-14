@@ -19,7 +19,7 @@
       "number": 2, "key": "boarding", "branch": "delayed", "unlockOn": "boarded",
       "text": { "en": {
         "title": "Extra time at gate {gate}",
-        "pages": ["The plane needs a little more time to get ready, so {name} and Pip get extra time at gate {gate}. They watch the luggage carts roll past. Pip counts eleven!"]
+        "pages": ["The plane needs a little more time. So {name} and Pip get extra time at gate {gate}. They watch the luggage carts roll past. Pip counts eleven!"]
       } }
     },
     {
@@ -33,7 +33,7 @@
       "number": 3, "key": "inflight", "branch": "delayed", "unlockOn": "departed",
       "text": { "en": {
         "title": "Above the clouds",
-        "pages": ["We waited a little longer, so the clouds had time to puff up big and round. Pip says they look like sheep on a map."]
+        "pages": ["We waited a little longer. Now the clouds are big and round. Pip says they look like sheep on a map."]
       } }
     },
     {
@@ -47,7 +47,7 @@
       "number": 4, "key": "landing", "branch": "delayed", "unlockOn": "landed",
       "text": { "en": {
         "title": "Hello, {city}",
-        "pages": ["We came in after dark, and {city} had switched on every light to say hello. Pip whispers, “Worth the wait, {name}. Where first?”"]
+        "pages": ["We came in after dark. {city} had switched on every light to say hello. Pip whispers, “Worth the wait, {name}. Where first?”"]
       } }
     }
   ]

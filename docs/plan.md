@@ -43,17 +43,22 @@ Little Explorers becomes one tier of a youth membership mode called **Cathay Xpl
 - **Persona slider:** switches Mei between 7 → 15 → 20 → exit, moving between screens 7, 8, 9 and 10.
 - Screen numbers follow the journey map; 3, 5 and 6 aren't built.
 - Same polish standard on every screen.
+- **Update (built, 14 Nov):** screens 8, 9 and the persona slider were dropped. Home now changes with age (Picked for you at 12+ and 18+, plain ticket, MemoryPassport), and the Member age timeline in `/demo` moves Mei between ages. Screen 4 uses Mei (15), not Leo. See decisions.md.
 
-### Tonight's build
-- All new screens are **frontend-only on mock data**, about 4.5 hours, so we can record the video.
-- No new backend endpoints. The Little Xplorers backend is unchanged.
-- **Temporary ownership exception (tonight only):** Earth (backend owner) may also edit `frontend/src/screens/xplorers/teen/`, `frontend/src/screens/xplorers/campus/`, `frontend/src/screens/xplorers/slider/` and `frontend/src/data/`.
-- Owners: teammate builds screens 1, 2, 4 and 10; Earth builds the mock data and screens 8, 9 and the slider.
+### Tonight's build (done)
+- All new screens are **frontend-only on mock data**, so we can record the video.
+- No new backend endpoints for Xplorers. The Little Xplorers backend is unchanged.
+- The temporary ownership exception for Earth has **ended**; normal ownership applies again.
+
+### After the build: submission readiness
+- **Principle:** real where it's hard (the trip, rules engine, two-phone sync and story pipeline run on the backend); mocked where it's catalogue (Xplorers rewards, deals and personas); explained otherwise (`docs/architecture.md` "Production path").
+- **Next:** live trip mode (`/demo?live`, mocks stay the default), then the LLM wrapper + safety, exit score from the real endpoint, deploy + offline, the architecture slide and README. The ordered checklist is in progress.md "Submission readiness".
 
 ### Superseded below
 - Section 1 demo line "she graduates at 18" → she graduates at exit (university graduation or 25).
 - Section 5 "Mei at 18" → Mei at exit; transfer allowance starts at exit.
-- Section 13 beat "Mei at 18: the graduation screen" → the exit screen, reached through the persona slider.
+- Section 13 beat "Mei at 18: the graduation screen" → the exit screen, reached through the Member age timeline.
+- Section 13 beat "Simulate the trip" → runs on `/demo?live`, so both phones move through the real backend.
 
 ---
 

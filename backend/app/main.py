@@ -11,7 +11,7 @@ from app.routers import events, flights, graduation, health, trips
 
 settings = get_settings()
 
-
+# defines code to run when the server starts: create the SQLite tables if missing
 @asynccontextmanager
 async def lifespan(_: FastAPI):
     create_tables(get_engine())
@@ -29,6 +29,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Registers four routers
 app.include_router(health.router)
 app.include_router(flights.router)
 app.include_router(trips.router)

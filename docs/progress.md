@@ -5,25 +5,42 @@ Read this at the start of every session. Tags: **P0** must work by Friday · **P
 ## Xplorers MVP (tonight, 14 Nov)
 Scope v2 (plan.md). Frontend-only on mock data, about 4.5 hours, for the recorded video. Done when: the filmed path runs end to end and every new screen passes /screen-check.
 - [x] Docs and data: plan.md Scope v2, CLAUDE.md, decisions, DESIGN.md tiers, `shared/program.json` `xplorers` section
-- [ ] Earth: Xplorers mock data in `frontend/src/data/`, read from `program.json` `xplorers`
+- [~] Dropped: Earth: Xplorers mock data in `frontend/src/data/` · the teammate's `src/xplorers/` (discover, tiers, memberAge) covers it
 - [x] Teammate: 1 App home with a Cathay Xplorers entry card (awareness)
 - [x] Teammate: 2 Xplorers intro: three tiers, "Join" (awareness → acquisition)
-- [x] Teammate: 4 Sign-up: Leo (14), pre-filled form, "Guardian approved ✓", "Welcome to Teen Xplorers" tier card (acquisition + activation)
+- [x] Teammate: 4 Sign-up: pre-filled form, guardian approval / university email shown as passed, "Welcome to <tier>" tier card (acquisition + activation) · persona is **Mei (15), not Leo** (teammate decision)
 - [x] Teammate: 7 Little Xplorers: existing screens, renamed on screen (engagement)
-- [ ] Earth: 8 Teen Xplorers rewards: balance, rewards list, one redemption ending in a voucher (engagement)
-- [ ] Earth: 9 Campus Xplorers deals: verified badge, deals list, one deal detail (engagement)
+- [~] Dropped: Earth: 8 Teen Xplorers rewards · covered by Home at 12+ (Picked for you discounts, plain ticket, MemoryPassport)
+- [~] Dropped: Earth: 9 Campus Xplorers deals · covered by Home at 18+ (Picked for you student deals)
 - [x] Teammate: 10 Exit "You've graduated": carry-over, score count-up, package, all stamps, "Continue as a Cathay member" (retention)
-- [ ] Earth: persona slider, Mei 7 → 15 → 20 → exit, moving between screens 7, 8, 9, 10
+- [~] Dropped: Earth: persona slider · covered by the Member age timeline in `/demo`
 - [x] Picked for you grid on the child home (replaces My missions), age-weighted random draw from `xplorers.discover`; Member age timeline in the demo panel (`?age=`). Files: `src/xplorers/discover.ts`, `src/components/{DiscoverGrid,AgeTimeline}.tsx`
-- **For Earth (teammate notes):** (1) `shared/program.json` `xplorers.discover` was added by the teammate side for the grid: please confirm or move it. (2) Exit carried miles use `mocks/graduation.ts` `juniorMiles` 48,000, which isn't in program.json and doesn't follow Mei's 24,000 at 20; the Family screen projects 29,280 at 22. Please add an exit balance to `personas.mei` so screens 9, 10 and Family agree. (3) Sign-up now uses Mei, not Leo (user decision); the tier card's welcome miles read `personas.leo.startingBalance` (200): please rename it to a generic new-member value. (4) The Family chart still treats miles as unusable until graduation (now 22); teen/campus redemptions don't show there yet.
+- **For Earth (teammate notes), with answers:**
+  1. `xplorers.discover` in program.json: **confirmed**, it stays there.
+  2. Exit balance: **added** `personas.mei.exitBalance` 29,280 (matches the Family projection at 22). ExitScreen still reads `mocks/graduation.ts` 48,000; switching it is the teammate's change (see Submission readiness item 3).
+  3. Renaming `personas.leo.startingBalance` to a generic new-member value: **agreed, not done yet**, because it breaks `SignUpScreen`. Do it together with the teammate's one-line change.
+  4. Family chart vs teen/campus redemptions: teammate's call.
 - [ ] Both: /screen-check on every new screen; record the video
 
-- [x] Toy dual-encoder promotion mapping (`python -m tools.xplorers_mapping`) + "Mei is…" trait tick boxes in the demo panel
-- **For Earth:** `program.json` `xplorers.discover` is now only the generator's seed; the grid reads `frontend/src/xplorers/data/mapping.json`. Also: `mocks/graduation.ts` reads `personas.mei.exitBalance` (commit 4acd960) but `program.json` has no such key, so `npm run build` fails on main until it's added.
+## Submission readiness (Sat 14 – Sun 15)
+Principle: real where it's hard (trip, rules engine, sync, story pipeline), mocked where it's catalogue (Xplorers rewards and deals), and explained otherwise (`docs/architecture.md` "Production path"). Done when: the tech beat runs on `/demo?live` through the real backend, the demo runs with Wi-Fi off, and the video is recorded.
+**15 Nov: cut to minimum scope** (backup video recorded, no GCP): items 1, 3 and 4 dropped, see decisions.md.
+1. [~] Dropped for submission: **Live trip mode** (B+F, branch `feat/live-trip`, plan in `docs/live-trip.md`). Mocks stay the default; `?live` switches both phones to the backend.
+   - [ ] Teammate OK (the checklist at the bottom of `docs/live-trip.md`)
+   - [ ] B: demo clock (`DEMO_CLOCK=true`): simulated events get scripted times (11:30, 13:10, 14:20, 15:25, 16:07, 20:57) instead of the wall clock · pure `demo_time` tested first, api.md note
+   - [ ] F: `src/api/trips.ts` (create, current, get, events, mission complete, stream) + `postJson`; `Trip` type
+   - [ ] F: `src/trip/liveTrip.ts` store (poll current, SSE, refetch trip on each event) behind `useTrip()`; screens unchanged
+   - [ ] F: `/demo?live`: Trip moment POSTs events forward, a new trip + replay going back, Reset creates a trip
+   - [ ] F: mission complete POSTs the stamp press in live mode; trip frozen at mount
+2. [x] B: LLM wrapper + safety (`services/llm.py`, `services/stories.generate`, `tools/generate_story.py`); rejection example in `docs/story-rejection-example.md` · [ ] on site: run `generate_story.py --save` with the real key and review the story
+3. [~] Dropped for submission: B+F: Exit score from `POST /api/graduation/score` and `exitBalance` (ExitScreen is the teammate's)
+4. [~] Dropped for submission (no GCP): B: Cloud Run deploy (`docs/deploy.md`), `ALLOWED_ORIGINS` for the deployed frontend, demo runs with Wi-Fi off, backup video
+5. [x] B: architecture slide spec (`docs/architecture-slide.md`, built in Canva by the team) + README + architecture.md updated to the finished prototype
+6. [ ] Both: rehearse the judge Q&A (`docs/architecture.md` "Production path"); record the video
 
 ## Now / Next / Blocked
-- **Now:** Xplorers MVP first tonight (section above). Then B: Day 3: score (PR #7) and child missions (PR #8) merged; story with fallback chapters + `/chapters` done on `feat/story` (English only, user decision); next LLM wrapper + safety checks. Open: delay bonus miles (not in program.json); simulated events show the real clock; story voice in chapters 3–4 delayed ("We").
-- **Next:** B: Milestone D (LLM wrapper + safety, fake provider now, live on site). F: swap `mocks/story.ts` for `GET /api/trips/{id}/chapters` (pick version by `branch`, map `key`→art, `unlockOn`→wording); plus the earlier swaps (trip + stream, graduation score, mission complete).
+- **Now:** Build the architecture slide in Canva from `docs/architecture-slide.md`; generate the reviewed demo story with the real key; rehearse the Q&A. Open: delay bonus miles (not in program.json); story voice in chapters 3–4 delayed ("We").
+- **Next:** B: LLM wrapper + safety (item 2), then deploy (item 4). F: later swaps after live mode: `trip.flight` instead of `mockFlight`, then `GET /chapters` instead of `mocks/story.ts` (pick version by `branch`, map `key`→art, `unlockOn`→wording).
 - **On-site only (hackathon day):** Cloud Run deploy (runbook in `docs/deploy.md`), LLM credentials.
 - **Blocked:** `gcloud`, GCP project and LLM credentials are provided on the hackathon day (OAG key is available now) · `shared/program.json` awaiting business-team sign-off · Setup ran Wed 11, a day behind the plan's Tue 10 start.
 
@@ -92,3 +109,6 @@ Done when: demo runs with Wi-Fi off.
 - 2026-11-13 · Backend owner + Claude · Child-completed missions: POST /api/trips/{id}/missions/{missionId}/complete (any available mission, whichever comes first pays, same cap, published on the stream); mission-opening rule moved into rules.mission_unlocked, shared cap helper; 20 new tests (126 pass); real run with two streams checked (201, repeat 200, locked 409) · Next: fallback story + `/chapters`.
 - 2026-11-13 · Backend owner + Claude · Story without an LLM: fallback story (7 versions, English, 1 page each, {name}/{city}/{gate}), stories table, fixture-first story source, POST /trips stores it, GET /api/trips/{id}/chapters live (filled on read, landing unlockAt = arrival + delay); pure logic tested first; 19 new tests (145 pass); real run checked incl. old trips and UTF-8 quotes · Next: LLM wrapper + safety checks.
 - 2026-11-14 · Backend owner + Claude · Scope v2 (Cathay Xplorers) docs and data only: plan.md Scope v2 section, CLAUDE.md summary + tonight's ownership exception, 8 decisions, DESIGN.md Tiers, program.json `xplorers` section (illustrative) · Next: Xplorers MVP screens on mock data.
+- 2026-11-14 · Backend owner + Claude · After the teammate's PR #11: screens 8, 9 and the persona slider dropped; teammate notes answered (`exitBalance` 29,280 added); "Submission readiness" checklist; architecture.md "Production path" (demo → production table for judges); live trip mode planned in `docs/live-trip.md` (opt-in `?live`, demo clock) · Next: agree live mode with the teammate, then the backend demo clock.
+- 2026-11-15 · Earth + Claude · Exit miles read from program.json (29,280, was hardcoded 48,000); `/demo` rewritten as a scripted run (27 scenes, phase jumps, arrow keys, one phone when the parent isn't needed); sign-up at 7 leads to Mei's welcome · Next: record the demo video.
+- 2026-11-15 · Earth + Claude · Minimum scope for submission: live mode, exit score and deploy dropped. LLM wrapper (`services/llm.py`, openai SDK, fake provider, moderation) and story generation with safety checks and fallback (`services/stories.generate`); 23 new tests (204 pass); `tools/generate_story.py`; rejection example; README, architecture.md (final diagram, honest real/scripted line) and `docs/architecture-slide.md` · Next: slide in Canva, real story fixture, Q&A rehearsal.
