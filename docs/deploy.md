@@ -1,5 +1,7 @@
 # Deploy runbook (Cloud Run)
 
+For AWS, see [deploy-aws.md](deploy-aws.md).
+
 Do this on the hackathon day, once `gcloud` and the GCP project are provided. Replace the `<...>` values.
 Never put keys in the image; set them on the service.
 

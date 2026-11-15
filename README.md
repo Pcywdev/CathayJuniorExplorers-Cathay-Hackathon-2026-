@@ -90,3 +90,4 @@ docker run --rm -p 8080:8080 --env-file backend/.env little-explorers-api
 - [docs/screenshots/](docs/screenshots/): phone screens for the slides (Xplorers intro, Little, Teen and Campus Home)
 - [docs/progress.md](docs/progress.md), [docs/decisions.md](docs/decisions.md): progress and decision log
 - [docs/deploy.md](docs/deploy.md): Cloud Run runbook (not used for the submission)
+- [docs/deploy-aws.md](docs/deploy-aws.md): AWS runbook (CloudFront + S3 + one Fargate task; templates in `infra/aws/`)
